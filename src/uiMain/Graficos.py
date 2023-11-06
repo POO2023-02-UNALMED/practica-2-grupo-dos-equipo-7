@@ -22,8 +22,11 @@ def genVentanaInicial():
     right_top.grid(row=0, column=0)
     right_bottom.grid(row=1, column=0)
 
-    welcome_label = tk.Label(left_top, text="Inicio")
-    welcome_label.pack(pady=10)
+    welcome_label = tk.Label(left_top, text="Inicio",fg="red")
+    welcome_label.grid(pady=10)
+    saludo = "Bienvenid@ al sistema de venta de vuelos"
+    saludo_label = tk.Label(left_top,text=saludo)
+    saludo_label.pack()
 
     bios = [
         "Juan Carlos Largo"
@@ -61,5 +64,5 @@ def genGestionUsuario():
 def genCheckIn():
     pass
 
-
+genVentanaInicial()
 App.mainloop()
