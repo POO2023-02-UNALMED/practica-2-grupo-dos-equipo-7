@@ -158,6 +158,7 @@ class VentanaInicial:
         saludo_label.grid(row=0,column=0,padx=5, pady=5)
         pass
 
+
 class MainMenu:
     def __init__(self):
         pass
@@ -187,47 +188,47 @@ class MainMenu:
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
-        zona2 = tk.Frame(marco, bg="orange", borderwidth=1, relief="solid")
-        zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        zonaProceso = tk.Frame(marco, bg="orange", borderwidth=1, relief="solid")
+        zonaProceso.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         marco.grid_rowconfigure(1, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
-        self.marco = marco
+        self.zona = zonaProceso
         pass
 
 
 class ProcesoConsulta:
-    def __init__(self, zona):
+    def __init__(self, zona, nombre, descripcion, criterios):
         self.zona = zona
-        self.nombre = "Nombre Proceso"
-        self.descripcion = "Descripcion"
+        self.nombre = nombre
+        self.descripcion = descripcion
         
-        self.criterios = []
+        self.criterios = criterios
         
         pass
 
     def generar(self):
-        zona1 = tk.Frame(self.zona, bg="yellow", borderwidth=1, relief="solid")
-        zona1.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        zonaInfo = tk.Frame(self.zona, bg="yellow", borderwidth=1, relief="solid")
+        zonaInfo.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
-        zona2 = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
-        zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
+        zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         marco.grid_rowconfigure(1, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
-        nombreProceso = tk.Label(zona1, text= self.nombre)
+        nombreProceso = tk.Label(zonaInfo, text= self.nombre)
         nombreProceso.grid(row=0, column=0, padx=5, pady=5)
-        zona1.grid_rowconfigure(0, weight=1)
-        zona1.grid_columnconfigure(0, weight=1)
+        zonaInfo.grid_rowconfigure(0, weight=1)
+        zonaInfo.grid_columnconfigure(0, weight=1)
 
-        descripcionProceso = tk.Label(zona1, text= self.descripcion)
+        descripcionProceso = tk.Label(zonaInfo, text= self.descripcion)
         descripcionProceso.grid(row=1, column=0, padx=5, pady=5)
-        zona1.grid_rowconfigure(1, weight=1)
-        zona1.grid_columnconfigure(0, weight=1)
+        zonaInfo.grid_rowconfigure(1, weight=1)
+        zonaInfo.grid_columnconfigure(0, weight=1)
 
-        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, zona2)
+        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, zonaForm)
 
 
 def genComprarVuelo():
@@ -260,5 +261,13 @@ def makePopUp():
 mainMenu = MainMenu()
 mainMenu.generar()
 
+comprarVuelo = ProcesoConsulta(
+    mainMenu.zona,
+    "Comprar Vuelo",
+    "Consiste en la funcionalidad de comprar vuelo",
+    ["Edad", "Pizza", "Secso"]
+)
+
+comprarVuelo.generar()
 
 App.mainloop()
