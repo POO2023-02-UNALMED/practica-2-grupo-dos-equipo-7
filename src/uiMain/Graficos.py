@@ -102,7 +102,7 @@ def genCheckIn():
 
 
 #Implementar formulario generico
-class FieldFrame(Frame):
+class FieldFrame(tk.Frame):
     """
     crea un nuevo objeto de tipo FieldFrame
     @arg tituloCriterios titulo para la columna "Criterio"
