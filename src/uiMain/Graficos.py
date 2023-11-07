@@ -3,32 +3,54 @@ import tkinter as tk
 
 App = tk.Tk()
 App.title("Ventana de Inicio")
+App.geometry("800x600")
 
 
 def genVentanaInicial():
+    frame_grande = tk.Frame(App, bg="blue")
+    frame_grande.grid(row=0, column=0, sticky="nsew")
+    App.grid_rowconfigure(0, weight=1)
+    App.grid_columnconfigure(0, weight=1)
 
-    left_frame = tk.Frame(App, width=400, height=400)
-    right_frame = tk.Frame(App, width=400, height=400)
-    left_frame.grid(row=0, column=0)
-    right_frame.grid(row=0, column=1)
+    p1 = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
+    p1.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+    frame_grande.grid_rowconfigure(1, weight=1)
+    frame_grande.grid_columnconfigure(0, weight=1)
 
-    left_top = tk.Frame(left_frame, width=400, height=200)
-    left_bottom = tk.Frame(left_frame, width=400, height=200)
-    right_top = tk.Frame(right_frame, width=400, height=200)
-    right_bottom = tk.Frame(right_frame, width=400, height=200)
+    p2 = tk.Frame(frame_grande, bg="red", borderwidth=1, relief="solid")
+    p2.grid(row=1, column=1, sticky="nsew", padx=5, pady=5)
+    frame_grande.grid_rowconfigure(1, weight=1)
+    frame_grande.grid_columnconfigure(1, weight=1)
 
-    left_top.grid(row=0, column=0)
-    left_bottom.grid(row=1, column=0)
-    right_top.grid(row=0, column=0)
-    right_bottom.grid(row=1, column=0)
+    p3 = tk.Frame(p1, bg="yellow", borderwidth=1, relief="solid")
+    p3.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+    p1.grid_rowconfigure(0, weight=1)
+    p1.grid_columnconfigure(0, weight=1)
 
-    welcome_label = tk.Label(left_top, text="Inicio",fg="red")
-    welcome_label.grid(pady=10)
+    p4 = tk.Frame(p1, bg="orange", borderwidth=1, relief="solid")
+    p4.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+    p1.grid_rowconfigure(1, weight=1)
+    p1.grid_columnconfigure(0, weight=1)
+    
+    p5 = tk.Frame(p2, bg="purple", borderwidth=1, relief="solid")
+    p5.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+    p2.grid_rowconfigure(0, weight=1)
+    p2.grid_columnconfigure(0, weight=1)
+    
+    p6 = tk.Frame(p2, bg="pink", borderwidth=1, relief="solid")
+    p6.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+    p2.grid_rowconfigure(1, weight=1)
+    p2.grid_columnconfigure(0, weight=1)
+
+    welcome_label = tk.Label(frame_grande, text="Inicio",fg="red")
+    welcome_label.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
+
     saludo = "Bienvenid@ al sistema de venta de vuelos"
-    saludo_label = tk.Label(left_top,text=saludo)
-    saludo_label.pack()
+    saludo_label = tk.Label(p3,text=saludo)
+    saludo_label.grid(row=0,column=0,padx=5, pady=5)
 
-    bios = [
+
+    """bios = [
         "Juan Carlos Largo"
     ]
 
@@ -39,7 +61,7 @@ def genVentanaInicial():
 
     # Botón para ingresar al sistema
     login_button = tk.Button(left_bottom, text="Ingresar al sistema")
-    login_button.pack(pady=10)
+    login_button.pack(pady=10)"""
     pass
 
 def genMainMenu():
