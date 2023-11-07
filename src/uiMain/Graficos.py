@@ -55,6 +55,29 @@ def genVentanaInicial():
     pass
 
 def genMainMenu():
+    
+    frame_grande = tk.Frame(App, bg="blue")
+    frame_grande.grid(row=0, column=0, sticky="nsew")
+    App.grid_rowconfigure(0, weight=1)
+    App.grid_columnconfigure(0, weight=1)
+
+    nombre_aplicacion = tk.Label(frame_grande, text="Nombre aplicacion",fg="red")
+    nombre_aplicacion.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
+
+    marco = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
+    marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=10)
+    frame_grande.grid_rowconfigure(0, weight=1)
+    frame_grande.grid_columnconfigure(0, weight=1)
+
+    zona1 = tk.Frame(marco, bg="yellow", borderwidth=1, relief="solid")
+    zona1.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+    marco.grid_rowconfigure(0, weight=1)
+    marco.grid_columnconfigure(0, weight=1)
+
+    zona2 = tk.Frame(marco, bg="orange", borderwidth=1, relief="solid")
+    zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+    marco.grid_rowconfigure(1, weight=1)
+    marco.grid_columnconfigure(0, weight=1)
     pass
 
 
