@@ -7,10 +7,16 @@ App.geometry("800x600")
 
 
 def genVentanaInicial():
+    
+    #Constantes?
+
     frame_grande = tk.Frame(App, bg="blue")
     frame_grande.grid(row=0, column=0, sticky="nsew")
     App.grid_rowconfigure(0, weight=1)
     App.grid_columnconfigure(0, weight=1)
+
+    welcome_label = tk.Label(frame_grande, text="Inicio",fg="red")
+    welcome_label.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
 
     p1 = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
     p1.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
@@ -42,26 +48,10 @@ def genVentanaInicial():
     p2.grid_rowconfigure(1, weight=1)
     p2.grid_columnconfigure(0, weight=1)
 
-    welcome_label = tk.Label(frame_grande, text="Inicio",fg="red")
-    welcome_label.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
-
     saludo = "Bienvenid@ al sistema de venta de vuelos"
     saludo_label = tk.Label(p3,text=saludo)
     saludo_label.grid(row=0,column=0,padx=5, pady=5)
 
-
-    """bios = [
-        "Juan Carlos Largo"
-    ]
-
-    
-    for bio in bios:
-        bio_label = tk.Label(right_bottom, text=bio, font=("Arial", 10))
-        bio_label.pack(pady=5)
-
-    # Botón para ingresar al sistema
-    login_button = tk.Button(left_bottom, text="Ingresar al sistema")
-    login_button.pack(pady=10)"""
     pass
 
 def genMainMenu():
@@ -86,5 +76,8 @@ def genGestionUsuario():
 def genCheckIn():
     pass
 
+
+
 genVentanaInicial()
+
 App.mainloop()
