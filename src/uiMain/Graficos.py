@@ -66,13 +66,14 @@ class FieldFrame(tk.Frame):
             }
 
         
-        submitButton = Button(marco, text="Enviar", bg="white", borderwidth=0, command = lambda: self.submitForm())
-        submitButton.grid(row=index+1, column=0, padx=5, pady=5)
-        marco.grid_rowconfigure(index+1, weight=1)
+        submitButton = tk.Button(marco, text="Enviar", bg="white", borderwidth=0, command = lambda: self.submitForm())
+        submitButton.grid(row=index+2, column=0, padx=5, pady=5)
+        marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
-        clearButton.grid(row=index+1, column=1, padx=5, pady=5)
-        marco.grid_rowconfigure(index+1, weight=1)
+        clearButton = tk.Button(marco, text="Clear", bg="white", borderwidth=0, command = lambda: self.clear())
+        clearButton.grid(row=index+2, column=1, padx=5, pady=5)
+        marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(1, weight=1)
 
         pass
