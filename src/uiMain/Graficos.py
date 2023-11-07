@@ -111,10 +111,13 @@ class FieldFrame(Frame):
     @arg valores array con los valores iniciales; Si ‘None’, no hay valores iniciales
     @arg habilitado array con los campos no-editables por el usuario; Si ‘None’, todos son editables
     """
+
     def init (tituloCriterios, criterios, tituloValores, valores, habilitado):
         
         #Inicializar el diccionario que guardara los datos
         self.data = {}
+        self.formData = {}
+
         self.criterios = criterios
 
         #Crea el marco donde van a estar los elementos
@@ -147,6 +150,32 @@ class FieldFrame(Frame):
 
     def getValue(self, criterio):
         return self.data[criterio]["value"]
+
+    def submitForm(self):
+        for criterio in self.criterios:
+            value = (self.data[criterio][elementos][1]).get()
+            self.data[criterio]["value"] = value
+            self.formData[criterio] = value
+
+            if value == None:
+                self.warnValoresFaltantes()
+
+    def clear(self):
+        
+        #Limpiar todos los datos
+        for criterio in self.criterios:
+            (self.data[criterio][elementos][1]).delete(0 ,'end')
+                    
+    def warnValoresFaltantes(self):
+        #Genera la ventana y la muestra
+
+        pass
+
+
+def makePopUp():
+    pass
+
+
 
 genVentanaInicial()
 
