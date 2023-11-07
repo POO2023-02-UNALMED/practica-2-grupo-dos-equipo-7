@@ -6,6 +6,7 @@ App.title("Ventana de Inicio")
 App.geometry("800x600")
 
 
+
 def genVentanaInicial():
     
     #Constantes?
@@ -100,6 +101,52 @@ def genCheckIn():
     pass
 
 
+#Implementar formulario generico
+class FieldFrame(Frame):
+    """
+    crea un nuevo objeto de tipo FieldFrame
+    @arg tituloCriterios titulo para la columna "Criterio"
+    @arg criterios array con los nombres de los criterios
+    @arg tituloValores titulo para la columna "valor"
+    @arg valores array con los valores iniciales; Si ‘None’, no hay valores iniciales
+    @arg habilitado array con los campos no-editables por el usuario; Si ‘None’, todos son editables
+    """
+    def init (tituloCriterios, criterios, tituloValores, valores, habilitado):
+        
+        #Inicializar el diccionario que guardara los datos
+        self.data = {}
+        self.criterios = criterios
+
+        #Crea el marco donde van a estar los elementos
+        marco = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
+        
+        #Agregar el titulo de los criterios
+        self.elementoTituloCriterio = tk.Label(text=tituloCriterios)
+
+        #Agregar el titulo de los valores
+        self.elementoTituloValores = tk.Label(text=tituloValores)
+
+        #Por cada criterio agregarlos y sus respectivas entradas
+        for criterio, valorBase in zip(criterios, valores):
+        
+            #Crea el criterio y su valor y lo guarda
+            elementoCriterio = tk.Label(text=criterio)
+            elementoInput = tk.Entry()
+            # !!!! Posicionenlos !!!!
+
+            self.data[criterio] = {
+                "elementos" : (elementoCriterio, elementoInput),
+                "value" : None, 
+            }
+        pass
+
+    """
+    @arg criterio el criterio cuyo valor se quiere obtener
+    @return el valor del criterio cuyo nombre es 'criterio'
+    """
+
+    def getValue(self, criterio):
+        return self.data[criterio]["value"]
 
 genVentanaInicial()
 
