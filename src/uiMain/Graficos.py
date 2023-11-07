@@ -27,7 +27,10 @@ class FieldFrame(tk.Frame):
 
         #Crea el marco donde van a estar los elementos
         marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
-        
+        marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        parent.grid_rowconfigure(0, weight=1)
+        parent.grid_columnconfigure(0, weight=1)
+
         #Agregar el titulo de los criterios
         self.elementoTituloCriterio = tk.Label(marco, text=tituloCriterios)
 
@@ -35,11 +38,19 @@ class FieldFrame(tk.Frame):
         self.elementoTituloValores = tk.Label(marco, text=tituloValores)
 
         #Por cada criterio agregarlos y sus respectivas entradas
-        for criterio, valorBase in zip(criterios, valores):
+        for index, criterio in enumerate(criterios):
         
             #Crea el criterio y su valor y lo guarda
             elementoCriterio = tk.Label(marco, text=criterio)
+            elementoCriterio.grid(row=index, column=1, sticky="nsew", padx=5, pady=5)
+            marco.grid_rowconfigure(index, weight=1)
+            marco.grid_columnconfigure(1, weight=1)
+
             elementoInput = tk.Entry(marco)
+            elementoInput.grid(row=index, column=1, sticky="nsew", padx=5, pady=5)
+            marco.grid_rowconfigure(index, weight=1)
+            marco.grid_columnconfigure(1, weight=1)
+
             # !!!! Posicionenlos !!!!
 
             self.data[criterio] = {
