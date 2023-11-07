@@ -6,6 +6,78 @@ App.title("Ventana de Inicio")
 App.geometry("800x600")
 
 
+#Implementar formulario generico
+class FieldFrame(tk.Frame):
+    """
+    crea un nuevo objeto de tipo FieldFrame
+    @arg tituloCriterios titulo para la columna "Criterio"
+    @arg criterios array con los nombres de los criterios
+    @arg tituloValores titulo para la columna "valor"
+    @arg valores array con los valores iniciales; Si ‘None’, no hay valores iniciales
+    @arg habilitado array con los campos no-editables por el usuario; Si ‘None’, todos son editables
+    """
+
+    def __init__(self, tituloCriterios, criterios, tituloValores, valores, habilitado, parent):
+        
+        #Inicializar el diccionario que guardara los datos
+        self.data = {}
+        self.formData = {}
+
+        self.criterios = criterios
+
+        #Crea el marco donde van a estar los elementos
+        marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
+        
+        #Agregar el titulo de los criterios
+        self.elementoTituloCriterio = tk.Label(marco, text=tituloCriterios)
+
+        #Agregar el titulo de los valores
+        self.elementoTituloValores = tk.Label(marco, text=tituloValores)
+
+        #Por cada criterio agregarlos y sus respectivas entradas
+        for criterio, valorBase in zip(criterios, valores):
+        
+            #Crea el criterio y su valor y lo guarda
+            elementoCriterio = tk.Label(marco, text=criterio)
+            elementoInput = tk.Entry(marco)
+            # !!!! Posicionenlos !!!!
+
+            self.data[criterio] = {
+                "elementos" : (elementoCriterio, elementoInput),
+                "value" : None, 
+            }
+        pass
+
+    """
+    @arg criterio el criterio cuyo valor se quiere obtener
+    @return el valor del criterio cuyo nombre es 'criterio'
+    """
+
+    def getValue(self, criterio):
+        return self.data[criterio]["value"]
+
+    def submitForm(self):
+        for criterio in self.criterios:
+            value = (self.data[criterio]["elementos"][1]).get()
+            self.data[criterio]["value"] = value
+            self.formData[criterio] = value
+
+            if value == None:
+                self.warnValoresFaltantes()
+
+    def clear(self):
+
+        #Limpiar todos los datos
+        for criterio in self.criterios:
+            (self.data[criterio]["elementos"][1]).delete(0 ,'end')
+                    
+    def warnValoresFaltantes(self):
+        #Genera la ventana y la muestra
+
+        pass
+
+
+
 
 def genVentanaInicial():
     
@@ -53,6 +125,7 @@ def genVentanaInicial():
     saludo_label = tk.Label(p3,text=saludo)
     saludo_label.grid(row=0,column=0,padx=5, pady=5)
 
+
     pass
 
 def genMainMenu():
@@ -79,6 +152,9 @@ def genMainMenu():
     zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
     marco.grid_rowconfigure(1, weight=1)
     marco.grid_columnconfigure(0, weight=1)
+
+    formElement = FieldFrame("Preguntas", ["Edad", "Pizza de piña?", "Secso"], "Entradas", ["Edad", "Pizza de piña?", "Secso"], None, zona2)
+
     pass
 
 
@@ -99,77 +175,6 @@ def genGestionUsuario():
 
 def genCheckIn():
     pass
-
-
-#Implementar formulario generico
-class FieldFrame(tk.Frame):
-    """
-    crea un nuevo objeto de tipo FieldFrame
-    @arg tituloCriterios titulo para la columna "Criterio"
-    @arg criterios array con los nombres de los criterios
-    @arg tituloValores titulo para la columna "valor"
-    @arg valores array con los valores iniciales; Si ‘None’, no hay valores iniciales
-    @arg habilitado array con los campos no-editables por el usuario; Si ‘None’, todos son editables
-    """
-
-    def __init__(self, tituloCriterios, criterios, tituloValores, valores, habilitado, parent):
-        
-        #Inicializar el diccionario que guardara los datos
-        self.data = {}
-        self.formData = {}
-
-        self.criterios = criterios
-
-        #Crea el marco donde van a estar los elementos
-        marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
-        
-        #Agregar el titulo de los criterios
-        self.elementoTituloCriterio = tk.Label(text=tituloCriterios)
-
-        #Agregar el titulo de los valores
-        self.elementoTituloValores = tk.Label(text=tituloValores)
-
-        #Por cada criterio agregarlos y sus respectivas entradas
-        for criterio, valorBase in zip(criterios, valores):
-        
-            #Crea el criterio y su valor y lo guarda
-            elementoCriterio = tk.Label(text=criterio)
-            elementoInput = tk.Entry()
-            # !!!! Posicionenlos !!!!
-
-            self.data[criterio] = {
-                "elementos" : (elementoCriterio, elementoInput),
-                "value" : None, 
-            }
-        pass
-
-    """
-    @arg criterio el criterio cuyo valor se quiere obtener
-    @return el valor del criterio cuyo nombre es 'criterio'
-    """
-
-    def getValue(self, criterio):
-        return self.data[criterio]["value"]
-
-    def submitForm(self):
-        for criterio in self.criterios:
-            value = (self.data[criterio]["elementos"][1]).get()
-            self.data[criterio]["value"] = value
-            self.formData[criterio] = value
-
-            if value == None:
-                self.warnValoresFaltantes()
-
-    def clear(self):
-
-        #Limpiar todos los datos
-        for criterio in self.criterios:
-            (self.data[criterio]["elementos"][1]).delete(0 ,'end')
-                    
-    def warnValoresFaltantes(self):
-        #Genera la ventana y la muestra
-
-        pass
 
 
 def makePopUp():
