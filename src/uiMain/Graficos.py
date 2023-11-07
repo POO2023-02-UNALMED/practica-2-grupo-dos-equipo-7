@@ -32,23 +32,30 @@ class FieldFrame(tk.Frame):
         parent.grid_columnconfigure(0, weight=1)
 
         #Agregar el titulo de los criterios
-        self.elementoTituloCriterio = tk.Label(marco, text=tituloCriterios)
+        elementoTituloCriterio = tk.Label(marco, text=tituloCriterios)
+        elementoTituloCriterio.grid(row=0, column=0, padx=5, pady=5)
+        parent.grid_rowconfigure(0, weight=1)
+        parent.grid_columnconfigure(0, weight=1)
+
 
         #Agregar el titulo de los valores
-        self.elementoTituloValores = tk.Label(marco, text=tituloValores)
+        elementoTituloValores = tk.Label(marco, text=tituloValores)
+        elementoTituloValores.grid(row=0, column=1, padx=5, pady=5)
+        parent.grid_rowconfigure(0, weight=1)
+        parent.grid_columnconfigure(1, weight=1)
 
         #Por cada criterio agregarlos y sus respectivas entradas
         for index, criterio in enumerate(criterios):
         
             #Crea el criterio y su valor y lo guarda
             elementoCriterio = tk.Label(marco, text=criterio)
-            elementoCriterio.grid(row=index, column=0, padx=5, pady=5)
-            marco.grid_rowconfigure(index, weight=1)
+            elementoCriterio.grid(row=index+1, column=0, padx=5, pady=5)
+            marco.grid_rowconfigure(index+1, weight=1)
             marco.grid_columnconfigure(0, weight=1)
 
             elementoInput = tk.Entry(marco)
-            elementoInput.grid(row=index, column=1, padx=5, pady=5)
-            marco.grid_rowconfigure(index, weight=1)
+            elementoInput.grid(row=index+1, column=1, padx=5, pady=5)
+            marco.grid_rowconfigure(index+1, weight=1)
             marco.grid_columnconfigure(1, weight=1)
 
             # !!!! Posicionenlos !!!!
