@@ -42,12 +42,12 @@ class FieldFrame(tk.Frame):
         
             #Crea el criterio y su valor y lo guarda
             elementoCriterio = tk.Label(marco, text=criterio)
-            elementoCriterio.grid(row=index, column=1, sticky="nsew", padx=5, pady=5)
+            elementoCriterio.grid(row=index, column=0, padx=5, pady=5)
             marco.grid_rowconfigure(index, weight=1)
-            marco.grid_columnconfigure(1, weight=1)
+            marco.grid_columnconfigure(0, weight=1)
 
             elementoInput = tk.Entry(marco)
-            elementoInput.grid(row=index, column=1, sticky="nsew", padx=5, pady=5)
+            elementoInput.grid(row=index, column=1, padx=5, pady=5)
             marco.grid_rowconfigure(index, weight=1)
             marco.grid_columnconfigure(1, weight=1)
 
