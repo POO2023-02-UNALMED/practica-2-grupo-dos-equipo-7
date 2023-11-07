@@ -66,8 +66,8 @@ def genMainMenu():
     nombre_aplicacion.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
 
     marco = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
-    marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=10)
-    frame_grande.grid_rowconfigure(0, weight=1)
+    marco.grid(row=1, column=0, sticky="nsew", padx=5, pady=10)
+    frame_grande.grid_rowconfigure(1, weight=1)
     frame_grande.grid_columnconfigure(0, weight=1)
 
     zona1 = tk.Frame(marco, bg="yellow", borderwidth=1, relief="solid")
