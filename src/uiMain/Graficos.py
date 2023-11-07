@@ -27,7 +27,7 @@ class FieldFrame(tk.Frame):
 
         #Crea el marco donde van a estar los elementos
         marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
-        marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        marco.grid(row=0, column=0, padx=5, pady=5)
         parent.grid_rowconfigure(0, weight=1)
         parent.grid_columnconfigure(0, weight=1)
 
@@ -64,6 +64,17 @@ class FieldFrame(tk.Frame):
                 "elementos" : (elementoCriterio, elementoInput),
                 "value" : None, 
             }
+
+        
+        submitButton = Button(marco, text="Enviar", bg="white", borderwidth=0, command = lambda: self.submitForm())
+        submitButton.grid(row=index+1, column=0, padx=5, pady=5)
+        marco.grid_rowconfigure(index+1, weight=1)
+        marco.grid_columnconfigure(0, weight=1)
+
+        clearButton.grid(row=index+1, column=1, padx=5, pady=5)
+        marco.grid_rowconfigure(index+1, weight=1)
+        marco.grid_columnconfigure(1, weight=1)
+
         pass
 
     """
@@ -82,6 +93,8 @@ class FieldFrame(tk.Frame):
 
             if value == None:
                 self.warnValoresFaltantes()
+
+        print(self.formData)
 
     def clear(self):
 
@@ -200,6 +213,6 @@ def makePopUp():
 
 
 
-genVentanaInicial()
+genMainMenu()
 
 App.mainloop()
