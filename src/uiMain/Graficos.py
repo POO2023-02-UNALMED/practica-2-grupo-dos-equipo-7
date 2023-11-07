@@ -112,7 +112,7 @@ class FieldFrame(Frame):
     @arg habilitado array con los campos no-editables por el usuario; Si ‘None’, todos son editables
     """
 
-    def init (tituloCriterios, criterios, tituloValores, valores, habilitado):
+    def __init__(self, tituloCriterios, criterios, tituloValores, valores, habilitado, parent):
         
         #Inicializar el diccionario que guardara los datos
         self.data = {}
@@ -121,7 +121,7 @@ class FieldFrame(Frame):
         self.criterios = criterios
 
         #Crea el marco donde van a estar los elementos
-        marco = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
+        marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
         
         #Agregar el titulo de los criterios
         self.elementoTituloCriterio = tk.Label(text=tituloCriterios)
@@ -153,7 +153,7 @@ class FieldFrame(Frame):
 
     def submitForm(self):
         for criterio in self.criterios:
-            value = (self.data[criterio][elementos][1]).get()
+            value = (self.data[criterio]["elementos"][1]).get()
             self.data[criterio]["value"] = value
             self.formData[criterio] = value
 
@@ -161,10 +161,10 @@ class FieldFrame(Frame):
                 self.warnValoresFaltantes()
 
     def clear(self):
-        
+
         #Limpiar todos los datos
         for criterio in self.criterios:
-            (self.data[criterio][elementos][1]).delete(0 ,'end')
+            (self.data[criterio]["elementos"][1]).delete(0 ,'end')
                     
     def warnValoresFaltantes(self):
         #Genera la ventana y la muestra
