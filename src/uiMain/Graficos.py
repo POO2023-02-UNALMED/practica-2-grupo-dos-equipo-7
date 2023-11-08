@@ -6,6 +6,69 @@ App.title("Ventana de Inicio")
 App.geometry("800x600")
 
 
+def genComprarVuelo():
+    comprarVuelo = ProcesoConsulta(
+        mainMenu.zona,
+        "Comprar Vuelo",
+        "Consiste en la funcionalidad de comprar vuelo",
+        ["Edad", "Pizza", "Secso"]
+    )
+    comprarVuelo.generar()
+    pass
+
+def genReasignarVuelo():
+    comprarVuelo = ProcesoConsulta(
+        mainMenu.zona,
+        "Reasignar Vuelo",
+        "Consiste en la funcionalidad de comprar vuelo",
+        ["Edad", "Pizza", "Secso"]
+    )
+    comprarVuelo.generar()
+    return comprarVuelo
+
+
+def genCancelarVuelo():
+    comprarVuelo = ProcesoConsulta(
+        mainMenu.zona,
+        "Cancelar Vuelo",
+        "Consiste en la funcionalidad de comprar vuelo",
+        ["Edad", "Pizza", "Secso"]
+    )
+    comprarVuelo.generar()
+    return comprarVuelo
+
+
+def genGestionUsuario():
+    comprarVuelo = ProcesoConsulta(
+        mainMenu.zona,
+        "Gestion Usuario",
+        "Consiste en la funcionalidad de comprar vuelo",
+        ["Edad", "Pizza", "Secso"]
+    )
+    comprarVuelo.generar()
+    return comprarVuelo
+
+
+def genCheckIn():
+    comprarVuelo = ProcesoConsulta(
+        mainMenu.zona,
+        "Check In",
+        "Consiste en la funcionalidad de comprar vuelo",
+        ["Edad", "Pizza", "Secso"]
+    )
+    comprarVuelo.generar()
+    return comprarVuelo
+
+handlersProcesoConsulta = {
+    "Comprar vuelo": genComprarVuelo,
+    "Reasignar Vuelo": genReasignarVuelo,
+    "Cancelar Vuelo": genCancelarVuelo,
+    "Check In": genCheckIn,
+    "Gestion usuario": genGestionUsuario,
+    "Salir" : lambda : exit()
+}
+
+
 #Implementar formulario generico
 class FieldFrame(tk.Frame):
     """
@@ -13,8 +76,8 @@ class FieldFrame(tk.Frame):
     @arg tituloCriterios titulo para la columna "Criterio"
     @arg criterios array con los nombres de los criterios
     @arg tituloValores titulo para la columna "valor"
-    @arg valores array con los valores iniciales; Si ‘None’, no hay valores iniciales
-    @arg habilitado array con los campos no-editables por el usuario; Si ‘None’, todos son editables
+    @arg valores array con los valores iniciales; Si None, no hay valores iniciales
+    @arg habilitado array con los campos no-editables por el usuario; Si None, todos son editables
     """
 
     def __init__(self, tituloCriterios, criterios, tituloValores, valores, habilitado, parent):
@@ -57,8 +120,6 @@ class FieldFrame(tk.Frame):
             elementoInput.grid(row=index+1, column=1, padx=5, pady=5)
             marco.grid_rowconfigure(index+1, weight=1)
             marco.grid_columnconfigure(1, weight=1)
-
-            # !!!! Posicionenlos !!!!
 
             self.data[criterio] = {
                 "elementos" : (elementoCriterio, elementoInput),
@@ -164,12 +225,6 @@ class MainMenu:
         pass
 
     def generar(self):
-
-        #Botones de arriba:
-        archivoButton = ""
-        procesosconsultasButton = ""
-        ayudaButton = ""
-
         frame_grande = tk.Frame(App, bg="blue")
         frame_grande.grid(row=0, column=0, sticky="nsew")
         App.grid_rowconfigure(0, weight=1)
@@ -183,11 +238,37 @@ class MainMenu:
         frame_grande.grid_rowconfigure(1, weight=1)
         frame_grande.grid_columnconfigure(0, weight=1)
 
-        zona1 = tk.Frame(marco, bg="yellow", borderwidth=1, relief="solid")
-        zona1.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        zonaSuperior = tk.Frame(marco, bg="yellow", borderwidth=1, relief="solid")
+        zonaSuperior.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
+        
+        # ----------------------------------------------    
+        archivoSelec = tk.StringVar(zonaSuperior) 
+        archivoSelec.set("Archivo") 
 
+        archivoButton = tk.OptionMenu(zonaSuperior, archivoSelec, *["Aplicacion", "Salir"], command = lambda e : handlersProcesoConsulta[archivoSelec.get()]())
+        archivoButton.grid(row=0, column=0, padx=5, pady=5)
+        zonaSuperior.grid_rowconfigure(0, weight=1)
+        zonaSuperior.grid_columnconfigure(0, weight=1)
+
+        opciones = ["Comprar vuelo", "Reasignar Vuelo", "Cancelar Vuelo", "Check In", "Gestion usuario"]
+        
+        procesoSelec = tk.StringVar(zonaSuperior) 
+        procesoSelec.set("Procesos y consultas") 
+
+        listaProcesoConsulta = tk.OptionMenu(zonaSuperior, procesoSelec, *opciones, command = lambda e : handlersProcesoConsulta[procesoSelec.get()]())
+        listaProcesoConsulta.grid(row=0, column=1, padx=5, pady=5)
+        zonaSuperior.grid_rowconfigure(0, weight=1)
+        zonaSuperior.grid_columnconfigure(1, weight=1)
+
+                
+        ayudaButton = tk.Button(zonaSuperior, text="Ayuda")
+        ayudaButton.grid(row=0, column=2, padx=5, pady=5)
+        zonaSuperior.grid_rowconfigure(0, weight=1)
+        zonaSuperior.grid_columnconfigure(2, weight=1)
+        
+        #Zona main --------------------
         zonaProceso = tk.Frame(marco, bg="orange", borderwidth=1, relief="solid")
         zonaProceso.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         marco.grid_rowconfigure(1, weight=1)
@@ -229,29 +310,8 @@ class ProcesoConsulta:
 
         formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, zonaForm)
 
-
-def genComprarVuelo():
-    pass
-
-def genReasignarVuelo():
-    pass
-
-
-def genCancelarVuelo():
-    pass
-
-
-def genGestionUsuario():
-    pass
-
-
-def genCheckIn():
-    pass
-
-
 def makePopUp():
     pass
-
 
 
 #ventanaInicial = VentanaInicial()
@@ -259,14 +319,5 @@ def makePopUp():
 
 mainMenu = MainMenu()
 mainMenu.generar()
-
-comprarVuelo = ProcesoConsulta(
-    mainMenu.zona,
-    "Comprar Vuelo",
-    "Consiste en la funcionalidad de comprar vuelo",
-    ["Edad", "Pizza", "Secso"]
-)
-
-comprarVuelo.generar()
 
 App.mainloop()
