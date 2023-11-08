@@ -10,8 +10,8 @@ def genComprarVuelo():
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Comprar Vuelo",
-        "Consiste en la funcionalidad de comprar vuelo",
-        ["Edad", "Pizza", "Secso"]
+        "En este menu el usuario podra comprar el vuelo",
+        ["Origen", "Destino", "Numero Asiento"]
     )
     comprarVuelo.generar()
     pass
@@ -20,8 +20,8 @@ def genReasignarVuelo():
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Reasignar Vuelo",
-        "Consiste en la funcionalidad de comprar vuelo",
-        ["Edad", "Pizza", "Secso"]
+        "Aqui el usuario podra reasignar algun vuelo anterior",
+        ["ID del vuelo", "Pizza", "Secso"]
     )
     comprarVuelo.generar()
     return comprarVuelo
@@ -31,8 +31,8 @@ def genCancelarVuelo():
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Cancelar Vuelo",
-        "Consiste en la funcionalidad de comprar vuelo",
-        ["Edad", "Pizza", "Secso"]
+        "En este menu el usuario podra cancelar su vuelo",
+        ["ID Vuelo", "Pizza", "Secso"]
     )
     comprarVuelo.generar()
     return comprarVuelo
