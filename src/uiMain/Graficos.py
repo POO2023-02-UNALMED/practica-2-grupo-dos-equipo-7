@@ -27,7 +27,7 @@ class FieldFrame(tk.Frame):
 
         #Crea el marco donde van a estar los elementos
         marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
-        marco.grid(row=0, column=0, padx=5, pady=5)
+        marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         parent.grid_rowconfigure(0, weight=1)
         parent.grid_columnconfigure(0, weight=1)
 
@@ -204,19 +204,18 @@ class ProcesoConsulta:
         self.descripcion = descripcion
         
         self.criterios = criterios
-        
         pass
 
     def generar(self):
         zonaInfo = tk.Frame(self.zona, bg="yellow", borderwidth=1, relief="solid")
         zonaInfo.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        marco.grid_rowconfigure(0, weight=1)
-        marco.grid_columnconfigure(0, weight=1)
+        self.zona.grid_rowconfigure(0, weight=1)
+        self.zona.grid_columnconfigure(0, weight=1)
 
         zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
         zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
-        marco.grid_rowconfigure(1, weight=1)
-        marco.grid_columnconfigure(0, weight=1)
+        self.zona.grid_rowconfigure(1, weight=1)
+        self.zona.grid_columnconfigure(0, weight=1)
 
         nombreProceso = tk.Label(zonaInfo, text= self.nombre)
         nombreProceso.grid(row=0, column=0, padx=5, pady=5)
