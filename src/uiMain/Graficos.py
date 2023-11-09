@@ -340,19 +340,28 @@ class VentanaInicial:
         p4.grid_columnconfigure(1,weight=0)
         button_VentanaP.bind("<Button-1>",cambioVentana)
 
-        def nombres(nombre):
-            n = tk.Label(p5,text=nombre,font="italic")
-            n.grid(row=0,column=0,padx=5,pady=5)
-            #n.bind("<Button-1>",command = lambda x: )
+        #Codigo hojas de vida
+
+        # Guardar datos de hojas de vida
+        hojasVida = {}
+        for i in range(1, 6):
+            hojasVida[str(i)] = open(f"src\imagenes\hojaVida{i}.txt","r").read()
+
+        hojasVida["Indice"] = 1
         
-        names = ["Juan Carlos Largo BuenaHora","María Alejandra Muñoz", "Harrison Zuleta","Santiago 1","Santiago 2"]
-
-        #def cambioHojaVida():
-
-
-        for i in range(len(names)):
-            nombres(names[i])
-        
+        #Definir funcion hojas vida
+        def cambioHojaVida(index):
+            if index == 5:
+                hojasVida["Indice"] = 1
+            else:
+                hojasVida["Indice"] +=1
+            
+            hojaVidaLabel.config(text=hojasVida[str(hojasVida["Indice"])])
+            
+        hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10) )
+        hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
+        hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
+        hojaVidaLabel.config(text=hojasVida["1"])                
         pass
 
 
