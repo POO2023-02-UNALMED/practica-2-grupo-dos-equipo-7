@@ -362,7 +362,7 @@ class VentanaInicial:
         """imagenes = {}
         for j in range(1,5):
             for i in range(1,5):
-                imagenes[str(j)] = Image.open(f"src\imagenes\imagen{j}-{i}.jpeg")
+                imagenes[f"{str(j)}-{str(i)}"] = Image.open(f"src\imagenes\imagen{j}-{i}.jpeg")"""
 
         #Subir imagenes
         def posicionImagen(imagenIndex,a,b,numeroImagen):
@@ -371,7 +371,7 @@ class VentanaInicial:
             imagen = ImageTk.PhotoImage(imagen_redimensionada)
             imagenLabel = tk.Label(p6,image=imagen)
             imagenLabel.grid(row=a,column=b,padx=10,pady=10)
-
+        imagenes={}
         a,b= 0,0
         for i in range(1,5):
             if i == 2:
@@ -380,7 +380,7 @@ class VentanaInicial:
                 a,b = 1,0
             elif i == 4:
                 a,b = 1,1
-            imagenes[str(i)] = posicionImagen(i,a,b,numeroImagen=1)"""           
+            imagenes[str(i)] = posicionImagen(i,a,b,numeroImagen=1)       
         pass
 
 
