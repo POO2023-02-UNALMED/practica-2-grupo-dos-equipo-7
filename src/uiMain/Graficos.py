@@ -169,7 +169,47 @@ class FieldFrame(tk.Frame):
                     
     def warnValoresFaltantes(self):
         #Genera la ventana y la muestra
+        
+        # usar ventanas emergentes automaticas de tkinter
 
+        pass
+
+class ResultFrame(tk.Frame):
+
+    def __init__(self, titulo, resultados, parent):
+        
+        #Inicializar el diccionario que guardara los datos
+        self.titulo = titulo
+        self.resultados = resultados
+        
+        #Crea el marco donde van a estar los elementos
+        marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
+        marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        parent.grid_rowconfigure(0, weight=1)
+        parent.grid_columnconfigure(0, weight=1)
+
+        #Agregar el titulo de los criterios
+        elementoTituloCriterio = tk.Label(marco, text=tituloCriterios)
+        elementoTituloCriterio.grid(row=0, column=0, padx=5, pady=5)
+        marco.grid_rowconfigure(0, weight=1)
+        marco.grid_columnconfigure(0, weight=1)
+
+
+        """#Agregar el titulo de los valores
+        elementoTituloValores = tk.Label(marco, text=tituloValores)
+        elementoTituloValores.grid(row=0, column=1, padx=5, pady=5)
+        marco.grid_rowconfigure(0, weight=1)
+        marco.grid_columnconfigure(1, weight=1)
+        """
+        
+        #Por cada criterio agregarlos y sus respectivas entradas
+        for index, resultado in enumerate(resultados):
+        
+            #Crea el criterio y su valor y lo guarda
+            elementoCriterio = tk.Label(marco, text=resultado)
+            elementoCriterio.grid(row=index+1, column=0, padx=5, pady=5)
+            marco.grid_rowconfigure(index+1, weight=1)
+            marco.grid_columnconfigure(0, weight=1)
         pass
 
 
