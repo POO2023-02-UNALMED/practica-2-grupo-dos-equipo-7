@@ -436,7 +436,7 @@ class VentanaInicial:
             for i in range(1,5):
                 imagenes[f"{str(j)}-{str(i)}"] = Image.open(f"src\imagenes\imagen{j}-{i}.jpeg")"""
 
-"""        #Subir imagenes
+        """        #Subir imagenes
         def posicionImagen(index, a, b, numeroImagen):
 
             imagen_pil = Image.open(f"src\imagenes\imagen{numeroImagen}-{imagenIndex}.jpeg")
@@ -455,7 +455,7 @@ class VentanaInicial:
                 a,b = 1,0
             elif i == 4:
                 a,b = 1,1
-            imagenes[str(i)] = posicionImagen(i,a,b,numeroImagen=1)      """ 
+            imagenes[str(i)] = posicionImagen(i,a,b,numeroImagen=1)""" 
         pass
 
 
