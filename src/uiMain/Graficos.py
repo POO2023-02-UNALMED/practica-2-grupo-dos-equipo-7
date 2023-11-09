@@ -9,7 +9,7 @@ App.title("Ventana de Inicio")
 App.geometry("800x600")
 
 
-def genComprarVuelo():
+def genComprarVuelo(mainMenu):
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Comprar Vuelo",
@@ -19,7 +19,7 @@ def genComprarVuelo():
     comprarVuelo.generar()
     pass
 
-def genReasignarVuelo():
+def genReasignarVuelo(mainMenu):
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Reasignar Vuelo",
@@ -30,7 +30,7 @@ def genReasignarVuelo():
     return comprarVuelo
 
 
-def genCancelarVuelo():
+def genCancelarVuelo(mainMenu):
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Cancelar Vuelo",
@@ -41,7 +41,7 @@ def genCancelarVuelo():
     return comprarVuelo
 
 
-def genGestionUsuario():
+def genGestionUsuario(mainMenu):
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Gestion Usuario",
@@ -52,7 +52,7 @@ def genGestionUsuario():
     return comprarVuelo
 
 
-def genCheckIn():
+def genCheckIn(mainMenu):
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Check In",
@@ -245,7 +245,7 @@ class MainMenu:
         procesoSelec = tk.StringVar(zonaSuperior) 
         procesoSelec.set("Procesos y consultas") 
 
-        listaProcesoConsulta = tk.OptionMenu(zonaSuperior, procesoSelec, *opciones, command = lambda e : handlersProcesoConsulta[procesoSelec.get()]())
+        listaProcesoConsulta = tk.OptionMenu(zonaSuperior, procesoSelec, *opciones, command = lambda e : handlersProcesoConsulta[procesoSelec.get()](self))
         listaProcesoConsulta.grid(row=0, column=1, padx=5, pady=5)
         zonaSuperior.grid_rowconfigure(0, weight=1)
         zonaSuperior.grid_columnconfigure(1, weight=1)
@@ -316,19 +316,10 @@ class VentanaInicial:
         script_directory = os.path.dirname(os.path.realpath(__file__))
 
         # Combinar el directorio actual con la ruta relativa a la carpeta de imágenes
-        imagen_path = os.path.join(script_directory, "../imagenes/imagen1-1.png")
+        imagen_path = os.path.join(script_directory, "src\imagenes\imagen2-1.jpeg")
 
         # Combinar la ruta de la carpeta de imágenes con el nombre de la imagen
         #imagen_path = os.path.join(imagenes_directory, "aleja1.gif")
-
-        # Cargar la imagen usando tk.PhotoImage
-
-        imagen_pil = Image.open(imagen_path)
-        imagen_redimensionada = imagen_pil.resize((200,200))
-                                
-        imagen = ImageTk.PhotoImage(imagen_redimensionada)
-        etiqueta1 = tk.Label(p6,image=imagen)
-        etiqueta1.grid(row=0,column=0,padx=5,pady=5)
 
         def cambioVentana(evento):
             mainMenu = MainMenu()
@@ -338,7 +329,8 @@ class VentanaInicial:
         button_VentanaP.grid(row=2,column=2,padx=5,pady=5)
         p4.grid_rowconfigure(1,weight=0)
         p4.grid_columnconfigure(1,weight=0)
-        button_VentanaP.bind("<Button-1>",cambioVentana)
+        button_VentanaP.bind("<Button-1>", cambioVentana)
+            
 
         #Codigo hojas de vida
 
@@ -353,15 +345,42 @@ class VentanaInicial:
         def cambioHojaVida(index):
             if index == 5:
                 hojasVida["Indice"] = 1
+                #imagenes["imagenIndex"]=1
             else:
                 hojasVida["Indice"] +=1
+                #imagenes["imagenIndex"]+=1
             
             hojaVidaLabel.config(text=hojasVida[str(hojasVida["Indice"])])
+            #posicionImagen
             
         hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10) )
         hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
-        hojaVidaLabel.config(text=hojasVida["1"])                
+        hojaVidaLabel.config(text=hojasVida["1"])     
+
+        #guardar imagenes
+        """imagenes = {}
+        for j in range(1,5):
+            for i in range(1,5):
+                imagenes[str(j)] = Image.open(f"src\imagenes\imagen{j}-{i}.jpeg")
+
+        #Subir imagenes
+        def posicionImagen(imagenIndex,a,b,numeroImagen):
+            imagen_pil = Image.open(f"src\imagenes\imagen{numeroImagen}-{imagenIndex}.jpeg")
+            imagen_redimensionada = imagen_pil.resize((200,200))
+            imagen = ImageTk.PhotoImage(imagen_redimensionada)
+            imagenLabel = tk.Label(p6,image=imagen)
+            imagenLabel.grid(row=a,column=b,padx=10,pady=10)
+
+        a,b= 0,0
+        for i in range(1,5):
+            if i == 2:
+                a,b=0,1
+            elif i ==3:
+                a,b = 1,0
+            elif i == 4:
+                a,b = 1,1
+            imagenes[str(i)] = posicionImagen(i,a,b,numeroImagen=1)"""           
         pass
 
 
