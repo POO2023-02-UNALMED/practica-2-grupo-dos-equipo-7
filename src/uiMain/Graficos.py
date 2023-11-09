@@ -1,19 +1,20 @@
 import tkinter as tk
 import os
-print(os.getcwd())
-from PIL import Image,ImageTk
-
+from PIL import ImageTk, Image
 
 App = tk.Tk()
 App.title("Ventana de Inicio")
 App.geometry("800x600")
+
+# MISC
+
+getImage = lambda parent, path: tk.Label(parent, image = ImageTk.PhotoImage(Image.open(path)))
 
 
 #Pop up functions
 
 def alertWarn(errMsg, msg):
     return tk.messagebox.showerror(errMsg, msg)
-    pass
 
 def alertConfirmacion(msg = "Escriba aceptar para confirmar el proceso"):
     return tk.messagebox.askokcancel("Confirmacion", msg)
@@ -391,6 +392,7 @@ class VentanaInicial:
 
         # Guardar datos de hojas de vida
         hojasVida = {}
+        
         for i in range(1, 6):
             hojasVida[str(i)] = open(f"src\imagenes\hojaVida{i}.txt","r").read()
 
@@ -406,12 +408,27 @@ class VentanaInicial:
                 #imagenes["imagenIndex"]+=1
             
             hojaVidaLabel.config(text=hojasVida[str(hojasVida["Indice"])])
-            #posicionImagen
-            
+            showImages(str(hojasVida["Indice"]))
+        
+
         hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10) )
         hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
         hojaVidaLabel.config(text=hojasVida["1"])     
+
+        
+        imagenes = {}
+        for i in range(1, 2 + 1):
+            imagenes[str(i)] = []
+            for j in range(1, 5):
+                imagenes[str(i)].append(f"src\imagenes\imagen{i}-{j}.jpeg")
+
+        def showImages(index):
+            for path in imagenes[str(index)]:
+                image = getImage(p6, path)
+                image.pack()
+
+
 
         #guardar imagenes
         """imagenes = {}
@@ -419,13 +436,16 @@ class VentanaInicial:
             for i in range(1,5):
                 imagenes[f"{str(j)}-{str(i)}"] = Image.open(f"src\imagenes\imagen{j}-{i}.jpeg")"""
 
-        #Subir imagenes
-        def posicionImagen(imagenIndex,a,b,numeroImagen):
+"""        #Subir imagenes
+        def posicionImagen(index, a, b, numeroImagen):
+
             imagen_pil = Image.open(f"src\imagenes\imagen{numeroImagen}-{imagenIndex}.jpeg")
             imagen_redimensionada = imagen_pil.resize((200,200))
+            
             imagen = ImageTk.PhotoImage(imagen_redimensionada)
             imagenLabel = tk.Label(p6,image=imagen)
             imagenLabel.grid(row=a,column=b,padx=10,pady=10)
+        
         imagenes={}
         a,b= 0,0
         for i in range(1,5):
@@ -435,7 +455,7 @@ class VentanaInicial:
                 a,b = 1,0
             elif i == 4:
                 a,b = 1,1
-            imagenes[str(i)] = posicionImagen(i,a,b,numeroImagen=1)       
+            imagenes[str(i)] = posicionImagen(i,a,b,numeroImagen=1)      """ 
         pass
 
 
