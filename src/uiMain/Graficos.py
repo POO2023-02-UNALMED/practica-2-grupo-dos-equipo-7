@@ -1,4 +1,7 @@
 import tkinter as tk
+import os
+print(os.getcwd())
+from PIL import Image,ImageTk
 
 
 App = tk.Tk()
@@ -170,55 +173,40 @@ class FieldFrame(tk.Frame):
         pass
 
 
-
-class VentanaInicial:
-    def __init__(self):
+class ProcesoConsulta:
+    def __init__(self, zona, nombre, descripcion, criterios):
+        self.zona = zona
+        self.nombre = nombre
+        self.descripcion = descripcion
+        
+        self.criterios = criterios
         pass
 
     def generar(self):
-        frame_grande = tk.Frame(App, bg="blue")
-        frame_grande.grid(row=0, column=0, sticky="nsew")
-        App.grid_rowconfigure(0, weight=1)
-        App.grid_columnconfigure(0, weight=1)
+        zonaInfo = tk.Frame(self.zona, bg="yellow", borderwidth=1, relief="solid")
+        zonaInfo.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        self.zona.grid_rowconfigure(0, weight=1)
+        self.zona.grid_columnconfigure(0, weight=1)
 
-        welcome_label = tk.Label(frame_grande, text="Inicio",fg="red")
-        welcome_label.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
+        zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
+        zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        self.zona.grid_rowconfigure(1, weight=1)
+        self.zona.grid_columnconfigure(0, weight=1)
 
-        p1 = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
-        p1.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
-        frame_grande.grid_rowconfigure(1, weight=1)
-        frame_grande.grid_columnconfigure(0, weight=1)
+        nombreProceso = tk.Label(zonaInfo, text= self.nombre)
+        nombreProceso.grid(row=0, column=0, padx=5, pady=5)
+        zonaInfo.grid_rowconfigure(0, weight=1)
+        zonaInfo.grid_columnconfigure(0, weight=1)
 
-        p2 = tk.Frame(frame_grande, bg="red", borderwidth=1, relief="solid")
-        p2.grid(row=1, column=1, sticky="nsew", padx=5, pady=5)
-        frame_grande.grid_rowconfigure(1, weight=1)
-        frame_grande.grid_columnconfigure(1, weight=1)
+        descripcionProceso = tk.Label(zonaInfo, text= self.descripcion)
+        descripcionProceso.grid(row=1, column=0, padx=5, pady=5)
+        zonaInfo.grid_rowconfigure(1, weight=1)
+        zonaInfo.grid_columnconfigure(0, weight=1)
 
-        p3 = tk.Frame(p1, bg="yellow", borderwidth=1, relief="solid")
-        p3.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        p1.grid_rowconfigure(0, weight=1)
-        p1.grid_columnconfigure(0, weight=1)
+        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, zonaForm)
 
-        p4 = tk.Frame(p1, bg="orange", borderwidth=1, relief="solid")
-        p4.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
-        p1.grid_rowconfigure(1, weight=1)
-        p1.grid_columnconfigure(0, weight=1)
-
-        p5 = tk.Frame(p2, bg="purple", borderwidth=1, relief="solid")
-        p5.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        p2.grid_rowconfigure(0, weight=1)
-        p2.grid_columnconfigure(0, weight=1)
-
-        p6 = tk.Frame(p2, bg="pink", borderwidth=1, relief="solid")
-        p6.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
-        p2.grid_rowconfigure(1, weight=1)
-        p2.grid_columnconfigure(0, weight=1)
-
-        saludo = "Bienvenid@ al sistema de venta de vuelos"
-        saludo_label = tk.Label(p3,text=saludo)
-        saludo_label.grid(row=0,column=0,padx=5, pady=5)
-        pass
-
+def makePopUp():
+    pass
 
 class MainMenu:
     def __init__(self):
@@ -277,47 +265,101 @@ class MainMenu:
         self.zona = zonaProceso
         pass
 
-
-class ProcesoConsulta:
-    def __init__(self, zona, nombre, descripcion, criterios):
-        self.zona = zona
-        self.nombre = nombre
-        self.descripcion = descripcion
-        
-        self.criterios = criterios
+class VentanaInicial:
+    def __init__(self):
         pass
 
     def generar(self):
-        zonaInfo = tk.Frame(self.zona, bg="yellow", borderwidth=1, relief="solid")
-        zonaInfo.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        self.zona.grid_rowconfigure(0, weight=1)
-        self.zona.grid_columnconfigure(0, weight=1)
+        frame_grande = tk.Frame(App, bg="blue")
+        frame_grande.grid(row=0, column=0, sticky="nsew")
+        App.grid_rowconfigure(0, weight=1)
+        App.grid_columnconfigure(0, weight=1)
 
-        zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
-        zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
-        self.zona.grid_rowconfigure(1, weight=1)
-        self.zona.grid_columnconfigure(0, weight=1)
+        welcome_label = tk.Label(frame_grande, text="Inicio",fg="red")
+        welcome_label.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
 
-        nombreProceso = tk.Label(zonaInfo, text= self.nombre)
-        nombreProceso.grid(row=0, column=0, padx=5, pady=5)
-        zonaInfo.grid_rowconfigure(0, weight=1)
-        zonaInfo.grid_columnconfigure(0, weight=1)
+        p1 = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
+        p1.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        frame_grande.grid_rowconfigure(1, weight=1)
+        frame_grande.grid_columnconfigure(0, weight=1)
 
-        descripcionProceso = tk.Label(zonaInfo, text= self.descripcion)
-        descripcionProceso.grid(row=1, column=0, padx=5, pady=5)
-        zonaInfo.grid_rowconfigure(1, weight=1)
-        zonaInfo.grid_columnconfigure(0, weight=1)
+        p2 = tk.Frame(frame_grande, bg="red", borderwidth=1, relief="solid")
+        p2.grid(row=1, column=1, sticky="nsew", padx=5, pady=5)
+        frame_grande.grid_rowconfigure(1, weight=1)
+        frame_grande.grid_columnconfigure(1, weight=1)
 
-        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, zonaForm)
+        p3 = tk.Frame(p1, bg="yellow", borderwidth=1, relief="solid")
+        p3.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        p1.grid_rowconfigure(0, weight=1)
+        p1.grid_columnconfigure(0, weight=1)
 
-def makePopUp():
-    pass
+        p4 = tk.Frame(p1, bg="orange", borderwidth=1, relief="solid")
+        p4.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        p1.grid_rowconfigure(1, weight=1)
+        p1.grid_columnconfigure(0, weight=1)
+
+        p5 = tk.Frame(p2, bg="purple", borderwidth=1, relief="solid")
+        p5.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        p2.grid_rowconfigure(0, weight=1)
+        p2.grid_columnconfigure(0, weight=1)
+
+        p6 = tk.Frame(p2, bg="pink", borderwidth=1, relief="solid")
+        p6.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        p2.grid_rowconfigure(1, weight=1)
+        p2.grid_columnconfigure(0, weight=1)
+
+        saludo = "Bienvenid@ al sistema de venta de vuelos"
+        saludo_label = tk.Label(p3,text=saludo)
+        saludo_label.grid(row=0,column=0,padx=5, pady=5)
+
+        
+        script_directory = os.path.dirname(os.path.realpath(__file__))
+
+        # Combinar el directorio actual con la ruta relativa a la carpeta de imágenes
+        imagen_path = os.path.join(script_directory, "../imagenes/imagen1-1.png")
+
+        # Combinar la ruta de la carpeta de imágenes con el nombre de la imagen
+        #imagen_path = os.path.join(imagenes_directory, "aleja1.gif")
+
+        # Cargar la imagen usando tk.PhotoImage
+
+        imagen_pil = Image.open(imagen_path)
+        imagen_redimensionada = imagen_pil.resize((200,200))
+                                
+        imagen = ImageTk.PhotoImage(imagen_redimensionada)
+        etiqueta1 = tk.Label(p6,image=imagen)
+        etiqueta1.grid(row=0,column=0,padx=5,pady=5)
+
+        def cambioVentana(evento):
+            mainMenu = MainMenu()
+            mainMenu.generar()
+
+        button_VentanaP = tk.Button(p4,text="Ingreso al sistema")
+        button_VentanaP.grid(row=2,column=2,padx=5,pady=5)
+        p4.grid_rowconfigure(1,weight=0)
+        p4.grid_columnconfigure(1,weight=0)
+        button_VentanaP.bind("<Button-1>",cambioVentana)
+
+        def nombres(nombre):
+            n = tk.Label(p5,text=nombre,font="italic")
+            n.grid(row=0,column=0,padx=5,pady=5)
+            #n.bind("<Button-1>",command = lambda x: )
+        
+        names = ["Juan Carlos Largo BuenaHora","María Alejandra Muñoz", "Harrison Zuleta","Santiago 1","Santiago 2"]
+
+        #def cambioHojaVida():
 
 
-#ventanaInicial = VentanaInicial()
-#ventanaInicial.generar()
+        for i in range(len(names)):
+            nombres(names[i])
+        
+        pass
 
-mainMenu = MainMenu()
-mainMenu.generar()
+
+ventanaInicial = VentanaInicial()
+ventanaInicial.generar()
+
+#mainMenu = MainMenu()
+#mainMenu.generar()
 
 App.mainloop()
