@@ -9,6 +9,21 @@ App.title("Ventana de Inicio")
 App.geometry("800x600")
 
 
+#Pop up functions
+
+def alertWarn(errMsg, msg):
+    ok = tk.messagebox.showerror(errMsg, msg)
+    pass
+
+def alertConfirmacion(msg = "Escriba aceptar para confirmar el proceso"):
+    return = tk.messagebox.askokcancel("Confirmacion", msg)
+
+def alertInfo(title, info):
+    return = tk.messagebox.showinfo(title, info)
+
+
+
+
 def genComprarVuelo(mainMenu):
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
