@@ -6,13 +6,17 @@ App = tk.Tk()
 App.title("Ventana de Inicio")
 App.geometry("800x600")
 
-# MISC
 
-getImage = lambda parent, path: tk.Label(parent, image = ImageTk.PhotoImage(Image.open(path)))
 
+
+
+loadImage = lambda path : ImageTk.PhotoImage(Image.open(path).resize((200,200)))
+
+
+def getImage(parent, image, **kwargs):
+    return tk.Label(parent, image=image, **kwargs)
 
 #Pop up functions
-
 def alertWarn(errMsg, msg):
     return tk.messagebox.showerror(errMsg, msg)
 
@@ -205,7 +209,7 @@ class ResultFrame(tk.Frame):
         parent.grid_columnconfigure(0, weight=1)
 
         #Agregar el titulo de los criterios
-        elementoTituloCriterio = tk.Label(marco, text=tituloCriterios)
+        elementoTituloCriterio = tk.Label(marco, text=titulo)
         elementoTituloCriterio.grid(row=0, column=0, padx=5, pady=5)
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
@@ -371,12 +375,6 @@ class VentanaInicial:
         
         script_directory = os.path.dirname(os.path.realpath(__file__))
 
-        # Combinar el directorio actual con la ruta relativa a la carpeta de imágenes
-        imagen_path = os.path.join(script_directory, "src\imagenes\imagen2-1.jpeg")
-
-        # Combinar la ruta de la carpeta de imágenes con el nombre de la imagen
-        #imagen_path = os.path.join(imagenes_directory, "aleja1.gif")
-
         def cambioVentana(evento):
             mainMenu = MainMenu()
             mainMenu.generar()
@@ -386,17 +384,27 @@ class VentanaInicial:
         p4.grid_rowconfigure(1,weight=0)
         p4.grid_columnconfigure(1,weight=0)
         button_VentanaP.bind("<Button-1>", cambioVentana)
-            
-
-        #Codigo hojas de vida
-
+        
         # Guardar datos de hojas de vida
         hojasVida = {}
-        
         for i in range(1, 6):
-            hojasVida[str(i)] = open(f"src\imagenes\hojaVida{i}.txt","r").read()
-
+            hojasVida[str(i)] = open(f"src/imagenes/hojaVida{i}.txt","r").read()
         hojasVida["Indice"] = 1
+        
+        imagenes = {}
+        for i in range(1, 5 + 1):
+            imagenes[str(i)] = []
+            for j in range(1, 5):
+                imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.jpeg")
+        imagenes = {
+            "1": ['src/imagenes/imagen1-1.jpeg', 'src/imagenes/imagen1-2.jpeg', 'src/imagenes/imagen1-3.jpeg', 'src/imagenes/imagen1-4.jpeg'],
+            "2": ['src/imagenes/imagen1-1.jpeg', 'src/imagenes/imagen1-2.jpeg', 'src/imagenes/imagen1-3.jpeg', 'src/imagenes/imagen1-4.jpeg'],
+            "3": ['src/imagenes/imagen1-1.jpeg', 'src/imagenes/imagen1-2.jpeg', 'src/imagenes/imagen1-3.jpeg', 'src/imagenes/imagen1-4.jpeg'],
+            "4": ['src/imagenes/imagen1-1.jpeg', 'src/imagenes/imagen1-2.jpeg', 'src/imagenes/imagen1-3.jpeg', 'src/imagenes/imagen1-4.jpeg'],
+            "5": ['src/imagenes/imagen1-1.jpeg', 'src/imagenes/imagen1-2.jpeg', 'src/imagenes/imagen1-3.jpeg', 'src/imagenes/imagen1-4.jpeg']
+        }
+
+        
         
         #Definir funcion hojas vida
         def cambioHojaVida(index):
@@ -416,17 +424,19 @@ class VentanaInicial:
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
         hojaVidaLabel.config(text=hojasVida["1"])     
 
-        
-        imagenes = {}
-        for i in range(1, 2 + 1):
-            imagenes[str(i)] = []
-            for j in range(1, 5):
-                imagenes[str(i)].append(f"src\imagenes\imagen{i}-{j}.jpeg")
-
+        def loadd(path, row, column, parent):
+                original = Image.open(path)
+                resize = original.resize((200, 200))
+                image_temp = ImageTk.PhotoImage(resize)
+                image_label = tk.Label(parent, image=image_temp)
+                image_label.image = image_temp
+                image_label.grid(row=row, column=column, padx=10, pady=10)
+                
         def showImages(index):
-            for path in imagenes[str(index)]:
-                image = getImage(p6, path)
-                image.pack()
+            # Itera a través de las rutas de las imágenes y muestra cada una
+            for i, path in enumerate(imagenes.get(index, [])):
+                loadd(path, 0, i, p6)
+
 
 
 
@@ -464,5 +474,6 @@ ventanaInicial.generar()
 
 #mainMenu = MainMenu()
 #mainMenu.generar()
+
 
 App.mainloop()
