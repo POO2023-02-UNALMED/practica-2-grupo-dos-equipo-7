@@ -7,14 +7,13 @@ App.title("Ventana de Inicio")
 App.geometry("800x600")
 
 
-
-
-
-loadImage = lambda path : ImageTk.PhotoImage(Image.open(path).resize((200,200)))
-
-
-def getImage(parent, image, **kwargs):
-    return tk.Label(parent, image=image, **kwargs)
+def getImage(parent, path, size, **kwargs):
+    original = Image.open(path)
+    resize = original.resize(size)
+    imageTemp = ImageTk.PhotoImage(resize)
+    imagen = tk.Label(parent, image=imageTemp, **kwargs)
+    imagen.image = imageTemp
+    return imagen
 
 #Pop up functions
 def alertWarn(errMsg, msg):
@@ -372,18 +371,11 @@ class VentanaInicial:
         saludo_label = tk.Label(p3,text=saludo)
         saludo_label.grid(row=0,column=0,padx=5, pady=5)
 
-        
-        script_directory = os.path.dirname(os.path.realpath(__file__))
-
-        def cambioVentana(evento):
-            mainMenu = MainMenu()
-            mainMenu.generar()
-
         button_VentanaP = tk.Button(p4,text="Ingreso al sistema")
         button_VentanaP.grid(row=2,column=2,padx=5,pady=5)
         p4.grid_rowconfigure(1,weight=0)
         p4.grid_columnconfigure(1,weight=0)
-        button_VentanaP.bind("<Button-1>", cambioVentana)
+        button_VentanaP.bind("<Button-1>", lambda e : MainMenu().generar())
         
         # Guardar datos de hojas de vida
         hojasVida = {}
@@ -396,16 +388,13 @@ class VentanaInicial:
             imagenes[str(i)] = []
             for j in range(1, 5):
                 imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.jpeg")
-        imagenes = {
-            "1": ['src/imagenes/imagen1-1.jpeg', 'src/imagenes/imagen1-2.jpeg', 'src/imagenes/imagen1-3.jpeg', 'src/imagenes/imagen1-4.jpeg'],
-            "2": ['src/imagenes/imagen1-1.jpeg', 'src/imagenes/imagen1-2.jpeg', 'src/imagenes/imagen1-3.jpeg', 'src/imagenes/imagen1-4.jpeg'],
-            "3": ['src/imagenes/imagen1-1.jpeg', 'src/imagenes/imagen1-2.jpeg', 'src/imagenes/imagen1-3.jpeg', 'src/imagenes/imagen1-4.jpeg'],
-            "4": ['src/imagenes/imagen1-1.jpeg', 'src/imagenes/imagen1-2.jpeg', 'src/imagenes/imagen1-3.jpeg', 'src/imagenes/imagen1-4.jpeg'],
-            "5": ['src/imagenes/imagen1-1.jpeg', 'src/imagenes/imagen1-2.jpeg', 'src/imagenes/imagen1-3.jpeg', 'src/imagenes/imagen1-4.jpeg']
-        }
-
-        
-        
+                
+        #Funcion para mostrar imagenes segun la persona
+        def showImages(index):
+            for i, path in enumerate(imagenes.get(index, [])):
+                img = getImage(p6, path, (200, 200))
+                img.grid(row= (i//2), column=(i%2), padx=10, pady=10)
+                
         #Definir funcion hojas vida
         def cambioHojaVida(index):
             if index == 5:
@@ -423,49 +412,6 @@ class VentanaInicial:
         hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
         hojaVidaLabel.config(text=hojasVida["1"])     
-
-        def loadd(path, row, column, parent):
-                original = Image.open(path)
-                resize = original.resize((200, 200))
-                image_temp = ImageTk.PhotoImage(resize)
-                image_label = tk.Label(parent, image=image_temp)
-                image_label.image = image_temp
-                image_label.grid(row=row, column=column, padx=10, pady=10)
-                
-        def showImages(index):
-            # Itera a través de las rutas de las imágenes y muestra cada una
-            for i, path in enumerate(imagenes.get(index, [])):
-                loadd(path, 0, i, p6)
-
-
-
-
-        #guardar imagenes
-        """imagenes = {}
-        for j in range(1,5):
-            for i in range(1,5):
-                imagenes[f"{str(j)}-{str(i)}"] = Image.open(f"src\imagenes\imagen{j}-{i}.jpeg")"""
-
-        """        #Subir imagenes
-        def posicionImagen(index, a, b, numeroImagen):
-
-            imagen_pil = Image.open(f"src\imagenes\imagen{numeroImagen}-{imagenIndex}.jpeg")
-            imagen_redimensionada = imagen_pil.resize((200,200))
-            
-            imagen = ImageTk.PhotoImage(imagen_redimensionada)
-            imagenLabel = tk.Label(p6,image=imagen)
-            imagenLabel.grid(row=a,column=b,padx=10,pady=10)
-        
-        imagenes={}
-        a,b= 0,0
-        for i in range(1,5):
-            if i == 2:
-                a,b=0,1
-            elif i ==3:
-                a,b = 1,0
-            elif i == 4:
-                a,b = 1,1
-            imagenes[str(i)] = posicionImagen(i,a,b,numeroImagen=1)""" 
         pass
 
 
