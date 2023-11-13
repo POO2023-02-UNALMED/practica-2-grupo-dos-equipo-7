@@ -30,29 +30,25 @@ handlersProcesoConsulta = {
     "Reasignar Vuelo": lambda mainMenu: ReasignarVuelo().generar(
         mainMenu.zona,
         "Reasignar Vuelo",
-        TEXT_DATA["descripcionReasignarVuelo"],
-        ["ID del vuelo", "Pizza", "Secso"]
+        TEXT_DATA["descripcionReasignarVuelo"]
     ),
     
     "Cancelar Vuelo": lambda mainMenu: CancelarVuelo().generar(
         mainMenu.zona,
         "Cancelar Vuelo",
-        TEXT_DATA["descripcionCancelarVuelo"],
-        ["ID Vuelo", "Pizza", "Secso"]
+        TEXT_DATA["descripcionCancelarVuelo"]
     ),
     
     "Check In": lambda mainMenu: CheckIn().generar(
         mainMenu.zona,
         "Check In",
-        TEXT_DATA["descripcionCheckIn"],
-        ["Edad", "Pizza", "Secso"]
+        TEXT_DATA["descripcionCheckIn"]
     ),
     
     "Gestion usuario": lambda mainMenu: GestionUsuario().generar(
         mainMenu.zona,
         "Gestion Usuario",
-        TEXT_DATA["descripcionGestionUsuario"],
-        ["Edad", "Pizza", "Secso"]
+        TEXT_DATA["descripcionGestionUsuario"]
     ),
     
     "Salir" : exitHandler
