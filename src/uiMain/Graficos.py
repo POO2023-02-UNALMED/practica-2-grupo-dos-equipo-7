@@ -343,8 +343,8 @@ class VentanaInicial:
 
 
         
-        menuBar = tk.Menu(frame_grande)
-        frame_grande.config(menu=menuBar)
+        menuBar = tk.Menu(App)
+        App.config(menu=menuBar)
         
         menuInicio = tk.Menu(menuBar, tearoff=False)
         menuBar.add_cascade(menu=menuInicio, label="Inicio")
@@ -429,12 +429,10 @@ class VentanaInicial:
             hojaVidaLabel.config(text=hojasVida[str(hojasVida["Indice"])])
             showImages(str(hojasVida["Indice"]))
         
-
         hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10) )
         hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
-        cambioHojaVida(hojasVida["1"])
-             
+        cambioHojaVida(hojasVida["Indice"])             
         pass
 
 

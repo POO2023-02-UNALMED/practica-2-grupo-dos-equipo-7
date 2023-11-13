@@ -4,4 +4,6 @@ import tkinter.messagebox as messagebox
 
 
 def exitHandler():
-    messagebox.askokcancel("Confirmacion", "Desea salir del programa?")
+    ok = messagebox.askokcancel("Confirmacion", "Desea salir del programa?")
+    if ok:
+        exit()
