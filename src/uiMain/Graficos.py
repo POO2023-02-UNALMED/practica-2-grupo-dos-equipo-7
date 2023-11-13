@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+#from tkinter import ttk
 from PIL import ImageTk, Image
 
 App = tk.Tk()
@@ -15,14 +15,15 @@ def getImage(parent, path, size, **kwargs):
     return imagen
 
 #Pop up functions
+import tkinter.messagebox as messagebox
 def alertWarn(errMsg, msg):
-    return tk.messagebox.showerror(errMsg, msg)
+    return messagebox.showerror(errMsg, msg)
 
 def alertConfirmacion(msg = "Escriba aceptar para confirmar el proceso"):
-    return tk.messagebox.askokcancel("Confirmacion", msg)
+    return messagebox.askokcancel("Confirmacion", msg)
 
 def alertInfo(title, info):
-    return tk.messagebox.showinfo(title, info)
+    return messagebox.showinfo(title, info)
 
 def makePopUp():
     pass
