@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox as messagebox
 from PIL import ImageTk, Image
+from myHANDLERS.handlers import *
 
 App = tk.Tk()
 App.title("Ventana de Inicio")
@@ -340,9 +341,18 @@ class VentanaInicial:
         App.grid_rowconfigure(0, weight=1)
         App.grid_columnconfigure(0, weight=1)
 
-        welcome_label = tk.Label(frame_grande, text="Inicio",fg="red")
-        welcome_label.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
 
+        
+        menuBar = tk.Menu(frame_grande)
+        frame_grande.config(menu=menuBar)
+        
+        menuInicio = tk.Menu(menuBar, tearoff=False)
+        menuBar.add_cascade(menu=menuInicio, label="Inicio")
+    
+        menuInicio.add_command( label="Salir", command = exitHandler )
+        menuInicio.add_command( label="Descripcion", command = lambda: 1 )
+
+        # Diferentes paneles
         p1 = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
         p1.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         frame_grande.grid_rowconfigure(1, weight=1)
@@ -372,6 +382,7 @@ class VentanaInicial:
         p6.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         p2.grid_rowconfigure(1, weight=1)
         p2.grid_columnconfigure(0, weight=1)
+        #.............................
 
         saludo = "Bienvenid@ al sistema de venta de vuelos"
         saludo_label = tk.Label(p3,text=saludo)
@@ -422,7 +433,8 @@ class VentanaInicial:
         hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10) )
         hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
-        hojaVidaLabel.config(text=hojasVida["1"])     
+        cambioHojaVida(hojasVida["1"])
+             
         pass
 
 
