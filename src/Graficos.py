@@ -24,7 +24,6 @@ handlersProcesoConsulta = {
         mainMenu.zona,
         "Comprar Vuelo",
         TEXT_DATA["descripcionComprarVuelo"],
-        ["Origen", "Destino", "Numero Asiento"]
     ),
     
     "Reasignar Vuelo": lambda mainMenu: ReasignarVuelo().generar(
