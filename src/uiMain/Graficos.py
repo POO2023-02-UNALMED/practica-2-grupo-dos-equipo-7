@@ -2,32 +2,14 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox as messagebox
 from PIL import ImageTk, Image
-from myHANDLERS.handlers import *
+from uiMain.appMisc.misc import *
+
+# Implementacion modular para el manejo de contenido en la apliaccion
 
 App = tk.Tk()
 App.title("Ventana de Inicio")
 App.geometry("800x600")
 
-def getImage(parent, path, size, **kwargs):
-    original = Image.open(path)
-    resize = original.resize(size)
-    imageTemp = ImageTk.PhotoImage(resize)
-    imagen = tk.Label(parent, image=imageTemp, **kwargs)
-    imagen.image = imageTemp
-    return imagen
-
-#Pop up functions
-def alertWarn(errMsg, msg):
-    return messagebox.showerror(errMsg, msg)
-
-def alertConfirmacion(msg = "Escriba aceptar para confirmar el proceso"):
-    return messagebox.askokcancel("Confirmacion", msg)
-
-def alertInfo(title, info):
-    return messagebox.showinfo(title, info)
-
-def makePopUp():
-    pass
 
 """
 drowpDown = ttk.Combobox(
@@ -40,7 +22,7 @@ def genComprarVuelo(mainMenu):
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Comprar Vuelo",
-        "En este menu el usuario podra comprar el vuelo",
+        TEXT_DATA["descripcionComprarVuelo"],
         ["Origen", "Destino", "Numero Asiento"]
     )
     comprarVuelo.generar()
@@ -50,7 +32,7 @@ def genReasignarVuelo(mainMenu):
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Reasignar Vuelo",
-        "Aqui el usuario podra reasignar algun vuelo anterior",
+        TEXT_DATA["descripcionReasignarVuelo"],
         ["ID del vuelo", "Pizza", "Secso"]
     )
     comprarVuelo.generar()
@@ -61,7 +43,7 @@ def genCancelarVuelo(mainMenu):
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Cancelar Vuelo",
-        "En este menu el usuario podra cancelar su vuelo",
+        TEXT_DATA["descripcionCancelarVuelo"],
         ["ID Vuelo", "Pizza", "Secso"]
     )
     comprarVuelo.generar()
@@ -72,7 +54,7 @@ def genGestionUsuario(mainMenu):
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Gestion Usuario",
-        "Consiste en la funcionalidad de comprar vuelo",
+        TEXT_DATA["descripcionGestionUsuario"],
         ["Edad", "Pizza", "Secso"]
     )
     comprarVuelo.generar()
@@ -83,7 +65,7 @@ def genCheckIn(mainMenu):
     comprarVuelo = ProcesoConsulta(
         mainMenu.zona,
         "Check In",
-        "Consiste en la funcionalidad de comprar vuelo",
+        TEXT_DATA["descripcionCheckIn"],
         ["Edad", "Pizza", "Secso"]
     )
     comprarVuelo.generar()
@@ -349,9 +331,7 @@ class VentanaInicial:
         menuBar.add_cascade(menu=menuInicio, label="Inicio")
     
         menuInicio.add_command( label="Salir", command = exitHandler )
-        menuInicio.add_command( label="Descripcion", command = lambda: p3Label.config(
-            text = "Hola, esta es una descripcion generica del programa")
-        )
+        menuInicio.add_command( label="Descripcion", command = lambda: p3Label.config(text = TEXT_DATA["breveDescripcionApp"]))
 
         # Diferentes paneles
         p1 = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
@@ -392,8 +372,7 @@ class VentanaInicial:
         #.............................
 
         # Corto saludo de bienvenida (P3)
-        saludo = "Bienvenid@ al sistema de venta de vuelos"
-        p3Label = tk.Label(p3,text=saludo)
+        p3Label = tk.Label(p3, text = TEXT_DATA["textoBienvenida"])
         p3Label.grid(row=0,column=0,padx=5, pady=5)
 
         # Ingreso al sistema (P4)
