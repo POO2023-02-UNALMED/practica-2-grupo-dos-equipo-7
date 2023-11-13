@@ -95,7 +95,7 @@ handlersProcesoConsulta = {
     "Cancelar Vuelo": genCancelarVuelo,
     "Check In": genCheckIn,
     "Gestion usuario": genGestionUsuario,
-    "Salir" : lambda : exit()
+    "Salir" : exitHandler
 }
 
 
@@ -297,7 +297,7 @@ class MainMenu:
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
         
-        # ----------------------------------------------    
+        # ----------------------------------------------
         archivoSelec = tk.StringVar(zonaSuperior) 
         archivoSelec.set("Archivo") 
 
@@ -341,8 +341,7 @@ class VentanaInicial:
         App.grid_rowconfigure(0, weight=1)
         App.grid_columnconfigure(0, weight=1)
 
-
-        
+        # Barra de menu        
         menuBar = tk.Menu(App)
         App.config(menu=menuBar)
         
@@ -350,43 +349,52 @@ class VentanaInicial:
         menuBar.add_cascade(menu=menuInicio, label="Inicio")
     
         menuInicio.add_command( label="Salir", command = exitHandler )
-        menuInicio.add_command( label="Descripcion", command = lambda: 1 )
+        menuInicio.add_command( label="Descripcion", command = lambda: p3Label.config(
+            text = "Hola, esta es una descripcion generica del programa")
+        )
 
         # Diferentes paneles
         p1 = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
         p1.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         frame_grande.grid_rowconfigure(1, weight=1)
         frame_grande.grid_columnconfigure(0, weight=1)
-
+        self.p1 = p1
+        
         p2 = tk.Frame(frame_grande, bg="red", borderwidth=1, relief="solid")
         p2.grid(row=1, column=1, sticky="nsew", padx=5, pady=5)
         frame_grande.grid_rowconfigure(1, weight=1)
         frame_grande.grid_columnconfigure(1, weight=1)
+        self.p2 = p2
 
         p3 = tk.Frame(p1, bg="yellow", borderwidth=1, relief="solid")
         p3.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         p1.grid_rowconfigure(0, weight=1)
         p1.grid_columnconfigure(0, weight=1)
-
+        self.p3 = p1
+        
         p4 = tk.Frame(p1, bg="orange", borderwidth=1, relief="solid")
         p4.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         p1.grid_rowconfigure(1, weight=1)
         p1.grid_columnconfigure(0, weight=1)
+        self.p4 = p4
 
         p5 = tk.Frame(p2, bg="purple", borderwidth=1, relief="solid")
         p5.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         p2.grid_rowconfigure(0, weight=1)
         p2.grid_columnconfigure(0, weight=1)
+        self.p5 = p5
 
         p6 = tk.Frame(p2, bg="pink", borderwidth=1, relief="solid")
         p6.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         p2.grid_rowconfigure(1, weight=1)
         p2.grid_columnconfigure(0, weight=1)
+        self.p6 = p6
         #.............................
 
+        # Corto saludo de bienvenida (P3)
         saludo = "Bienvenid@ al sistema de venta de vuelos"
-        saludo_label = tk.Label(p3,text=saludo)
-        saludo_label.grid(row=0,column=0,padx=5, pady=5)
+        p3Label = tk.Label(p3,text=saludo)
+        p3Label.grid(row=0,column=0,padx=5, pady=5)
 
         button_VentanaP = tk.Button(p4,text="Ingreso al sistema")
         button_VentanaP.grid(row=2,column=2,padx=5,pady=5)
@@ -409,7 +417,14 @@ class VentanaInicial:
                     imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.jpeg")
                 else:
                     imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.png")
-                
+        
+        hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10) )
+        hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
+        hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
+        cambioHojaVida(hojasVida["Indice"])             
+        pass
+    
+    
         #Funcion para mostrar imagenes segun la persona
         def showImages(index):
             for i, path in enumerate(imagenes.get(index, [])):
@@ -428,19 +443,9 @@ class VentanaInicial:
             
             hojaVidaLabel.config(text=hojasVida[str(hojasVida["Indice"])])
             showImages(str(hojasVida["Indice"]))
-        
-        hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10) )
-        hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
-        hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
-        cambioHojaVida(hojasVida["Indice"])             
-        pass
-
+            pass
 
 ventanaInicial = VentanaInicial()
 ventanaInicial.generar()
-
-#mainMenu = MainMenu()
-#mainMenu.generar()
-
 
 App.mainloop()
