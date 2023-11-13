@@ -1,13 +1,31 @@
 import tkinter as tk
 import os
 from PIL import ImageTk, Image
-from uiMain.graficosMisc import *
-
 
 App = tk.Tk()
 App.title("Ventana de Inicio")
 App.geometry("800x600")
 
+def getImage(parent, path, size, **kwargs):
+    original = Image.open(path)
+    resize = original.resize(size)
+    imageTemp = ImageTk.PhotoImage(resize)
+    imagen = tk.Label(parent, image=imageTemp, **kwargs)
+    imagen.image = imageTemp
+    return imagen
+
+#Pop up functions
+def alertWarn(errMsg, msg):
+    return tk.messagebox.showerror(errMsg, msg)
+
+def alertConfirmacion(msg = "Escriba aceptar para confirmar el proceso"):
+    return tk.messagebox.askokcancel("Confirmacion", msg)
+
+def alertInfo(title, info):
+    return tk.messagebox.showinfo(title, info)
+
+def makePopUp():
+    pass
 
 
 
@@ -89,6 +107,7 @@ class FieldFrame(tk.Frame):
     def __init__(self, tituloCriterios, criterios, tituloValores, valores, habilitado, parent):
         
         #Inicializar el diccionario que guardara los datos
+        self.parent = parent
         self.data = {}
         self.formData = {}
 
@@ -163,6 +182,7 @@ class FieldFrame(tk.Frame):
                 self.warnValoresFaltantes()
 
         print(self.formData)
+        
 
     def clear(self):
 
@@ -182,6 +202,7 @@ class ResultFrame(tk.Frame):
     def __init__(self, titulo, resultados, parent):
         
         #Inicializar el diccionario que guardara los datos
+        self.parent = parent
         self.titulo = titulo
         self.resultados = resultados
         self.resultadosElements = []
@@ -370,11 +391,16 @@ class VentanaInicial:
         for i in range(1, 5 + 1):
             imagenes[str(i)] = []
             for j in range(1, 5):
-                imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.jpeg")
+                # Falta unificar formato !!!!
+                if i != 1:
+                    imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.jpeg")
+                else:
+                    imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.png")
                 
         #Funcion para mostrar imagenes segun la persona
         def showImages(index):
             for i, path in enumerate(imagenes.get(index, [])):
+                print(path)
                 img = getImage(p6, path, (200, 200))
                 img.grid(row= (i//2), column=(i%2), padx=10, pady=10)
                 
