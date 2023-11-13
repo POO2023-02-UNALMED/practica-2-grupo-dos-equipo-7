@@ -9,7 +9,28 @@ def exitHandler():
     ok = messagebox.askokcancel("Confirmacion", "Desea salir del programa?")
     if ok:
         exit()
-        
+
+def cancelarHandler(callback):
+    ok = messagebox.askokcancel("Cancelar", "Esta seguro de cancelar el proceso?")
+    if ok:
+        callback()
+    
+
+def getBotonContinuar(parent, callback, row, col):
+    boton = tk.Button(parent, text="Continuar", bg="white", borderwidth=0, command = callback)
+    boton.grid(row=row, column=col, padx=5, pady=5)
+    parent.grid_rowconfigure(row, weight=1)
+    parent.grid_columnconfigure(col, weight=1)
+    return boton
+    pass
+
+def getBotonCancelar(parent, callback, row, col):
+    boton = tk.Button(parent, text="Cancelar", bg="white", borderwidth=0, command = lambda: cancelarHandler(callback))
+    boton.grid(row=row, column=col, padx=5, pady=5)
+    parent.grid_rowconfigure(row, weight=1)
+    parent.grid_columnconfigure(col, weight=1)
+    return boton
+    pass
 
 def getImage(parent, path, size, **kwargs):
     original = Image.open(path)

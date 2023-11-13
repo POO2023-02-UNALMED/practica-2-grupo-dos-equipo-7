@@ -21,31 +21,31 @@ drowpDown = ttk.Combobox(
 
 handlersProcesoConsulta = {
     "Comprar vuelo": lambda mainMenu: ComprarVuelo().generar(
-        mainMenu.zona,
+        mainMenu,
         "Comprar Vuelo",
         TEXT_DATA["descripcionComprarVuelo"],
     ),
     
     "Reasignar Vuelo": lambda mainMenu: ReasignarVuelo().generar(
-        mainMenu.zona,
+        mainMenu,
         "Reasignar Vuelo",
         TEXT_DATA["descripcionReasignarVuelo"]
     ),
     
     "Cancelar Vuelo": lambda mainMenu: CancelarVuelo().generar(
-        mainMenu.zona,
+        mainMenu,
         "Cancelar Vuelo",
         TEXT_DATA["descripcionCancelarVuelo"]
     ),
     
     "Check In": lambda mainMenu: CheckIn().generar(
-        mainMenu.zona,
+        mainMenu,
         "Check In",
         TEXT_DATA["descripcionCheckIn"]
     ),
     
     "Gestion usuario": lambda mainMenu: GestionUsuario().generar(
-        mainMenu.zona,
+        mainMenu,
         "Gestion Usuario",
         TEXT_DATA["descripcionGestionUsuario"]
     ),
@@ -123,6 +123,7 @@ class FieldFrame(tk.Frame):
         marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(1, weight=1)
 
+        self.nextFreeRow = index + 3
         pass
 
     """
@@ -401,10 +402,11 @@ class VentanaInicial:
         pass
     
 
-class VentanaFuncionalidad(tk.Frame):
+class VentanaBaseFuncionalidad(tk.Frame):
     
-    def generar(self, zona, nombre, descripcion):
-        self.zona = zona
+    def generar(self, mainMenu, nombre, descripcion):
+        self.mainMenu = mainMenu
+        self.zona = mainMenu.zona
         self.nombre = nombre
         self.descripcion = descripcion
         
@@ -431,9 +433,39 @@ class VentanaFuncionalidad(tk.Frame):
         self.ventana1()
         pass
     
-class ComprarVuelo(VentanaFuncionalidad):
+    def delete(self, this):
+        handlersProcesoConsulta[this](self.mainMenu)
+        self.destroy()
+        pass
+    
+class ComprarVuelo(VentanaBaseFuncionalidad):
     def ventana1(self):
-        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
+        
+        def callback(data):
+            #ResultFrame("Completado", [])
+            dropDown = ttk.Combobox(
+                self.zonaForm,
+                state = "readonly",
+                values = ["Vuelo 1 con origen tin", "Vuelo 2 con origen tan"]
+            )
+            dropDown.grid(row=nextFreeRow, column=0, padx=5, pady=5)
+            
+            # Crea boton de siguiente y uno de cancelar  
+            botonCancelar = getBotonCancelar(self.zonaForm, self.delete("Comprar vuelo"), nextFreeRow+1, 0)
+            botonContinuar = getBotonContinuar(self.zonaForm, self.ventana2, nextFreeRow+1, 1)
+            pass
+        
+        criterios = ["Origen", "Destino"]
+        formElement = FieldFrame(
+            "Datos del Vuelo",
+            criterios,
+            "Ingrese los datos",
+            criterios,
+            None, self.zonaForm,
+            callback = callback
+        )
+        nextFreeRow = formElement.nextFreeRow
+        
         pass
     
     def ventana1(self):
@@ -444,25 +476,49 @@ class ComprarVuelo(VentanaFuncionalidad):
     
     
 
-class ReasignarVuelo(VentanaFuncionalidad):
+class ReasignarVuelo(VentanaBaseFuncionalidad):
     def ventana1(self):
-        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
+        formElement = FieldFrame(
+            "Datos del Vuelo",
+            [],
+            "Ingrese los datos",
+            [],
+            None, self.zonaForm
+        )
         pass
     
     
-class CancelarVuelo(VentanaFuncionalidad):
+class CancelarVuelo(VentanaBaseFuncionalidad):
     def ventana1(self):
-        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
+        formElement = FieldFrame(
+            "Datos del Vuelo",
+            [],
+            "Ingrese los datos",
+            [],
+            None, self.zonaForm
+        )
         pass
 
-class CheckIn(VentanaFuncionalidad):
+class CheckIn(VentanaBaseFuncionalidad):
     def ventana1(self):
-        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
+        formElement = FieldFrame(
+            "Datos del Vuelo",
+            [],
+            "Ingrese los datos",
+            [],
+            None, self.zonaForm
+        )
         pass
 
-class GestionUsuario(VentanaFuncionalidad):
+class GestionUsuario(VentanaBaseFuncionalidad):
     def ventana1(self):
-        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
+        formElement = FieldFrame(
+            "Datos del Vuelo",
+            [],
+            "Ingrese los datos",
+            [],
+            None, self.zonaForm
+        )
         pass
 
 ventanaInicial = VentanaInicial()
