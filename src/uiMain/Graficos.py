@@ -1,5 +1,5 @@
 import tkinter as tk
-import os
+from tkinter import ttk
 from PIL import ImageTk, Image
 
 App = tk.Tk()
@@ -27,7 +27,11 @@ def alertInfo(title, info):
 def makePopUp():
     pass
 
-
+"""
+drowpDown = ttk.Combobox(
+    state = "readonly",
+    values=["Hola", "Largo"]
+)"""
 
 
 def genComprarVuelo(mainMenu):
@@ -179,8 +183,8 @@ class FieldFrame(tk.Frame):
             self.formData[criterio] = value
 
             if value == None:
-                self.warnValoresFaltantes()
-
+                alertWarn("Campos sin llenar", "Error, por favor llene todos los campos antes de continuar:3")
+                break
         print(self.formData)
         
 
@@ -189,13 +193,7 @@ class FieldFrame(tk.Frame):
         #Limpiar todos los datos
         for criterio in self.criterios:
             (self.data[criterio]["elementos"][1]).delete(0 ,'end')
-                    
-    def warnValoresFaltantes(self):
-        #Genera la ventana y la muestra
-        
-        # usar ventanas emergentes automaticas de tkinter
-
-        pass
+                
 
 class ResultFrame(tk.Frame):
 

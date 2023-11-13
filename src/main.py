@@ -18,7 +18,6 @@ from gestorAplicacion.Mascotas.Animal import Animal
 from gestorAplicacion.Mascotas.Perro import Perro
 from gestorAplicacion.Mascotas.Gato import Gato
 
-from uiMain.Estetica import *
 
 
 gestionUsuario = GestionUsuario()
