@@ -396,11 +396,16 @@ class VentanaInicial:
         p3Label = tk.Label(p3,text=saludo)
         p3Label.grid(row=0,column=0,padx=5, pady=5)
 
+        # Ingreso al sistema (P4)
         button_VentanaP = tk.Button(p4,text="Ingreso al sistema")
         button_VentanaP.grid(row=2,column=2,padx=5,pady=5)
         p4.grid_rowconfigure(1,weight=0)
         p4.grid_columnconfigure(1,weight=0)
         button_VentanaP.bind("<Button-1>", lambda e : MainMenu().generar())
+        
+        
+        # - - - Seccion informacion y hojas de vida - - -
+        
         
         # Guardar datos de hojas de vida
         hojasVida = {}
@@ -417,18 +422,10 @@ class VentanaInicial:
                     imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.jpeg")
                 else:
                     imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.png")
-        
-        hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10) )
-        hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
-        hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
-        cambioHojaVida(hojasVida["Indice"])             
-        pass
-    
-    
+                    
         #Funcion para mostrar imagenes segun la persona
         def showImages(index):
             for i, path in enumerate(imagenes.get(index, [])):
-                print(path)
                 img = getImage(p6, path, (200, 200))
                 img.grid(row= (i//2), column=(i%2), padx=10, pady=10)
                 
@@ -444,6 +441,12 @@ class VentanaInicial:
             hojaVidaLabel.config(text=hojasVida[str(hojasVida["Indice"])])
             showImages(str(hojasVida["Indice"]))
             pass
+        
+        hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10) )
+        hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
+        hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
+        cambioHojaVida(hojasVida["Indice"])             
+        pass
 
 ventanaInicial = VentanaInicial()
 ventanaInicial.generar()
