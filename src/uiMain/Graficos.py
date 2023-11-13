@@ -1,5 +1,6 @@
 import tkinter as tk
-#from tkinter import ttk
+from tkinter import ttk
+import tkinter.messagebox as messagebox
 from PIL import ImageTk, Image
 
 App = tk.Tk()
@@ -15,7 +16,6 @@ def getImage(parent, path, size, **kwargs):
     return imagen
 
 #Pop up functions
-import tkinter.messagebox as messagebox
 def alertWarn(errMsg, msg):
     return messagebox.showerror(errMsg, msg)
 
@@ -109,7 +109,7 @@ class FieldFrame(tk.Frame):
     @arg habilitado array con los campos no-editables por el usuario; Si None, todos son editables
     """
 
-    def __init__(self, tituloCriterios, criterios, tituloValores, valores, habilitado, parent):
+    def __init__(self, tituloCriterios, criterios, tituloValores, valores, habilitado, parent, callback = None):
         
         #Inicializar el diccionario que guardara los datos
         self.parent = parent
@@ -157,7 +157,7 @@ class FieldFrame(tk.Frame):
             }
 
         
-        submitButton = tk.Button(marco, text="Enviar", bg="white", borderwidth=0, command = lambda: self.submitForm())
+        submitButton = tk.Button(marco, text="Enviar", bg="white", borderwidth=0, command = lambda: self.submitForm(callback))
         submitButton.grid(row=index+2, column=0, padx=5, pady=5)
         marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(0, weight=1)
@@ -177,7 +177,7 @@ class FieldFrame(tk.Frame):
     def getValue(self, criterio):
         return self.data[criterio]["value"]
 
-    def submitForm(self):
+    def submitForm(self, callback):
         for criterio in self.criterios:
             value = (self.data[criterio]["elementos"][1]).get()
             self.data[criterio]["value"] = value
@@ -185,12 +185,15 @@ class FieldFrame(tk.Frame):
 
             if value == "":
                 alertWarn("Campos sin llenar", "Error, por favor llene todos los campos antes de continuar:3")
-                break
+                return False
+        
         print(self.formData)
+        if callback != None:
+            callback(self.formData)
+        
         
 
     def clear(self):
-
         #Limpiar todos los datos
         for criterio in self.criterios:
             (self.data[criterio]["elementos"][1]).delete(0 ,'end')
