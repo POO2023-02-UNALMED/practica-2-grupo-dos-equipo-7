@@ -182,7 +182,7 @@ class FieldFrame(tk.Frame):
             self.data[criterio]["value"] = value
             self.formData[criterio] = value
 
-            if value == None:
+            if value == "":
                 alertWarn("Campos sin llenar", "Error, por favor llene todos los campos antes de continuar:3")
                 break
         print(self.formData)
