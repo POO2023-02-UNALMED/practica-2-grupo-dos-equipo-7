@@ -1,29 +1,13 @@
 import tkinter as tk
 import os
 from PIL import ImageTk, Image
+from uiMain.graficosMisc import *
+
 
 App = tk.Tk()
 App.title("Ventana de Inicio")
 App.geometry("800x600")
 
-
-def getImage(parent, path, size, **kwargs):
-    original = Image.open(path)
-    resize = original.resize(size)
-    imageTemp = ImageTk.PhotoImage(resize)
-    imagen = tk.Label(parent, image=imageTemp, **kwargs)
-    imagen.image = imageTemp
-    return imagen
-
-#Pop up functions
-def alertWarn(errMsg, msg):
-    return tk.messagebox.showerror(errMsg, msg)
-
-def alertConfirmacion(msg = "Escriba aceptar para confirmar el proceso"):
-    return tk.messagebox.askokcancel("Confirmacion", msg)
-
-def alertInfo(title, info):
-    return tk.messagebox.showinfo(title, info)
 
 
 
@@ -200,7 +184,7 @@ class ResultFrame(tk.Frame):
         #Inicializar el diccionario que guardara los datos
         self.titulo = titulo
         self.resultados = resultados
-        
+        self.resultadosElements = []
         #Crea el marco donde van a estar los elementos
         marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
         marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
@@ -208,8 +192,8 @@ class ResultFrame(tk.Frame):
         parent.grid_columnconfigure(0, weight=1)
 
         #Agregar el titulo de los criterios
-        elementoTituloCriterio = tk.Label(marco, text=titulo)
-        elementoTituloCriterio.grid(row=0, column=0, padx=5, pady=5)
+        elementoTituloResultados = tk.Label(marco, text=titulo)
+        elementoTituloResultados.grid(row=0, column=0, padx=5, pady=5)
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
@@ -223,12 +207,13 @@ class ResultFrame(tk.Frame):
         
         #Por cada criterio agregarlos y sus respectivas entradas
         for index, resultado in enumerate(resultados):
-        
             #Crea el criterio y su valor y lo guarda
-            elementoCriterio = tk.Label(marco, text=resultado)
-            elementoCriterio.grid(row=index+1, column=0, padx=5, pady=5)
+            elementoResultado = tk.Label(marco, text=resultado)
+            elementoResultado.grid(row=index+1, column=0, padx=5, pady=5)
             marco.grid_rowconfigure(index+1, weight=1)
             marco.grid_columnconfigure(0, weight=1)
+            self.resultadosElements.append(elementoResultado)
+            
         pass
 
 
@@ -264,8 +249,6 @@ class ProcesoConsulta:
 
         formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, zonaForm)
 
-def makePopUp():
-    pass
 
 class MainMenu:
     def __init__(self):
