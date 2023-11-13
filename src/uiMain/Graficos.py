@@ -18,65 +18,43 @@ drowpDown = ttk.Combobox(
 )"""
 
 
-def genComprarVuelo(mainMenu):
-    comprarVuelo = ProcesoConsulta(
+
+handlersProcesoConsulta = {
+    "Comprar vuelo": lambda mainMenu: ComprarVuelo().generar(
         mainMenu.zona,
         "Comprar Vuelo",
         TEXT_DATA["descripcionComprarVuelo"],
         ["Origen", "Destino", "Numero Asiento"]
-    )
-    comprarVuelo.generar()
-    pass
-
-def genReasignarVuelo(mainMenu):
-    comprarVuelo = ProcesoConsulta(
+    ),
+    
+    "Reasignar Vuelo": lambda mainMenu: ReasignarVuelo().generar(
         mainMenu.zona,
         "Reasignar Vuelo",
         TEXT_DATA["descripcionReasignarVuelo"],
         ["ID del vuelo", "Pizza", "Secso"]
-    )
-    comprarVuelo.generar()
-    return comprarVuelo
-
-
-def genCancelarVuelo(mainMenu):
-    comprarVuelo = ProcesoConsulta(
+    ),
+    
+    "Cancelar Vuelo": lambda mainMenu: CancelarVuelo().generar(
         mainMenu.zona,
         "Cancelar Vuelo",
         TEXT_DATA["descripcionCancelarVuelo"],
         ["ID Vuelo", "Pizza", "Secso"]
-    )
-    comprarVuelo.generar()
-    return comprarVuelo
-
-
-def genGestionUsuario(mainMenu):
-    comprarVuelo = ProcesoConsulta(
-        mainMenu.zona,
-        "Gestion Usuario",
-        TEXT_DATA["descripcionGestionUsuario"],
-        ["Edad", "Pizza", "Secso"]
-    )
-    comprarVuelo.generar()
-    return comprarVuelo
-
-
-def genCheckIn(mainMenu):
-    comprarVuelo = ProcesoConsulta(
+    ),
+    
+    "Check In": lambda mainMenu: CheckIn().generar(
         mainMenu.zona,
         "Check In",
         TEXT_DATA["descripcionCheckIn"],
         ["Edad", "Pizza", "Secso"]
-    )
-    comprarVuelo.generar()
-    return comprarVuelo
-
-handlersProcesoConsulta = {
-    "Comprar vuelo": genComprarVuelo,
-    "Reasignar Vuelo": genReasignarVuelo,
-    "Cancelar Vuelo": genCancelarVuelo,
-    "Check In": genCheckIn,
-    "Gestion usuario": genGestionUsuario,
+    ),
+    
+    "Gestion usuario": lambda mainMenu: GestionUsuario().generar(
+        mainMenu.zona,
+        "Gestion Usuario",
+        TEXT_DATA["descripcionGestionUsuario"],
+        ["Edad", "Pizza", "Secso"]
+    ),
+    
     "Salir" : exitHandler
 }
 
@@ -238,8 +216,8 @@ class ProcesoConsulta:
         self.zona.grid_rowconfigure(0, weight=1)
         self.zona.grid_columnconfigure(0, weight=1)
 
-        zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
-        zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        self.zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
+        self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         self.zona.grid_rowconfigure(1, weight=1)
         self.zona.grid_columnconfigure(0, weight=1)
 
@@ -253,7 +231,7 @@ class ProcesoConsulta:
         zonaInfo.grid_rowconfigure(1, weight=1)
         zonaInfo.grid_columnconfigure(0, weight=1)
 
-        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, zonaForm)
+        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
 
 
 class MainMenu:
@@ -425,6 +403,71 @@ class VentanaInicial:
         hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
         cambioHojaVida(hojasVida["Indice"])             
+        pass
+    
+
+class VentanaFuncionalidad(tk.Frame):
+    
+    def generar(self, zona, nombre, descripcion):
+        self.zona = zona
+        self.nombre = nombre
+        self.descripcion = descripcion
+        
+        self.zonaInfo = tk.Frame(self.zona, bg="yellow", borderwidth=1, relief="solid")
+        self.zonaInfo.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        self.zona.grid_rowconfigure(0, weight=1)
+        self.zona.grid_columnconfigure(0, weight=1)
+
+        self.zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
+        self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        self.zona.grid_rowconfigure(1, weight=1)
+        self.zona.grid_columnconfigure(0, weight=1)
+        
+        self.nombreProceso = tk.Label(self.zonaInfo, text= self.nombre)
+        self.nombreProceso.grid(row=0, column=0, padx=5, pady=5)
+        self.zonaInfo.grid_rowconfigure(0, weight=1)
+        self.zonaInfo.grid_columnconfigure(0, weight=1)
+        
+        self.descripcionProceso = tk.Label(self.zonaInfo, text= self.descripcion)
+        self.descripcionProceso.grid(row=1, column=0, padx=5, pady=5)
+        self.zonaInfo.grid_rowconfigure(1, weight=1)
+        self.zonaInfo.grid_columnconfigure(0, weight=1)
+        
+        self.ventana1()
+        pass
+    
+class ComprarVuelo(VentanaFuncionalidad):
+    def ventana1(self):
+        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
+        pass
+    
+    def ventana1(self):
+        pass
+    
+    def ventana1(self):
+        pass
+    
+    
+
+class ReasignarVuelo(VentanaFuncionalidad):
+    def ventana1(self):
+        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
+        pass
+    
+    
+class CancelarVuelo(VentanaFuncionalidad):
+    def ventana1(self):
+        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
+        pass
+
+class CheckIn(VentanaFuncionalidad):
+    def ventana1(self):
+        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
+        pass
+
+class GestionUsuario(VentanaFuncionalidad):
+    def ventana1(self):
+        formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
         pass
 
 ventanaInicial = VentanaInicial()

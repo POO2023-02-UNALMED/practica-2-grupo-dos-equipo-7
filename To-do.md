@@ -4,7 +4,8 @@
 
 **Comprar vuelo**
 - Se abre la ventana de comprar vuelo con el formulario y se ingresan n datos
-- Se generan los vuelos, al final el usuario selecciona uno, previsualizacion de precios
+- Se generan los vuelos, en otra ventana de resultados y al final el usuario selecciona uno con un dropdown
+- previsualizacion de precios
 - Se pregunta si se van a agregar maletas, y se hacen pop ups para agregar maletas
 - Informacion resultante del boleto
 
