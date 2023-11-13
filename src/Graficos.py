@@ -124,6 +124,7 @@ class FieldFrame(tk.Frame):
         marco.grid_columnconfigure(1, weight=1)
 
         self.nextFreeRow = index + 3
+        self.marco = marco
         pass
 
     """
@@ -139,12 +140,10 @@ class FieldFrame(tk.Frame):
             value = (self.data[criterio]["elementos"][1]).get()
             self.data[criterio]["value"] = value
             self.formData[criterio] = value
-
             if value == "":
                 alertWarn("Campos sin llenar", "Error, por favor llene todos los campos antes de continuar:3")
                 return False
-        
-        print(self.formData)
+            
         if callback != None:
             callback(self.formData)
         
@@ -414,11 +413,6 @@ class VentanaBaseFuncionalidad(tk.Frame):
         self.zonaInfo.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         self.zona.grid_rowconfigure(0, weight=1)
         self.zona.grid_columnconfigure(0, weight=1)
-
-        self.zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
-        self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
-        self.zona.grid_rowconfigure(1, weight=1)
-        self.zona.grid_columnconfigure(0, weight=1)
         
         self.nombreProceso = tk.Label(self.zonaInfo, text= self.nombre)
         self.nombreProceso.grid(row=0, column=0, padx=5, pady=5)
@@ -430,12 +424,23 @@ class VentanaBaseFuncionalidad(tk.Frame):
         self.zonaInfo.grid_rowconfigure(1, weight=1)
         self.zonaInfo.grid_columnconfigure(0, weight=1)
         
+        self.zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
+        self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        self.zona.grid_rowconfigure(1, weight=1)
+        self.zona.grid_columnconfigure(0, weight=1)
+        
         self.ventana1()
         pass
     
-    def delete(self, this):
-        handlersProcesoConsulta[this](self.mainMenu)
-        self.destroy()
+    def delete(self):
+        #handlersProcesoConsulta[this](self.mainMenu)
+        self.zonaForm.destroy()
+        self.zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
+        self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        self.zona.grid_rowconfigure(1, weight=1)
+        self.zona.grid_columnconfigure(0, weight=1)
+        
+        self.ventana1()
         pass
     
 class ComprarVuelo(VentanaBaseFuncionalidad):
@@ -443,19 +448,21 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         
         def callback(data):
             #ResultFrame("Completado", [])
+            
             dropDown = ttk.Combobox(
-                self.zonaForm,
+                formElement.marco,
                 state = "readonly",
-                values = ["Vuelo 1 con origen tin", "Vuelo 2 con origen tan"]
+                values = ["Hola", "Largo"]
             )
-            dropDown.grid(row=nextFreeRow, column=0, padx=5, pady=5)
+            dropDown.grid(row=nextFreeRow, column=0, padx=15, pady=15)
             
             # Crea boton de siguiente y uno de cancelar  
-            botonCancelar = getBotonCancelar(self.zonaForm, self.delete("Comprar vuelo"), nextFreeRow+1, 0)
-            botonContinuar = getBotonContinuar(self.zonaForm, self.ventana2, nextFreeRow+1, 1)
+            botonCancelar = getBotonCancelar(formElement.marco, lambda: self.delete(), nextFreeRow+1, 0)
+            botonContinuar = getBotonContinuar(formElement.marco, lambda: print("Cancelar"), nextFreeRow+1, 1)
             pass
         
         criterios = ["Origen", "Destino"]
+        
         formElement = FieldFrame(
             "Datos del Vuelo",
             criterios,
@@ -465,15 +472,7 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
             callback = callback
         )
         nextFreeRow = formElement.nextFreeRow
-        
         pass
-    
-    def ventana1(self):
-        pass
-    
-    def ventana1(self):
-        pass
-    
     
 
 class ReasignarVuelo(VentanaBaseFuncionalidad):

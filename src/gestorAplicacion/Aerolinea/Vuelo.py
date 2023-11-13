@@ -88,3 +88,6 @@ class Vuelo:
 
     def setEquipajes(self, equipajes):
         self.equipajes = equipajes
+        
+    def __str__(self):
+        return self.getInfo()
