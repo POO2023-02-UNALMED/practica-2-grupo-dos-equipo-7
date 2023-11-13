@@ -153,7 +153,11 @@ class FieldFrame(tk.Frame):
         #Limpiar todos los datos
         for criterio in self.criterios:
             (self.data[criterio]["elementos"][1]).delete(0 ,'end')
-                
+    
+    
+    def delete(self):
+        self.marco.destroy()
+        pass
 
 class ResultFrame(tk.Frame):
 
@@ -433,7 +437,6 @@ class VentanaBaseFuncionalidad(tk.Frame):
         pass
     
     def delete(self):
-        #handlersProcesoConsulta[this](self.mainMenu)
         self.zonaForm.destroy()
         self.zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
         self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
@@ -452,17 +455,16 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
             dropDown = ttk.Combobox(
                 formElement.marco,
                 state = "readonly",
-                values = ["Hola", "Largo"]
+                values = [data[criterios[0]], data[criterios[1]]] # Genera los vuelos con origen y destino 
             )
             dropDown.grid(row=nextFreeRow, column=0, padx=15, pady=15)
             
             # Crea boton de siguiente y uno de cancelar  
-            botonCancelar = getBotonCancelar(formElement.marco, lambda: self.delete(), nextFreeRow+1, 0)
-            botonContinuar = getBotonContinuar(formElement.marco, lambda: print("Cancelar"), nextFreeRow+1, 1)
+            getBotonCancelar(formElement.marco, lambda: self.delete(), nextFreeRow+1, 0)
+            getBotonContinuar(formElement.marco, lambda: self.ventana2("vuelo"), nextFreeRow+1, 1)
             pass
         
         criterios = ["Origen", "Destino"]
-        
         formElement = FieldFrame(
             "Datos del Vuelo",
             criterios,
@@ -474,16 +476,12 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         nextFreeRow = formElement.nextFreeRow
         pass
     
+    def ventana2(self, vuelo):
+        pass
 
 class ReasignarVuelo(VentanaBaseFuncionalidad):
     def ventana1(self):
-        formElement = FieldFrame(
-            "Datos del Vuelo",
-            [],
-            "Ingrese los datos",
-            [],
-            None, self.zonaForm
-        )
+        
         pass
     
     
