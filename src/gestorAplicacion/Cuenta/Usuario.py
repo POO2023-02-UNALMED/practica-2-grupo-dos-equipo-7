@@ -12,24 +12,24 @@ class Usuario:
         self.descuentos = []
         
     def comprarBoleto(self, boleto):
-        self.dinero -= boleto.getValor()
-        self.millas += boleto.getValor() * 0.1
+        self.dinero -= boleto.valor
+        self.millas += boleto.valor * 0.1
         self.historial.append(boleto)
         boleto.status = "Comprado"
         boleto.asignarAsiento(boleto.asiento)
 
     def comprarBoletoReasig(self, boleto):
-        self.dinero -= boleto.getValor()
-        self.millas += boleto.getValor() * 0.1
+        self.dinero -= boleto.valor
+        self.millas += boleto.valor * 0.1
         boleto.setStatus("Comprado")
 
     def reasignarBoleto(self, boleto):
-        self.dinero += (boleto.getValor() * 0.9)
-        self.millas -= boleto.getValor() * 0.1
+        self.dinero += (boleto.valor * 0.9)
+        self.millas -= boleto.valor * 0.1
 
     def cancelarBoleto(self, boleto):
-        self.dinero += (boleto.getValor() * 0.5)
-        self.millas -= (boleto.getValor() * 0.1)
+        self.dinero += (boleto.valor * 0.5)
+        self.millas -= (boleto.valor * 0.1)
 
     def getInfo(self):
         return {

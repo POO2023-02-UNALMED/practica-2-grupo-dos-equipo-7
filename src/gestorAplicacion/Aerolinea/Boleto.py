@@ -4,12 +4,12 @@ class Boleto:
 
     cont = 0
 
-    def __init__(self, origen, destino, asiento, usuario):
+    def __init__(self, origen, destino, vuelo, asiento, usuario):
         Boleto.cont += 1
         
         self.origen = origen
         self.destino = destino
-        
+        self.vuelo = vuelo
         self.user = usuario
         
         self.id = Boleto.cont
@@ -28,9 +28,6 @@ class Boleto:
         
         # Set asiento
         self.setAsiento(asiento)
-        
-
-        
 
     def updateValor(self):
         temp = 0
@@ -104,7 +101,7 @@ class Boleto:
         self.equipaje = []
 
     def getOrigenDestino(self):
-        return self.origen + "-" + self.destino
+        return self.origen + " - " + self.destino
 
     def addEquipaje(self, maleta):
         self.equipaje.append(maleta)
@@ -115,7 +112,7 @@ class Boleto:
             "Origen-Destino" : self.getOrigenDestino(),
             "Precio:" : self.valor,
             "Tipo asiento" : self.tipo,
-            "Numero de asiento" : self.asiento.getN_silla(),
+            "Numero de asiento" : self.asiento.n_silla,
             "Cantidad maletas" : len(self.equipaje),
             "Estado": self.status,
             "Servicios contratados": len(self.serviciosContratados)

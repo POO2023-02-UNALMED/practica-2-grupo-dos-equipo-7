@@ -543,7 +543,7 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
             
             # Seleccionar vuelo y asiento
             labelVuelo = tk.Label(formElement.marco, text = "Vuelo:")
-            labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)
+            labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)            
             dropDownVuelos = ttk.Combobox(formElement.marco,state = "readonly", values = vuelos )
             dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
             dropDownVuelos.bind("<<ComboboxSelected>>", selecAsientos)
@@ -605,6 +605,7 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         boleto = Boleto(
             prevData["Origen"],
             prevData["Destino"],
+            newData["vuelo"],
             newData["asiento"],
             user
         )
@@ -757,6 +758,7 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         boleto = Boleto(
             prevData["Origen"],
             prevData["Destino"],
+            newData["vuelo"],
             newData["asiento"],
             user
         )
