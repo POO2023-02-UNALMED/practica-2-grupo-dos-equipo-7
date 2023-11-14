@@ -89,7 +89,7 @@ class FieldFrame(tk.Frame):
     @arg habilitado array con los campos no-editables por el usuario; Si None, todos son editables
     """
 
-    def __init__(self, tituloResultados, criterios, tituloValores, valores, habilitado, parent, callback = None):
+    def __init__(self, tituloCriterio, criterios, tituloValores, valores, habilitado, parent, callback = None):
         
         #Inicializar el diccionario que guardara los datos
         self.parent = parent
@@ -105,7 +105,7 @@ class FieldFrame(tk.Frame):
         parent.grid_columnconfigure(0, weight=1)
 
         #Agregar el titulo de los criterios
-        elementoTituloCriterio = tk.Label(marco, text=tituloResultados)
+        elementoTituloCriterio = tk.Label(marco, text=tituloCriterio)
         elementoTituloCriterio.grid(row=0, column=0, padx=5, pady=5)
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
