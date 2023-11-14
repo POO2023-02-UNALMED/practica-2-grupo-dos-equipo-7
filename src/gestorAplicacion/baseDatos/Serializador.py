@@ -7,6 +7,8 @@ class Serializador:
     def __init__(self) :
         pass
 
+    
+
     # antes de cada parte tengo que revisar primero que los atributos con objetos esten asignados
     # segundo  cada open debe estar dentro de un try and catch y un with
     # 1. dump(usuario)
@@ -21,25 +23,48 @@ class Serializador:
     #        2.4 for maleta in equipaje: SeriañizarMaleta(=)
     # 3. for descuento in descuentos:Serializardescuento(=) ,enummerar y meter cada descuento en un archivo
     # , para reasignarle su boleto luego
+    def serializarUsuario(self, )
+    def serializarBoleto(self, boletos : Boleto[]):
+        count = 1
+        for boleto in boletos :
 
-    def serializarBoleto(self):
+            with open(f"boleto{count}.txt","wb") as file:
+                serializacion = pickle.dump(boleto,file)
+
+            serializarVuelo(boleto.getVuelo())
+            serializarEquipaje(boleto.getEquipaje())
+            serializarMascota(boleto.getMascotas())
+            serializarDescuento(boleto.getDescuentos())
+            serializarServicio(boleto.getServiciosContratados())
+            serializarAsiento(boleto.getAsiento())
+        
+
+
         pass
 
-    def SerializarVuelo(self,boleto : Boleto):
+    def serializarEquipaje(self,Equipaje: Maleta[]):
+        for maleta in Equipaje:
+            with open("Equipaje.txt","wb") as file:
+                serializacion = pickle.dump(maleta,file)
+        
+        pass
+
+    def SerializarVuelo(self,vuelo : Vuelo):
+
         return
 
-    def serializarAsiento(self):
+    def serializarAsiento(self,Asientos : Asiento[]):
         pass
 
-    def serializarMaleta(self):
+    def serializarMaletas(self, Maletas : Maleta[]):
         pass
 
-    def serializarPasajero(self):
+    def serializarPasajero(self,pasajero : Pasajero):
         pass
 
-    def serializarMascota(self):
+    def serializarMascota(self, Mascotas : Animal[]):
         pass
 
 
-    def serializarDescuento(self):
+    def serializarDescuento(self,descuentos : Descuento[]):
         pass
