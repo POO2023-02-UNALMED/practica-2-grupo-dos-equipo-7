@@ -775,7 +775,7 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         numMaletas = newData["maletas"]
         
         if (numMaletas == 0):
-            self.ventana5(boleto)
+            self.ventana5(boleto, newData["indexBoleto"])
         else:
             # Inputs de maletas
             criterios = [f"Maleta #{i}" for i in range(1, numMaletas + 1)]
