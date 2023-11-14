@@ -694,8 +694,10 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         )
         nextFreeRow = resultFrame.nextFreeRow
         
-        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow, 0)
-        getBotonContinuar(resultFrame.marco, lambda: confirmarReasignacion(boleto, indexBoleto), nextFreeRow, 1)
+        separador = getSeparador(resultFrame.marco, nextFreeRow, 2, 5)
+        
+        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+        getBotonContinuar(resultFrame.marco, lambda: confirmarReasignacion(boleto, indexBoleto), nextFreeRow+1, 1)
         pass
     
     def ventana3(self, boleto):
