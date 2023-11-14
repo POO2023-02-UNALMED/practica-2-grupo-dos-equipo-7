@@ -15,7 +15,8 @@ class Usuario:
         self.dinero -= boleto.getValor()
         self.millas += boleto.getValor() * 0.1
         self.historial.append(boleto)
-        boleto.setStatus("Comprado")
+        boleto.status = "Comprado"
+        boleto.asignarAsiento(boleto.asiento)
 
     def comprarBoletoReasig(self, boleto):
         self.dinero -= boleto.getValor()

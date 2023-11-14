@@ -587,15 +587,14 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         self.clearZone()
         
         def callback(formData):  
-            maletas = [Maleta(index+1, float(formData[key])) for index, key in enumerate(formData.keys())]
-            v = 0
+            maletas = [ 
+                Maleta( index+1, float(formData[key]), boleto )
+                for index, key in enumerate(formData.keys())
+            ]
             
-            for maleta in maletas:
-                maleta.asignarBoleto(boleto)
-                boleto.addEquipaje(maleta)
-                v += maleta.calcularPrecio()
-                
-            alertInfo("Previsualizacion del precio", f"Precio a pagar en total por {numMaletas} maletas: ${v}, Total: {boleto.getValor()}")
+            costoEquipaje = sum(maleta.calcularPrecio() for maleta in maletas)
+            
+            alertInfo("Previsualizacion del precio", f"Precio a pagar en total por {numMaletas} maletas: ${costoEquipaje}, Total: {boleto.valor}")
             
             # Crea boton de siguiente y uno de cancelar  
             getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+1, 0)
@@ -606,7 +605,6 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         boleto = Boleto(
             prevData["Origen"],
             prevData["Destino"],
-            newData["vuelo"],
             newData["asiento"],
             user
         )
@@ -617,7 +615,11 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
             self.ventana3(boleto)
         else:
             # Inputs de maletas
-            criterios = [f"Maleta #{i}" for i in range(1, numMaletas + 1)]
+            criterios = [
+                f"Maleta #{i}"
+                for i in range(1, numMaletas + 1)
+            ]
+            
             formElement = FieldFrame(
                 "Maleta",
                 criterios,
@@ -636,9 +638,9 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         def confirmarCompra():
             ok = alertConfirmacion("Comprar vuelo?")
             
-            if (user.getDinero() >= boleto.getValor()):
+            if (user.dinero >= boleto.valor):
                 user.comprarBoleto(boleto)
-                boleto.asignarAsiento(boleto.getAsiento())
+                
                 alertInfo("Compra exitosa", "Boleto comprado con exito, gracias por su atencion")
                 self.cancel()
             else:
@@ -693,7 +695,7 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         
         vuelosDisponibles = ResultFrame(
             "Vuelos disponibles",
-            {f"Vuelo #{i+1}" : vuelo for i, vuelo in enumerate(vuelos) },
+            { f"Vuelo #{i+1}" : vuelo for i, vuelo in enumerate(vuelos) },
             self.zonaForm
         )
         nextFreeRow = vuelosDisponibles.nextFreeRow
@@ -737,15 +739,14 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         self.clearZone()
         
         def callback(formData):  
-            maletas = [Maleta(index+1, float(formData[key])) for index, key in enumerate(formData.keys())]
-            v = 0
+            maletas = [ 
+                Maleta( index+1, float(formData[key]), boleto )
+                for index, key in enumerate(formData.keys())
+            ]
             
-            for maleta in maletas:
-                maleta.asignarBoleto(boleto)
-                boleto.addEquipaje(maleta)
-                v += maleta.calcularPrecio()
-                
-            alertInfo("Previsualizacion del precio", f"Precio a pagar en total por {numMaletas} maletas: ${v}, Total: {boleto.getValor()}")
+            costoEquipaje = sum(maleta.calcularPrecio() for maleta in maletas)
+            
+            alertInfo("Previsualizacion del precio", f"Precio a pagar en total por {numMaletas} maletas: ${costoEquipaje}, Total: {boleto.valor}")
             
             # Crea boton de siguiente y uno de cancelar  
             getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+1, 0)
@@ -756,7 +757,6 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         boleto = Boleto(
             prevData["Origen"],
             prevData["Destino"],
-            newData["vuelo"],
             newData["asiento"],
             user
         )
@@ -764,7 +764,7 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         numMaletas = newData["maletas"]
         
         if (numMaletas == 0):
-            self.ventana3(boleto)
+            self.ventana5(boleto)
         else:
             # Inputs de maletas
             criterios = [f"Maleta #{i}" for i in range(1, numMaletas + 1)]
@@ -786,9 +786,9 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         def confirmarCompra():
             ok = alertConfirmacion("Comprar vuelo?")
             
-            if (user.getDinero() >= boleto.getValor()):
+            if (user.dinero >= boleto.valor):
                 user.comprarBoleto(boleto)
-                boleto.asignarAsiento(boleto.getAsiento())
+                
                 alertInfo("Compra exitosa", "Boleto comprado con exito, gracias por su atencion")
                 self.cancel()
             else:

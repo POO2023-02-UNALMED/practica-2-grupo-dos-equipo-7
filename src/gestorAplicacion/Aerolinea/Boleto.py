@@ -50,18 +50,18 @@ class Boleto:
 
     def setAsiento(self, asiento):
         self.asiento = asiento
-        self.valorInicial = asiento.getValor()
+        self.valorInicial = asiento.valorBase
         self.valor = self.valorInicial
-        self.tipo = asiento.getTipo()
+        self.tipo = asiento.tipo
 
     # Actualiza un asiento asignado a un boleto a otro asiento, va de la mano con
     # la funcionalidad reasignar asiento
 
     def upgradeAsiento(self, prevAsiento, newAsiento):
         self.asiento = newAsiento
-        self.valorInicial = newAsiento.getValor()
+        self.valorInicial = newAsiento.valorBase
         self.valor = self.valorInicial
-        self.tipo = newAsiento.getTipo()
+        self.tipo = newAsiento.tipo
 
         temp = 0
         for maleta in self.equipaje:

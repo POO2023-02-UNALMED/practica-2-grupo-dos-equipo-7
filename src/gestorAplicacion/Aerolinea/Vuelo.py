@@ -15,15 +15,12 @@ class Vuelo:
 
     @staticmethod
     def generarVuelos(cantidad, origen, destino):
-        vuelos = []
-        for x in range(0, cantidad):
-            aerolinea = "Nn"
-            id = str(x)
-            hSalida = Vuelo.generarHora()
-            hLlegada = "Nn"
-            vuelos.append(
-                Vuelo(origen, destino, aerolinea, id, hSalida, hLlegada))
-        return vuelos
+        return [ Vuelo(
+            origen,
+            destino,
+            Vuelo.generarHora(),
+            i
+        ) for i in range(cantidad) ]
 
     @staticmethod
     def generarHora():
@@ -45,7 +42,7 @@ class Vuelo:
         for i in range(0, premium):
             self.asientos.append(Asiento("Vip", i, (base * 1.25)))
 
-        for j in range(0, economicos):
+        for j in range(premium, economicos + premium):
             self.asientos.append(Asiento("Economico", j, base))
     
         return self.asientos
