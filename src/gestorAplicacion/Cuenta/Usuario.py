@@ -1,4 +1,5 @@
 class Usuario:
+    Usuarios : Usuario[] = []
 
     def __init__(self, nombre, mail, dinero):
         
@@ -10,6 +11,7 @@ class Usuario:
 
         self.historial = []
         self.descuentos = []
+        Usuario.Usuarios.add(self)
         
     def comprarBoleto(self, boleto):
         self.dinero -= boleto.getValor()
