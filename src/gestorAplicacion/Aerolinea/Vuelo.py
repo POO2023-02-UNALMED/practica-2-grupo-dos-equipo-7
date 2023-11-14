@@ -46,7 +46,9 @@ class Vuelo:
 
         for j in range(0, economicos):
             self.asientos.append(Asiento("Economico", j, base))
-
+    
+        return self.asientos
+    
     def getOrigenDestino(self):
         return f"{self.ORIGEN} - {self.DESTINO}"
 

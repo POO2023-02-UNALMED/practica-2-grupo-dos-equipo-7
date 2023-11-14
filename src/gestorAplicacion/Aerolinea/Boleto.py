@@ -109,8 +109,14 @@ class Boleto:
         self.updateValor()
 
     def getInfo(self):
-
-        return f"Precio: ${self.valor}, Tipo: {self.tipo}, Origen-Destino: {self.getOrigenDestino()}, Numero de asiento: {self.asiento.getN_silla()}, Estado: {self.status}, N. Maletas: {len(self.equipaje)}, Servicios contratados: {len(self.serviciosContratados)}"
+        return {
+            "Origen-Destino" : self.getOrigenDestino(),
+            "Precio:" : self.valor,
+            "Tipo asiento" : self.tipo,
+            "Numero de asiento" : self.asiento.getN_silla(),
+            "Cantidad maletas" : len(self.equipaje),
+        }
+    #f"Precio: ${self.valor}, Tipo: {self.tipo}, Origen-Destino: {self.getOrigenDestino()}, Numero de asiento: {self.asiento.getN_silla()}, Estado: {self.status}, N. Maletas: {len(self.equipaje)}, Servicios contratados: {len(self.serviciosContratados)}"
 
     # ...Metodos def get yself set...
 

@@ -26,6 +26,9 @@ class Asiento:
 
     def getInfo(self):
         return f"{self.n_silla}. Tipo: {self.tipo}, Valor: ${self.valor}"
+    
+    def __str__(self):
+        return self.getInfo()
 
     # Métodos de acceso (Getters y Setters)
 

@@ -264,9 +264,12 @@ def comprarVuelo(user):
             alto = inputI()
             # Agregar una maleta al boleto y mostrar el nuevo valor del boleto.
             maleta = Maleta(c, peso, largo, ancho, alto)
+            
             if (maleta.verificarRestricciones()):
+                Maleta(c, peso, largo, ancho, alto)
                 maleta.asignarBoleto(boleto)
                 boleto.addEquipaje(maleta)
+                
                 cMaletas += 1
                 separador()
                 print(negrita(colorTexto("Nuevo valor del boleto:", "morado")))

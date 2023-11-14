@@ -4,6 +4,30 @@ import tkinter.messagebox as messagebox
 from PIL import ImageTk, Image
 from uiMain.appMisc.misc import *
 
+# ------------------------------------
+# Backend (TEMPORAL)
+
+from gestorAplicacion.Aerolinea.Asiento import Asiento
+from gestorAplicacion.Aerolinea.Boleto import Boleto
+from gestorAplicacion.Aerolinea.Maleta import Maleta
+from gestorAplicacion.Aerolinea.Pasajero import Pasajero
+from gestorAplicacion.Aerolinea.RestriccionesMaleta import RestriccionesMaleta
+from gestorAplicacion.Aerolinea.ServiciosEspeciales import ServiciosEspeciales
+from gestorAplicacion.Aerolinea.Vuelo import Vuelo
+
+from gestorAplicacion.Cuenta.Usuario import Usuario
+from gestorAplicacion.Cuenta.GestionUsuario import GestionUsuario
+
+from gestorAplicacion.Descuentos.Descuento import Descuento
+from gestorAplicacion.Descuentos.descuentoMaleta import descuentoMaleta
+from gestorAplicacion.Descuentos.descuentoVuelo import descuentoVuelo
+from gestorAplicacion.Descuentos.upgradeAsiento import upgradeAsiento
+
+from gestorAplicacion.Mascotas.Animal import Animal
+from gestorAplicacion.Mascotas.Perro import Perro
+from gestorAplicacion.Mascotas.Gato import Gato
+# ------------------------------------
+
 # Implementacion modular para el manejo de contenido en la apliaccion
 
 App = tk.Tk()
@@ -58,14 +82,14 @@ handlersProcesoConsulta = {
 class FieldFrame(tk.Frame):
     """
     crea un nuevo objeto de tipo FieldFrame
-    @arg tituloCriterios titulo para la columna "Criterio"
+    @arg tituloResultados titulo para la columna "Criterio"
     @arg criterios array con los nombres de los criterios
     @arg tituloValores titulo para la columna "valor"
     @arg valores array con los valores iniciales; Si None, no hay valores iniciales
     @arg habilitado array con los campos no-editables por el usuario; Si None, todos son editables
     """
 
-    def __init__(self, tituloCriterios, criterios, tituloValores, valores, habilitado, parent, callback = None):
+    def __init__(self, tituloResultados, criterios, tituloValores, valores, habilitado, parent, callback = None):
         
         #Inicializar el diccionario que guardara los datos
         self.parent = parent
@@ -81,7 +105,7 @@ class FieldFrame(tk.Frame):
         parent.grid_columnconfigure(0, weight=1)
 
         #Agregar el titulo de los criterios
-        elementoTituloCriterio = tk.Label(marco, text=tituloCriterios)
+        elementoTituloCriterio = tk.Label(marco, text=tituloResultados)
         elementoTituloCriterio.grid(row=0, column=0, padx=5, pady=5)
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
@@ -160,6 +184,48 @@ class FieldFrame(tk.Frame):
         pass
 
 class ResultFrame(tk.Frame):
+
+    def __init__(self, tituloResultados, datos, parent):
+        
+        #Inicializar el diccionario que guardara los datos
+        self.parent = parent
+        
+        #Crea el marco donde van a estar los elementos
+        marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
+        marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        parent.grid_rowconfigure(0, weight=1)
+        parent.grid_columnconfigure(0, weight=1)
+
+        #Agregar el titulo de los criterios
+        elementoTituloResultados = tk.Label(marco, text=tituloResultados)
+        elementoTituloResultados.grid(row=0, column=0, padx=5, pady=5)
+        marco.grid_rowconfigure(0, weight=1)
+        marco.grid_columnconfigure(0, weight=1)
+
+        #Por cada criterio agregarlos y sus respectivas entradas
+        for index, key in enumerate(datos.keys()):
+        
+            #Crea el criterio y su valor y lo guarda
+            elementoKey = tk.Label(marco, text=key)
+            elementoKey.grid(row=index+1, column=0, padx=5, pady=5)
+            marco.grid_rowconfigure(index+1, weight=1)
+            marco.grid_columnconfigure(0, weight=1)
+
+            elementoValue = tk.Label(marco, text=datos[key])
+            elementoValue.grid(row=index+1, column=1, padx=5, pady=5)
+            marco.grid_rowconfigure(index+1, weight=1)
+            marco.grid_columnconfigure(1, weight=1)
+
+        self.nextFreeRow = index + 2
+        self.marco = marco
+        pass
+    
+    def delete(self):
+        self.marco.destroy()
+        pass
+
+
+class ResultFrameSimple(tk.Frame):
 
     def __init__(self, titulo, resultados, parent):
         
@@ -436,7 +502,7 @@ class VentanaBaseFuncionalidad(tk.Frame):
         self.ventana1()
         pass
     
-    def delete(self):
+    def clearZone(self):
         self.zonaForm.destroy()
         self.zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
         self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
@@ -447,24 +513,44 @@ class VentanaBaseFuncionalidad(tk.Frame):
         pass
     
 class ComprarVuelo(VentanaBaseFuncionalidad):
+    
     def ventana1(self):
         
-        def callback(data):
-            #ResultFrame("Completado", [])
+        def callback(formData):
             
-            dropDown = ttk.Combobox(
-                formElement.marco,
-                state = "readonly",
-                values = [data[criterios[0]], data[criterios[1]]] # Genera los vuelos con origen y destino 
-            )
-            dropDown.grid(row=nextFreeRow, column=0, padx=15, pady=15)
+            vuelos = Vuelo.generarVuelos(5, formData[criterios[0]], formData[criterios[1]]) #Genera los vuelos 
+            asientos = (vuelos[0]).generarAsientos(3, 5, 100)
             
+            def selecAsientos(event):
+                vuelo = vuelos[dropDownVuelos.current()] # Scope?
+                asientos = vuelo.generarAsientos(3, 5, 100)
+                dropDownAsientos["values"] = asientos
+                pass
+
+            # Seleccionar vuelo y asiento
+            labelVuelo = tk.Label(formElement.marco, text = "Vuelo: ")
+            labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)
+            dropDownVuelos = ttk.Combobox(formElement.marco,state = "readonly", values = vuelos )
+            dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
+            dropDownVuelos.bind("<<ComboboxSelected>>", selecAsientos)
+            
+            labelAsiento = tk.Label(formElement.marco, text = "Asiento: ")
+            labelAsiento.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
+            dropDownAsientos = ttk.Combobox(formElement.marco,state = "readonly",values = asientos )
+            dropDownAsientos.grid(row=nextFreeRow + 1, column=1, padx=15, pady=15)
+
             # Crea boton de siguiente y uno de cancelar  
-            getBotonCancelar(formElement.marco, lambda: self.delete(), nextFreeRow+1, 0)
-            getBotonContinuar(formElement.marco, lambda: self.ventana2("vuelo"), nextFreeRow+1, 1)
+            getBotonCancelar(formElement.marco, lambda: self.clearZone(), nextFreeRow+2, 0)
+            getBotonContinuar(formElement.marco, lambda: self.ventana2(
+                {
+                    "vuelo": vuelos[dropDownVuelos.current()],
+                    "asiento": asientos[dropDownAsientos.current()]
+                }, formData
+            ),nextFreeRow+2, 1)
+            
             pass
         
-        criterios = ["Origen", "Destino"]
+        criterios = ["Origen", "Destino", "Cantidad de maletas"]
         formElement = FieldFrame(
             "Datos del Vuelo",
             criterios,
@@ -476,8 +562,62 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         nextFreeRow = formElement.nextFreeRow
         pass
     
-    def ventana2(self, vuelo):
+    def ventana2(self, newData, prevData):
+        
+        def callback(formData):
+            
+            # Agregar las maletas
+            maletas = [Maleta(index+1, formData[key], 2, 2, 2) for index, key in enumerate(formData.keys())]
+            #maleta.asignarBoleto(boleto)
+            #boleto.addEquipaje(maleta)
+
+            alertInfo("Previsualizacion del precio", f"Precio a pagar en total por {numMaletas} maletas: ${1}, Total: {2}")
+            
+            # Crea boton de siguiente y uno de cancelar  
+            getBotonCancelar(formElement.marco, lambda: self.clearZone(), nextFreeRow+1, 0)
+            getBotonContinuar(formElement.marco, lambda: self.ventana3(newData), nextFreeRow+1, 1)
+            pass
+        
+        
+        self.clearZone()
+        numMaletas = int(prevData["Cantidad de maletas"])
+        
+        if (numMaletas == 0):
+            
+            self.ventana3(1, 2)
+        
+        else:
+            # Inputs de maletas
+            criterios = [f"Maleta #{i}" for i in range(1, numMaletas + 1)]
+            formElement = FieldFrame(
+                "Maleta",
+                criterios,
+                "Peso de la maleta",
+                criterios,
+                None, self.zonaForm,
+                callback = callback
+            )
+            nextFreeRow = formElement.nextFreeRow
         pass
+
+        
+    def ventana3(self, newData, prevData):
+        # Se muestra info del vuelo y previsualizacion de datos y se pide confirmacion
+        def confirmarCompra(allData):
+            pass
+        
+        resultFrame = ResultFrame(
+            "Detalles del boleto",
+            1, #boleto.getInfo()
+            self.zonaForm
+        )
+        nextFreeRow = resultFrame.nextFreeRow
+        
+        getBotonCancelar(resultFrame.marco, lambda: self.clearZone(), nextFreeRow+1, 0)
+        getBotonContinuar(resultFrame.marco, lambda: confirmarCompra(1), nextFreeRow+1, 1)
+            
+        pass
+    
 
 class ReasignarVuelo(VentanaBaseFuncionalidad):
     def ventana1(self):
