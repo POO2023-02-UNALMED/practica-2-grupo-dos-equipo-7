@@ -7,7 +7,6 @@ from gestorAplicacion.Aerolinea.ServiciosEspeciales import ServiciosEspeciales
 from gestorAplicacion.Aerolinea.Vuelo import Vuelo
 
 from gestorAplicacion.Cuenta.Usuario import Usuario
-from gestorAplicacion.Cuenta.GestionUsuario import GestionUsuario
 
 from gestorAplicacion.Descuentos.Descuento import Descuento
 from gestorAplicacion.Descuentos.descuentoMaleta import descuentoMaleta

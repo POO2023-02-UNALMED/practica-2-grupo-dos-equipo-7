@@ -1,17 +1,17 @@
 from .Asiento import Asiento
+import random
+
 
 class Vuelo:
 
-    def __init__(self, origen, destino, aerolinea, id, tiempoSalida, tiempoLlegada):
-        self.asientos = []
-        self.equipajes = []
-
-        self.AEROLINEA = aerolinea
-        self.ID = id
-        self.horarioSalida = tiempoSalida
-        self.horarioLlegada = tiempoLlegada
+    def __init__(self, origen, destino, horaSalida, id):
+        
+        self.ORIGEN = origen        
         self.DESTINO = destino
-        self.ORIGEN = origen
+        self.ID = id
+        self.horaSalida = horaSalida
+        
+        self.asientos = []
 
     @staticmethod
     def generarVuelos(cantidad, origen, destino):
@@ -37,8 +37,9 @@ class Vuelo:
             "02:30 PM",
             "03:45 PM",
             "04:00 PM",
-            "05:15 PM"]
-        return horas[1]  # implmeentar con random
+            "05:15 PM"
+        ]
+        return random.choice(horas)
 
     def generarAsientos(self, economicos,  premium, base):
         for i in range(0, premium):
@@ -55,41 +56,5 @@ class Vuelo:
     def getInfo(self):
         return f"Id: {self.ID}, Origen: {self.ORIGEN} , Destino: {self.DESTINO} , Hora salida: {self.horarioSalida}"
 
-    def getAsientos(self):
-        return self.asientos
-
-    def setAsientos(self, asientos):
-        self.asientos = asientos
-
-    def getAEROLINEA(self):
-        return self.AEROLINEA
-
-    def getID(self):
-        return self.ID
-
-    def getHorarioSalida(self):
-        return self.horarioSalida
-
-    def setHorarioSalida(self, horarioSalida):
-        self.horarioSalida = horarioSalida
-
-    def getHorarioLlegada(self):
-        return self.horarioLlegada
-
-    def setHorarioLlegada(self, horarioLlegada):
-        self.horarioLlegada = horarioLlegada
-
-    def getDESTINO(self):
-        return self.DESTINO
-
-    def getORIGEN(self):
-        return self.ORIGEN
-
-    def getEquipajes(self):
-        return self.equipajes
-
-    def setEquipajes(self, equipajes):
-        self.equipajes = equipajes
-        
     def __str__(self):
         return self.getInfo()

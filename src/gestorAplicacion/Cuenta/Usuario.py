@@ -1,22 +1,21 @@
 class Usuario:
 
-    def __init__(self, nombre, mail, contrasena, id):
-        self.dinero = 1000
+    def __init__(self, nombre, mail, dinero):
+        
+        self.nombre = nombre
+        self.mail = mail
+        
+        self.dinero = dinero
         self.millas = 100
 
         self.historial = []
         self.descuentos = []
-        self.nombre = nombre
-        self.id = id
-        self.mail = mail
-        self.contrasena = contrasena
-
+        
     def comprarBoleto(self, boleto):
         self.dinero -= boleto.getValor()
         self.millas += boleto.getValor() * 0.1
         self.historial.append(boleto)
         boleto.setStatus("Comprado")
-
 
     def comprarBoletoReasig(self, boleto):
         self.dinero -= boleto.getValor()
@@ -40,12 +39,6 @@ class Usuario:
             "Descuentos canjeados": len(self.descuentos)
         }
         
-    def verificarContrasena(self, contrasena):
-        if (self.contrasena == (contrasena)):
-            return True
-        else:
-            return False
-
     def depositarDinero(self, valor):
         self.dinero += valor
 
@@ -58,50 +51,6 @@ class Usuario:
     def descontarMillas(self, valor):
         self.millas -= valor
 
-    def getDinero(self):
-        return self.dinero
-
-    def setDinero(self, dinero):
-        self.dinero = dinero
-
-    def getId(self):
-        return self.id
-
-    def setId(self, id):
-        self.id = id
-
-    def getNombre(self):
-        return self.nombre
-
-    def setNombre(self, nombre):
-        self.nombre = nombre
-
-    def getMillas(self):
-        return self.millas
-
-    def setMillas(self, millas):
-        self.millas = millas
-
     def getHistorial(self):
         return self.historial
 
-    def setHistorial(self, historial):
-        self.historial = historial
-
-    def getDescuentos(self):
-        return self.descuentos
-
-    def setDescuentos(self, descuentos):
-        self.descuentos = descuentos
-
-    def getMail(self):
-        return self.mail
-
-    def setMail(self, mail):
-        self.mail = mail
-
-    def getContrasena(self):
-        return self.contrasena
-
-    def setContrasena(self, contrasena):
-        self.contrasena = contrasena

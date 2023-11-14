@@ -1,17 +1,17 @@
-from .Pasajero import Pasajero
 from .ServiciosEspeciales import ServiciosEspeciales
 
 class Boleto:
 
     cont = 0
 
-    def __init__(self, origen, destino, vuelo, asiento, usuario):
+    def __init__(self, origen, destino, asiento, usuario):
         Boleto.cont += 1
         
         self.origen = origen
         self.destino = destino
+        
         self.user = usuario
-        self.vuelo = vuelo
+        
         self.id = Boleto.cont
         
         self.mascotas = []
@@ -120,102 +120,3 @@ class Boleto:
             "Estado": self.status,
             "Servicios contratados": len(self.serviciosContratados)
         }
-    
-
-    # ...Metodos def get yself set...
-
-    def getId(self):
-        return self.id
-
-    def setId(self, id):
-        self.id = id
-
-    def getTipo(self):
-        return self.tipo
-
-    def setTipo(self, tipo):
-        self.tipo = tipo
-
-    def getUser(self):
-        return self.user
-
-    def setUser(self, user):
-        self.user = user
-
-    def getStatus(self):
-        return self.status
-
-    def setStatus(self, status):
-        self.status = status
-
-    def getOrigen(self):
-        return self.origen
-
-    def setOrigen(self, origen):
-        self.origen = origen
-
-    def getDestino(self):
-        return self.destino
-
-    def setDestino(self, destino):
-        self.destino = destino
-
-    def getValor(self):
-        return self.valor
-
-    def setValor(self, valor):
-        self.valor = valor
-
-    def getEquipaje(self):
-        return self.equipaje
-
-    def setEquipaje(self, equipaje):
-        self.equipaje = equipaje
-
-    def getAsiento(self):
-        return self.asiento
-
-    def getPasajero(self):
-        return self.pasajero
-
-    def setPasajero(self, pasajero):
-        self.pasajero = pasajero
-
-    def getValorInicial(self):
-        return self.valorInicial
-
-    def setValorInicial(self, valorInicial):
-        self.valorInicial = valorInicial
-
-    def getValorEquipaje(self):
-        return self.valorEquipaje
-
-    def setValorEquipaje(self, valorEquipaje):
-        self.valorEquipaje = valorEquipaje
-
-    def getVuelo(self):
-        return self.vuelo
-
-    def setVuelo(self, vuelo):
-        self.vuelo = vuelo
-
-    def getCheckInRealizado(self):
-        return self.checkInRealizado
-
-    def setCheckInRealizado(self, checkInRealizado):
-        self.checkInRealizado = checkInRealizado
-
-    def getServiciosContratados(self):
-        return self.serviciosContratados
-
-    def setServiciosContratados(self, serviciosContratados):
-        self.serviciosContratados = serviciosContratados
-
-    def getMascotasEnCabina(self):
-        return self.cantidadMascotasCabina
-
-    def getMascotasEnBodega(self):
-        return self.cantidadMascotasBodega
-
-    def getMascotas(self):
-        return self.mascotas
