@@ -32,8 +32,14 @@ class Usuario:
         self.millas -= (boleto.getValor() * 0.1)
 
     def getInfo(self):
-        return f"Usuario: {self.nombre} // ID - {self.id}\nBalance: {self.dinero}\nMillas: {self.millas}\nVuelos comprados: {len(self.historial)}\nDescuentos canjeados: {len(self.descuentos)}"
-
+        return {
+            "Usuario": self.nombre,
+            "Balance": self.dinero,
+            "Millas": self.millas,
+            "Vuelos comprados": len(self.historial),
+            "Descuentos canjeados": len(self.descuentos)
+        }
+        
     def verificarContrasena(self, contrasena):
         if (self.contrasena == (contrasena)):
             return True

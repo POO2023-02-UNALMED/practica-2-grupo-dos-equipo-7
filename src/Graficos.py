@@ -615,7 +615,7 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         self.clearZone()
         # Se muestra info del vuelo y previsualizacion de datos y se pide confirmacion
         def confirmarCompra():
-            result = alertConfirmacion("Comprar vuelo?")
+            ok = alertConfirmacion("Comprar vuelo?")
             
             if (user.getDinero() >= boleto.getValor()):
                 user.comprarBoleto(boleto)
@@ -623,7 +623,7 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
                 alertInfo("Compra exitosa", "Boleto comprado con exito, gracias por su atencion")
                 self.cancel()
             else:
-                ok = alertWarn("Dinero Insuficiente", "Error, dinero en la cuenta insuficiente, compra cancelada")
+                alertWarn("Dinero Insuficiente", "Error, dinero en la cuenta insuficiente, compra cancelada")
                 self.cancel()
                 pass
             pass
@@ -640,20 +640,55 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         pass
 
 class ReasignarVuelo(VentanaBaseFuncionalidad):
-    def ventana1(self):
-        
-        pass
+
+    pass
 
 class CancelarVuelo(VentanaBaseFuncionalidad):
+
     def ventana1(self):
-        formElement = FieldFrame(
-            "Datos del Vuelo",
-            [],
-            "Ingrese los datos",
-            [],
-            None, self.zonaForm
+        
+        historialBoletos = user.getHistorial
+        vuelos = [boleto.vuelo for boleto in historialBoletos]
+        
+        infoVuelos = ResultFrame(
+            "Historial de vuelos",
+            {f"Vuelo #{i+1}" : vuelo for i, vuelo in enumerate(vuelos) },
+            self.zonaForm
         )
+        nextFreeRow = infoVuelos.nextFreeRow
+
+        labelVuelo = tk.Label(infoVuelos.marco, text = "Vuelo:")
+        labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)
+        dropDownVuelos = ttk.Combobox(infoVuelos.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(vuelos))] )
+        dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
+        
+        getBotonCancelar(infoVuelos.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+        getBotonContinuar(infoVuelos.marco, lambda: self.ventana2(
+            historialBoletos[dropDownVuelos.current()]
+        ), nextFreeRow+1, 1)
         pass
+
+    def ventana2(self, boleto):
+        self.clearZone()
+        
+        def confirmarCancelar(boleto):
+            result = alertConfirmacion("Esta seguro de cancelar el vuelo? se regresara solo un 50% de su valor original")
+            ok = alertInfo("Proceso exitoso", "Boleto cancelado con exito, se han regresado $1 a su cuenta")
+            self.cancel()
+            pass
+        
+        resultFrame = ResultFrame(
+            "Detalles del boleto",
+            boleto.getInfo(),
+            self.zonaForm
+        )
+        nextFreeRow = resultFrame.nextFreeRow
+        
+        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+        getBotonContinuar(resultFrame.marco, lambda: confirmarCancelar(), nextFreeRow+1, 1)
+        pass
+
+
 
 class CheckIn(VentanaBaseFuncionalidad):
     def ventana1(self):
@@ -668,13 +703,16 @@ class CheckIn(VentanaBaseFuncionalidad):
 
 class GestionUsuario(VentanaBaseFuncionalidad):
     def ventana1(self):
-        formElement = FieldFrame(
-            "Datos del Vuelo",
-            [],
-            "Ingrese los datos",
-            [],
-            None, self.zonaForm
+        
+        infoCuenta = ResultFrame(
+            "Detalles del boleto",
+            user.getInfo(),
+            self.zonaForm
         )
+        nextFreeRow = infoCuenta.nextFreeRow
+        
+        getBotonCancelar(infoCuenta.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+        getBotonContinuar(infoCuenta.marco, lambda: 1, nextFreeRow+1, 1)
         pass
     
 
