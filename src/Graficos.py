@@ -10,7 +10,6 @@ from uiMain.appMisc.misc import *
 from gestorAplicacion.Aerolinea.Asiento import Asiento
 from gestorAplicacion.Aerolinea.Boleto import Boleto
 from gestorAplicacion.Aerolinea.Maleta import Maleta
-from gestorAplicacion.Aerolinea.Pasajero import Pasajero
 from gestorAplicacion.Aerolinea.RestriccionesMaleta import RestriccionesMaleta
 from gestorAplicacion.Aerolinea.ServiciosEspeciales import ServiciosEspeciales
 from gestorAplicacion.Aerolinea.Vuelo import Vuelo
@@ -849,6 +848,19 @@ class CheckIn(VentanaBaseFuncionalidad):
         pass
 
 class GestionUsuario(VentanaBaseFuncionalidad):
+    
+    def ventanaHistorial(self):
+        pass
+    
+    
+    def ventanaCanjearMillas(self):
+        pass
+    
+    
+    def ventanaDepositar(self):
+        pass
+    
+    
     def ventana1(self):
         
         infoCuenta = ResultFrame(
@@ -858,11 +870,23 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         )
         nextFreeRow = infoCuenta.nextFreeRow
         
-        getBotonCancelar(infoCuenta.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-        getBotonContinuar(infoCuenta.marco, lambda: 1, nextFreeRow+1, 1)
+        separador = getSeparador(self.zonaForm, nextFreeRow, 0, 5)
+        
+        # Ver historial de vuelos
+        botonHistorial = tk.Button(self.zonaForm, text="Ver historial de vuelos", bg="white", borderwidth=0, command = self.ventanaHistorial)
+        botonHistorial.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
+        
+        # Canjear Millas
+        botonCanjearMillas = tk.Button(self.zonaForm, text="Canjear millas", bg="white", borderwidth=0, command = self.ventanaCanjearMillas)
+        botonCanjearMillas.grid(row=nextFreeRow+1, column=1, padx=5, pady=5)
+        
+        # Depositar dinero
+        botonDespositar = tk.Button(self.zonaForm, text="Depositar dinero", bg="white", borderwidth=0, command = self.ventanaDepositar)
+        botonDespositar.grid(row=nextFreeRow+1, column=2, padx=5, pady=5) 
         pass
     
-
+    
+    
 ventanaInicial = VentanaInicial()
 ventanaInicial.generar()
 
