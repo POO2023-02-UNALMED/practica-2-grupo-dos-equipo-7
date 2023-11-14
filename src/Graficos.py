@@ -724,8 +724,8 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         dropDownMaletas.grid(row=nextFreeRow+2, column=1, padx=15, pady=15)
         
         # Crea boton de siguiente y uno de cancelar  
-        getBotonCancelar(nextFreeRow.marco, lambda: self.cancel(), nextFreeRow+3, 0)
-        getBotonContinuar(nextFreeRow.marco, lambda: self.ventana2(
+        getBotonCancelar(vuelosDisponibles.marco, lambda: self.cancel(), nextFreeRow+3, 0)
+        getBotonContinuar(vuelosDisponibles.marco, lambda: self.ventana4(
             {
                 "vuelo": vuelos[dropDownVuelos.current()],
                 "asiento": asientos[dropDownAsientos.current()],
@@ -751,7 +751,7 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
             
             # Crea boton de siguiente y uno de cancelar  
             getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-            getBotonContinuar(formElement.marco, lambda: self.ventana3(boleto), nextFreeRow+1, 1)
+            getBotonContinuar(formElement.marco, lambda: self.ventana5(boleto), nextFreeRow+1, 1)
             pass
         
         
