@@ -31,7 +31,7 @@ App.title("Ventana de Inicio")
 App.geometry("800x600")
 
 global user
-user = Usuario("Juan", "jlargob", "123", "1")
+user = Usuario("Largod </>", "largod@unal.edu.co", 1000)
 
 handlersProcesoConsulta = {
     "Comprar vuelo": lambda mainMenu: ComprarVuelo().generar(
@@ -870,19 +870,30 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         )
         nextFreeRow = infoCuenta.nextFreeRow
         
-        separador = getSeparador(self.zonaForm, nextFreeRow, 0, 5)
+        sep = getSeparador(infoCuenta.marco, nextFreeRow, 3, 5)
         
-        # Ver historial de vuelos
-        botonHistorial = tk.Button(self.zonaForm, text="Ver historial de vuelos", bg="white", borderwidth=0, command = self.ventanaHistorial)
-        botonHistorial.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
+        #Crea el criterio y su valor y lo guarda
+        elementoCriterio = tk.Label(infoCuenta.marco, text="Depositar")
+        elementoCriterio.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
         
-        # Canjear Millas
-        botonCanjearMillas = tk.Button(self.zonaForm, text="Canjear millas", bg="white", borderwidth=0, command = self.ventanaCanjearMillas)
-        botonCanjearMillas.grid(row=nextFreeRow+1, column=1, padx=5, pady=5)
+        elementoInput = tk.Entry(infoCuenta.marco)
+        elementoInput.grid(row=nextFreeRow+1, column=1, padx=5, pady=5)
         
         # Depositar dinero
-        botonDespositar = tk.Button(self.zonaForm, text="Depositar dinero", bg="white", borderwidth=0, command = self.ventanaDepositar)
-        botonDespositar.grid(row=nextFreeRow+1, column=2, padx=5, pady=5) 
+        botonDespositar = tk.Button(infoCuenta.marco, text="Depositar dinero", bg="white", borderwidth=0, command = self.ventanaDepositar)
+        botonDespositar.grid(row=nextFreeRow+2, column=1, padx=5, pady=5) 
+        
+        sep2 = getSeparador(infoCuenta.marco, nextFreeRow+3, 2, 5)
+            
+        # Ver historial de vuelos
+        botonHistorial = tk.Button(infoCuenta.marco, text="Ver historial de vuelos", bg="white", borderwidth=0, command = self.ventanaHistorial)
+        botonHistorial.grid(row=nextFreeRow+4, column=0, padx=5, pady=5)
+        
+        # Canjear Millas
+        botonCanjearMillas = tk.Button(infoCuenta.marco, text="Canjear millas", bg="white", borderwidth=0, command = self.ventanaCanjearMillas)
+        botonCanjearMillas.grid(row=nextFreeRow+4, column=1, padx=5, pady=5)
+        
+        
         pass
     
     
