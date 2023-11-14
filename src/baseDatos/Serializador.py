@@ -1,12 +1,12 @@
 from pickle import dump
 
-from Boleto import Boleto
+from gestorAplicacion.Aerolinia.Boleto import Boleto
 
 
 class Serializador:
     def __init__(self) :
         return
-
+ 
     
 
     # antes de cada parte tengo que revisar primero que los atributos con objetos esten asignados
@@ -26,7 +26,7 @@ class Serializador:
 
 
     def serializarUsuario(self,usuario : Usuario ):
-        with open("mainUser.txt","wb") as file:
+        with open("baseDatos/temp/mainUser.txt","wb") as file:
             serializacion = pickle.dump(usuario, file)
         serializarDescuento(usuario.getDescuentos())
         serializarBoleto(Usuario.getHistorial())
