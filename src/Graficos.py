@@ -507,6 +507,8 @@ class VentanaBaseFuncionalidad(tk.Frame):
         dropDownVuelos = ttk.Combobox(infoVuelos.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(vuelos))] )
         dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
         
+        separador = getSeparador(infoVuelos.marco, nextFreeRow, 2, 5)
+        
         getBotonCancelar(infoVuelos.marco, lambda: self.cancel(), nextFreeRow+1, 0)
         getBotonContinuar(infoVuelos.marco, lambda: callback(dropDownVuelos.current()), nextFreeRow+1, 1)
         pass
@@ -541,32 +543,34 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
                 dropDownAsientos["values"] = asientos
                 pass
             
+            separador = getSeparador(formElement.marco, nextFreeRow, 2, 5)
+            
             # Seleccionar vuelo y asiento
             labelVuelo = tk.Label(formElement.marco, text = "Vuelo:")
-            labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)            
+            labelVuelo.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)            
             dropDownVuelos = ttk.Combobox(formElement.marco,state = "readonly", values = vuelos )
-            dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
+            dropDownVuelos.grid(row=nextFreeRow+1, column=1, padx=15, pady=15)
             dropDownVuelos.bind("<<ComboboxSelected>>", selecAsientos)
             
             labelAsiento = tk.Label(formElement.marco, text = "Asiento:")
-            labelAsiento.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
+            labelAsiento.grid(row=nextFreeRow+2, column=0, padx=5, pady=5)
             dropDownAsientos = ttk.Combobox(formElement.marco,state = "readonly",values = asientos )
-            dropDownAsientos.grid(row=nextFreeRow + 1, column=1, padx=15, pady=15)
+            dropDownAsientos.grid(row=nextFreeRow+2, column=1, padx=15, pady=15)
             
             labelMaletas = tk.Label(formElement.marco, text = "Cantidad de maletas:")
-            labelMaletas.grid(row=nextFreeRow+2, column=0, padx=5, pady=5)
+            labelMaletas.grid(row=nextFreeRow+3, column=0, padx=5, pady=5)
             dropDownMaletas = ttk.Combobox(formElement.marco,state = "readonly",values = [0, 1, 2, 3, 4])
-            dropDownMaletas.grid(row=nextFreeRow+2, column=1, padx=15, pady=15)
+            dropDownMaletas.grid(row=nextFreeRow+3, column=1, padx=15, pady=15)
 
             # Crea boton de siguiente y uno de cancelar  
-            getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+3, 0)
+            getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+4, 0)
             getBotonContinuar(formElement.marco, lambda: self.ventana2(
                 {
                     "vuelo": vuelos[dropDownVuelos.current()],
                     "asiento": asientos[dropDownAsientos.current()],
                     "maletas": int(dropDownMaletas.current()),
                 }, formData # Origen, destino
-            ),nextFreeRow+3, 1)
+            ),nextFreeRow+4, 1)
             
             pass
         
@@ -591,10 +595,11 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
                 Maleta( index+1, float(formData[key]), boleto )
                 for index, key in enumerate(formData.keys())
             ]
-            
             costoEquipaje = sum(maleta.calcularPrecio() for maleta in maletas)
             
             alertInfo("Previsualizacion del precio", f"Precio a pagar en total por {numMaletas} maletas: ${costoEquipaje}, Total: {boleto.valor}")
+            
+            separador = getSeparador(formElement.marco, nextFreeRow, 2, 5)
             
             # Crea boton de siguiente y uno de cancelar  
             getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+1, 0)
@@ -656,6 +661,8 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
             self.zonaForm
         )
         nextFreeRow = resultFrame.nextFreeRow
+        
+        separador = getSeparador(resultFrame.marco, nextFreeRow, 2, 5)
         
         getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow+1, 0)
         getBotonContinuar(resultFrame.marco, lambda: confirmarCompra(), nextFreeRow+1, 1)
@@ -749,7 +756,9 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
             
             alertInfo("Previsualizacion del precio", f"Precio a pagar en total por {numMaletas} maletas: ${costoEquipaje}, Total: {boleto.valor}")
             
-            # Crea boton de siguiente y uno de cancelar  
+            separador = getSeparador(formElement.marco, nextFreeRow, 2, 5)
+        
+            # Crea boton de siguiente y uno de cancelar
             getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+1, 0)
             getBotonContinuar(formElement.marco, lambda: self.ventana5(boleto), nextFreeRow+1, 1)
             pass
@@ -806,6 +815,8 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         )
         nextFreeRow = resultFrame.nextFreeRow
         
+        separador = getSeparador(resultFrame.marco, nextFreeRow, 2, 5)
+        
         getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow+1, 0)
         getBotonContinuar(resultFrame.marco, lambda: confirmarCompra(), nextFreeRow+1, 1)
         pass
@@ -860,6 +871,12 @@ class GestionUsuario(VentanaBaseFuncionalidad):
     
     
     def ventanaDepositar(self):
+        valor = 100
+        user.depositarDinero(valor)
+
+        alertInfo("Deposito realizado con exito", f"Se ha agregado ${valor} a tu cuenta, nuevo saldo: {user.dinero}")
+        
+        self.cancel()
         pass
     
     
@@ -872,7 +889,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         )
         nextFreeRow = infoCuenta.nextFreeRow
         
-        sep = getSeparador(infoCuenta.marco, nextFreeRow, 3, 5)
+        separador = getSeparador(infoCuenta.marco, nextFreeRow, 2, 5)
         
         #Crea el criterio y su valor y lo guarda
         elementoCriterio = tk.Label(infoCuenta.marco, text="Depositar")
@@ -886,16 +903,14 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         botonDespositar.grid(row=nextFreeRow+2, column=1, padx=5, pady=5) 
         
         sep2 = getSeparador(infoCuenta.marco, nextFreeRow+3, 2, 5)
-            
+        
         # Ver historial de vuelos
         botonHistorial = tk.Button(infoCuenta.marco, text="Ver historial de vuelos", bg="white", borderwidth=0, command = self.ventanaHistorial)
         botonHistorial.grid(row=nextFreeRow+4, column=0, padx=5, pady=5)
         
         # Canjear Millas
         botonCanjearMillas = tk.Button(infoCuenta.marco, text="Canjear millas", bg="white", borderwidth=0, command = self.ventanaCanjearMillas)
-        botonCanjearMillas.grid(row=nextFreeRow+4, column=1, padx=5, pady=5)
-        
-        
+        botonCanjearMillas.grid(row=nextFreeRow+4, column=1, padx=5, pady=5)    
         pass
     
     
