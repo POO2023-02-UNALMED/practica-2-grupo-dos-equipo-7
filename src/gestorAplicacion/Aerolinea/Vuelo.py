@@ -39,6 +39,7 @@ class Vuelo:
         return random.choice(horas)
 
     def generarAsientos(self, economicos,  premium, base):
+        self.asientos = []
         for i in range(0, premium):
             self.asientos.append(Asiento("Vip", i, (base * 1.25)))
 

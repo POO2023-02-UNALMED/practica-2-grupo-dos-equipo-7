@@ -20,7 +20,6 @@ class Asiento:
 
     def desasignarBoleto(self):
         self.boleto = None
-        self.pasajero = None
         self.disponible = True
         self.status = "Disponible"
 

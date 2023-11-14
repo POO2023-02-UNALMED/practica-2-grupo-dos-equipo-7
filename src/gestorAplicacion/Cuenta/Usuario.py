@@ -21,15 +21,22 @@ class Usuario:
     def comprarBoletoReasig(self, boleto):
         self.dinero -= boleto.valor
         self.millas += boleto.valor * 0.1
-        boleto.setStatus("Comprado")
+        boleto.status = "Comprado"
 
-    def reasignarBoleto(self, boleto):
+    def reasignarBoleto(self, boleto, indexBoleto):
         self.dinero += (boleto.valor * 0.9)
         self.millas -= boleto.valor * 0.1
+        boleto.status = "Reasignado"
+        self.historial[indexBoleto] = boleto
 
     def cancelarBoleto(self, boleto):
         self.dinero += (boleto.valor * 0.5)
         self.millas -= (boleto.valor * 0.1)
+        
+        boleto.staus = "Cancelado"
+        boleto.asiento.desasignarBoleto()
+        
+        return boleto.valor * 0.5
 
     def getInfo(self):
         return {

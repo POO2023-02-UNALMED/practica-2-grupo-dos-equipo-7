@@ -671,7 +671,6 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
 
 class ReasignarVuelo(VentanaBaseFuncionalidad):
     
-    
     def ventana1(self):
         self.showSelectHistorial(self.ventana2)
         pass
@@ -680,13 +679,11 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         self.clearZone()
         boleto = user.getHistorial()[indexBoleto]
         
-        def confirmarReasignacion(boleto, index):
+        def confirmarReasignacion(boleto, indexBoleto):
             ok = alertConfirmacion("Esta seguro de reasignar el vuelo? se cobrara un 10% adicional")
             if ok:
-                # cosas de backend
-                self.ventana3(boleto)
-                pass
-        
+                self.ventana3(boleto, indexBoleto)
+                
         resultFrame = ResultFrame(
             "Detalles del boleto",
             boleto.getInfo(),
@@ -700,7 +697,7 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         getBotonContinuar(resultFrame.marco, lambda: confirmarReasignacion(boleto, indexBoleto), nextFreeRow+1, 1)
         pass
     
-    def ventana3(self, boleto):
+    def ventana3(self, boleto, indexBoleto):
         vuelos = Vuelo.generarVuelos(5, boleto.origen, boleto.destino) #Genera los vuelos 
         asientos = (vuelos[0]).generarAsientos(3, 5, 100)
         
@@ -741,6 +738,7 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
                 "vuelo": vuelos[dropDownVuelos.current()],
                 "asiento": asientos[dropDownAsientos.current()],
                 "maletas": int(dropDownMaletas.current()),
+                "indexBoleto": indexBoleto,
             }, {"Origen": boleto.origen, "Destino": boleto.destino} # Origen, destino, cantidad maletas
         ),nextFreeRow+3, 1)
         pass
@@ -763,9 +761,8 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         
             # Crea boton de siguiente y uno de cancelar
             getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-            getBotonContinuar(formElement.marco, lambda: self.ventana5(boleto), nextFreeRow+1, 1)
+            getBotonContinuar(formElement.marco, lambda: self.ventana5(boleto, newData["indexBoleto"]), nextFreeRow+1, 1)
             pass
-        
         
         boleto = Boleto(
             prevData["Origen"],
@@ -794,14 +791,14 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         pass
 
         
-    def ventana5(self, boleto):
+    def ventana5(self, boleto, indexBoleto):
         self.clearZone()
         # Se muestra info del vuelo y previsualizacion de datos y se pide confirmacion
         def confirmarCompra():
             ok = alertConfirmacion("Comprar vuelo?")
             
             if (user.dinero >= boleto.valor):
-                user.comprarBoleto(boleto)
+                user.reasignarBoleto(boleto, indexBoleto)
                 
                 alertInfo("Compra exitosa", "Boleto comprado con exito, gracias por su atencion")
                 self.cancel()
@@ -835,9 +832,15 @@ class CancelarVuelo(VentanaBaseFuncionalidad):
         boleto = user.getHistorial()[indexBoleto]
         
         def confirmarCancelar(boleto):
-            result = alertConfirmacion("Esta seguro de cancelar el vuelo? se regresara solo un 50% de su valor original")
-            ok = alertInfo("Proceso exitoso", "Boleto cancelado con exito, se han regresado $1 a su cuenta")
-            self.cancel()
+            ok = alertConfirmacion("Esta seguro de cancelar el vuelo? se regresara solo un 50% de su valor original")
+            
+            if ok:
+                if boleto.status != "Cancelado":
+                    retorno = user.cancelarBoleto(boleto)
+                    alertInfo("Proceso exitoso", f"Boleto cancelado con exito, se han regresado ${retorno} a su cuenta (Al cancelar un boleto se regresa un 50%)")
+                    self.cancel()
+                else:
+                    alertWarn("Error", "El boleto ya se encuentra cancelado")
             pass
         
         resultFrame = ResultFrame(
