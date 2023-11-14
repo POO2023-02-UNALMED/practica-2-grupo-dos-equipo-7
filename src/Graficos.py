@@ -526,31 +526,38 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
                 asientos = vuelo.generarAsientos(3, 5, 100)
                 dropDownAsientos["values"] = asientos
                 pass
-
+            
             # Seleccionar vuelo y asiento
-            labelVuelo = tk.Label(formElement.marco, text = "Vuelo: ")
+            labelVuelo = tk.Label(formElement.marco, text = "Vuelo:")
             labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)
             dropDownVuelos = ttk.Combobox(formElement.marco,state = "readonly", values = vuelos )
             dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
             dropDownVuelos.bind("<<ComboboxSelected>>", selecAsientos)
             
-            labelAsiento = tk.Label(formElement.marco, text = "Asiento: ")
+            labelAsiento = tk.Label(formElement.marco, text = "Asiento:")
             labelAsiento.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
             dropDownAsientos = ttk.Combobox(formElement.marco,state = "readonly",values = asientos )
             dropDownAsientos.grid(row=nextFreeRow + 1, column=1, padx=15, pady=15)
+            
+            labelMaletas = tk.Label(formElement.marco, text = "Cantidad de maletas:")
+            labelMaletas.grid(row=nextFreeRow+2, column=0, padx=5, pady=5)
+            dropDownMaletas = ttk.Combobox(formElement.marco,state = "readonly",values = [0, 1, 2, 3, 4])
+            dropDownMaletas.grid(row=nextFreeRow+2, column=1, padx=15, pady=15)
 
             # Crea boton de siguiente y uno de cancelar  
-            getBotonCancelar(formElement.marco, lambda: self.clearZone(), nextFreeRow+2, 0)
+            getBotonCancelar(formElement.marco, lambda: self.clearZone(), nextFreeRow+3, 0)
             getBotonContinuar(formElement.marco, lambda: self.ventana2(
                 {
                     "vuelo": vuelos[dropDownVuelos.current()],
-                    "asiento": asientos[dropDownAsientos.current()]
-                }, formData
-            ),nextFreeRow+2, 1)
+                    "asiento": asientos[dropDownAsientos.current()],
+                    "maletas": int(dropDownMaletas.current()),
+                    "boleto": ""
+                }, formData # Origen, destino, cantidad maletas
+            ),nextFreeRow+3, 1)
             
             pass
         
-        criterios = ["Origen", "Destino", "Cantidad de maletas"]
+        criterios = ["Origen", "Destino"]
         formElement = FieldFrame(
             "Datos del Vuelo",
             criterios,
@@ -559,13 +566,14 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
             None, self.zonaForm,
             callback = callback
         )
+
         nextFreeRow = formElement.nextFreeRow
         pass
     
     def ventana2(self, newData, prevData):
+        self.clearZone()
         
-        def callback(formData):
-            
+        def callback(formData):    
             # Agregar las maletas
             maletas = [Maleta(index+1, formData[key], 2, 2, 2) for index, key in enumerate(formData.keys())]
             #maleta.asignarBoleto(boleto)
@@ -579,13 +587,10 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
             pass
         
         
-        self.clearZone()
-        numMaletas = int(prevData["Cantidad de maletas"])
+        numMaletas = newData["maletas"]
         
         if (numMaletas == 0):
-            
             self.ventana3(1, 2)
-        
         else:
             # Inputs de maletas
             criterios = [f"Maleta #{i}" for i in range(1, numMaletas + 1)]
@@ -608,14 +613,13 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         
         resultFrame = ResultFrame(
             "Detalles del boleto",
-            1, #boleto.getInfo()
+            {"ok": "200"}, #boleto.getInfo()
             self.zonaForm
         )
         nextFreeRow = resultFrame.nextFreeRow
         
         getBotonCancelar(resultFrame.marco, lambda: self.clearZone(), nextFreeRow+1, 0)
         getBotonContinuar(resultFrame.marco, lambda: confirmarCompra(1), nextFreeRow+1, 1)
-            
         pass
     
 
@@ -657,6 +661,11 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             None, self.zonaForm
         )
         pass
+    
+
+def iniciar():
+    usuario = 1
+    pass
 
 ventanaInicial = VentanaInicial()
 ventanaInicial.generar()
