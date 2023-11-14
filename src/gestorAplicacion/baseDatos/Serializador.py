@@ -5,7 +5,7 @@ from Boleto import Boleto
 
 class Serializador:
     def __init__(self) :
-        pass
+        return
 
     
 
@@ -23,7 +23,16 @@ class Serializador:
     #        2.4 for maleta in equipaje: SeriañizarMaleta(=)
     # 3. for descuento in descuentos:Serializardescuento(=) ,enummerar y meter cada descuento en un archivo
     # , para reasignarle su boleto luego
-    def serializarUsuario(self, )
+
+
+    def serializarUsuario(self,usuario : Usuario ):
+        with open("mainUser.txt","wb") as file:
+            serializacion = pickle.dump(usuario, file)
+        serializarDescuento(usuario.getDescuentos())
+        serializarBoleto(Usuario.getHistorial())
+        return
+
+
     def serializarBoleto(self, boletos : Boleto[]):
         count = 1
         for boleto in boletos :
@@ -32,11 +41,10 @@ class Serializador:
                 serializacion = pickle.dump(boleto,file)
 
             serializarVuelo(boleto.getVuelo())
-            serializarEquipaje(boleto.getEquipaje())
             serializarMascota(boleto.getMascotas())
             serializarDescuento(boleto.getDescuentos())
             serializarServicio(boleto.getServiciosContratados())
-            serializarAsiento(boleto.getAsiento())
+            
         
 
 
