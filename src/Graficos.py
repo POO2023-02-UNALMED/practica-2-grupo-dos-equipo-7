@@ -502,15 +502,16 @@ class VentanaBaseFuncionalidad(tk.Frame):
         )
         nextFreeRow = infoVuelos.nextFreeRow
 
-        labelVuelo = tk.Label(infoVuelos.marco, text = "Vuelo:")
-        labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)
-        dropDownVuelos = ttk.Combobox(infoVuelos.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(vuelos))] )
-        dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
-        
         separador = getSeparador(infoVuelos.marco, nextFreeRow, 2, 5)
         
-        getBotonCancelar(infoVuelos.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-        getBotonContinuar(infoVuelos.marco, lambda: callback(dropDownVuelos.current()), nextFreeRow+1, 1)
+        labelVuelo = tk.Label(infoVuelos.marco, text = "Vuelo:")
+        labelVuelo.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
+        dropDownVuelos = ttk.Combobox(infoVuelos.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(vuelos))] )
+        dropDownVuelos.grid(row=nextFreeRow+1, column=1, padx=15, pady=15)
+        
+        
+        getBotonCancelar(infoVuelos.marco, lambda: self.cancel(), nextFreeRow+2, 0)
+        getBotonContinuar(infoVuelos.marco, lambda: callback(dropDownVuelos.current()), nextFreeRow+2, 1)
         pass
         
     
