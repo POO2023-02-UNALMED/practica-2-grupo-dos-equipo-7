@@ -27,7 +27,6 @@ class Maleta(RestriccionesMaleta):
 
     def asignarBoleto(self, boleto):
         self.boleto = boleto
-        self.pasajero = boleto.getPasajero()
         self.destino_origen = boleto.getOrigenDestino()
 
     # ...Metodos def get y set.

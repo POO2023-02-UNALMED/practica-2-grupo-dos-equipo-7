@@ -303,13 +303,7 @@ def comprarVuelo(user):
         if (user.getDinero() - boleto.getValor() >= 0):
             user.comprarBoleto(boleto)
             boleto.asignarAsiento(asiento)
-            print(negrita(colorTexto("Boleto comprado con éxito.", "verde")))
-            saltoO()
-            print(negrita(colorTexto("Informacion y detalles:", "morado")))
-            saltoO()
-            identacion(boleto.getInfo())
-            saltoO()
-            continuar()
+            
             # Mostrar los detalles del vuelo
         else:
             saltoO()

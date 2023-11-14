@@ -14,24 +14,23 @@ class Boleto:
         self.vuelo = vuelo
         self.id = Boleto.cont
         
-        # Set asiento
-        self.setAsiento(asiento)
-        
-        self.cantidadMascotasCabina = 0
-        self.cantidadMascotasBodega = 0
-        self.status = "Pendiente"
-        self.checkInRealizado = False
-
         self.mascotas = []
         self.equipaje = []
         self.descuentos = []
         self.serviciosContratados = []
+        
+        self.valorEquipaje = 0
 
-        self.tipo = None
-        self.valor = None
-        self.asiento = None
-        self.valorInicial = None
-        self.valorEquipaje = None
+        self.cantidadMascotasCabina = 0
+        self.cantidadMascotasBodega = 0
+        self.status = "Pendiente"
+        self.checkInRealizado = False
+        
+        # Set asiento
+        self.setAsiento(asiento)
+        
+
+        
 
     def updateValor(self):
         temp = 0
@@ -118,8 +117,10 @@ class Boleto:
             "Tipo asiento" : self.tipo,
             "Numero de asiento" : self.asiento.getN_silla(),
             "Cantidad maletas" : len(self.equipaje),
+            "Estado": self.status,
+            "Servicios contratados": len(self.serviciosContratados)
         }
-    #f"Precio: ${self.valor}, Tipo: {self.tipo}, Origen-Destino: {self.getOrigenDestino()}, Numero de asiento: {self.asiento.getN_silla()}, Estado: {self.status}, N. Maletas: {len(self.equipaje)}, Servicios contratados: {len(self.serviciosContratados)}"
+    
 
     # ...Metodos def get yself set...
 

@@ -1,8 +1,8 @@
 class Usuario:
 
     def __init__(self, nombre, mail, contrasena, id):
-        self.dinero = None
-        self.millas = None
+        self.dinero = 1000
+        self.millas = 100
 
         self.historial = []
         self.descuentos = []
@@ -16,6 +16,7 @@ class Usuario:
         self.millas += boleto.getValor() * 0.1
         self.historial.append(boleto)
         boleto.setStatus("Comprado")
+
 
     def comprarBoletoReasig(self, boleto):
         self.dinero -= boleto.getValor()

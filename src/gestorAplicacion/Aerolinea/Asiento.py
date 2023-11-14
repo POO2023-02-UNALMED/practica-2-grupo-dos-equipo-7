@@ -14,7 +14,6 @@ class Asiento:
 
     def asignarBoleto(self, boleto):
         self.boleto = boleto
-        self.pasajero = boleto.getPasajero()
         self.disponible = False
         self.status = "Asignado"
 
