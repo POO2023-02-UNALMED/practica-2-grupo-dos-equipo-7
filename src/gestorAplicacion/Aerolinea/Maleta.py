@@ -4,12 +4,9 @@ class Maleta(RestriccionesMaleta):
     precioMaleta = 10.0
     excedente = 0
 
-    def __init__(self, id, peso, largo, ancho, alto):
+    def __init__(self, id, peso):
         self.id = id
         self.peso = peso
-        self.largo = largo
-        self.ancho = ancho
-        self.alto = alto
 
         self.pasajero = None
         self.boleto = None
@@ -25,11 +22,8 @@ class Maleta(RestriccionesMaleta):
             return False
 
     def calcularPrecio(self):
-        dimensionesSuma = (self.alto + self.ancho + self.largo)
-        pesoFloat = self.peso
-        precio = dimensionesSuma * 0.2 * pesoFloat * 0.2  # Fórmula corregida
         # Valor fijo de $5
-        return ((precio * 0.5)) + 5  # Convertimos el resultado final a int
+        return ((self.peso * 0.5)) + 3  # Convertimos el resultado final a int
 
     def asignarBoleto(self, boleto):
         self.boleto = boleto

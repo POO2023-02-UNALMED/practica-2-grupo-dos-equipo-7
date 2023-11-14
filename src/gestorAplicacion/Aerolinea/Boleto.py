@@ -5,15 +5,18 @@ class Boleto:
 
     cont = 0
 
-    def __init__(self, origen, destino, propietario, vuelo):
+    def __init__(self, origen, destino, vuelo, asiento, usuario):
         Boleto.cont += 1
+        
         self.origen = origen
         self.destino = destino
-        self.user = propietario
+        self.user = usuario
         self.vuelo = vuelo
-        self.pasajero = Pasajero(propietario, self)
         self.id = Boleto.cont
-
+        
+        # Set asiento
+        self.setAsiento(asiento)
+        
         self.cantidadMascotasCabina = 0
         self.cantidadMascotasBodega = 0
         self.status = "Pendiente"

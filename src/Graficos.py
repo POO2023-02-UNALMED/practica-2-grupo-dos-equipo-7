@@ -34,6 +34,9 @@ App = tk.Tk()
 App.title("Ventana de Inicio")
 App.geometry("800x600")
 
+global user
+user = Usuario("Juan", "jlargob", "123", "1")
+
 
 """
 drowpDown = ttk.Combobox(
@@ -551,7 +554,6 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
                     "vuelo": vuelos[dropDownVuelos.current()],
                     "asiento": asientos[dropDownAsientos.current()],
                     "maletas": int(dropDownMaletas.current()),
-                    "boleto": ""
                 }, formData # Origen, destino, cantidad maletas
             ),nextFreeRow+3, 1)
             
@@ -573,24 +575,34 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
     def ventana2(self, newData, prevData):
         self.clearZone()
         
-        def callback(formData):    
-            # Agregar las maletas
-            maletas = [Maleta(index+1, formData[key], 2, 2, 2) for index, key in enumerate(formData.keys())]
-            #maleta.asignarBoleto(boleto)
-            #boleto.addEquipaje(maleta)
-
-            alertInfo("Previsualizacion del precio", f"Precio a pagar en total por {numMaletas} maletas: ${1}, Total: {2}")
+        def callback(formData):  
+            maletas = [Maleta(index+1, formData[key]) for index, key in enumerate(formData.keys())]
+            v = 0
+            for maleta in maletas:
+                maleta.asignarBoleto(boleto)
+                boleto.addEquipaje(maleta)
+                v += maleta.calcularPrecio()
+                
+            alertInfo("Previsualizacion del precio", f"Precio a pagar en total por {numMaletas} maletas: ${v}, Total: {boleto.getValor()}")
             
             # Crea boton de siguiente y uno de cancelar  
             getBotonCancelar(formElement.marco, lambda: self.clearZone(), nextFreeRow+1, 0)
-            getBotonContinuar(formElement.marco, lambda: self.ventana3(newData), nextFreeRow+1, 1)
+            getBotonContinuar(formElement.marco, lambda: self.ventana3(boleto), nextFreeRow+1, 1)
             pass
         
+        
+        boleto = Boleto(
+            prevData["Origen"],
+            prevData["Destino"],
+            newData["vuelo"],
+            newData["asiento"],
+            user
+        )
         
         numMaletas = newData["maletas"]
         
         if (numMaletas == 0):
-            self.ventana3(1, 2)
+            self.ventana3(boleto)
         else:
             # Inputs de maletas
             criterios = [f"Maleta #{i}" for i in range(1, numMaletas + 1)]
@@ -606,20 +618,21 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         pass
 
         
-    def ventana3(self, newData, prevData):
+    def ventana3(self, boleto):
         # Se muestra info del vuelo y previsualizacion de datos y se pide confirmacion
-        def confirmarCompra(allData):
+        def confirmarCompra():
+            alertConfirmacion("Comprar vuelo?")
             pass
         
         resultFrame = ResultFrame(
             "Detalles del boleto",
-            {"ok": "200"}, #boleto.getInfo()
+            boleto.getInfo(),
             self.zonaForm
         )
         nextFreeRow = resultFrame.nextFreeRow
         
         getBotonCancelar(resultFrame.marco, lambda: self.clearZone(), nextFreeRow+1, 0)
-        getBotonContinuar(resultFrame.marco, lambda: confirmarCompra(1), nextFreeRow+1, 1)
+        getBotonContinuar(resultFrame.marco, lambda: confirmarCompra(), nextFreeRow+1, 1)
         pass
     
 
