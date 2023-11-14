@@ -647,7 +647,7 @@ class CancelarVuelo(VentanaBaseFuncionalidad):
 
     def ventana1(self):
         
-        historialBoletos = user.getHistorial
+        historialBoletos = user.getHistorial()
         vuelos = [boleto.vuelo for boleto in historialBoletos]
         
         infoVuelos = ResultFrame(
@@ -685,7 +685,7 @@ class CancelarVuelo(VentanaBaseFuncionalidad):
         nextFreeRow = resultFrame.nextFreeRow
         
         getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-        getBotonContinuar(resultFrame.marco, lambda: confirmarCancelar(), nextFreeRow+1, 1)
+        getBotonContinuar(resultFrame.marco, lambda: confirmarCancelar(boleto), nextFreeRow+1, 1)
         pass
 
 
