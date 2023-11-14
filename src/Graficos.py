@@ -493,6 +493,29 @@ class VentanaBaseFuncionalidad(tk.Frame):
         self.ventana1()
         pass
     
+    def showSelectHistorial(self, callback):
+        historialBoletos = user.getHistorial()
+        vuelos = [boleto.vuelo for boleto in historialBoletos]
+        
+        infoVuelos = ResultFrame(
+            "Historial de vuelos",
+            {f"Vuelo #{i+1}" : vuelo for i, vuelo in enumerate(vuelos) },
+            self.zonaForm
+        )
+        nextFreeRow = infoVuelos.nextFreeRow
+
+        labelVuelo = tk.Label(infoVuelos.marco, text = "Vuelo:")
+        labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)
+        dropDownVuelos = ttk.Combobox(infoVuelos.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(vuelos))] )
+        dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
+        
+        getBotonCancelar(infoVuelos.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+        getBotonContinuar(infoVuelos.marco, lambda: callback(
+            historialBoletos[dropDownVuelos.current()]
+        ), nextFreeRow+1, 1)
+        pass
+        
+    
     def cancel(self):
         self.clearZone()
         self.ventana1()
@@ -640,32 +663,22 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         pass
 
 class ReasignarVuelo(VentanaBaseFuncionalidad):
+    
+    
+    def ventana1(self):
+        self.showSelectHistorial(self.ventana2)
+        pass
+    
+    def ventana2(self):
+        pass
+    
 
     pass
 
 class CancelarVuelo(VentanaBaseFuncionalidad):
 
     def ventana1(self):
-        
-        historialBoletos = user.getHistorial()
-        vuelos = [boleto.vuelo for boleto in historialBoletos]
-        
-        infoVuelos = ResultFrame(
-            "Historial de vuelos",
-            {f"Vuelo #{i+1}" : vuelo for i, vuelo in enumerate(vuelos) },
-            self.zonaForm
-        )
-        nextFreeRow = infoVuelos.nextFreeRow
-
-        labelVuelo = tk.Label(infoVuelos.marco, text = "Vuelo:")
-        labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)
-        dropDownVuelos = ttk.Combobox(infoVuelos.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(vuelos))] )
-        dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
-        
-        getBotonCancelar(infoVuelos.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-        getBotonContinuar(infoVuelos.marco, lambda: self.ventana2(
-            historialBoletos[dropDownVuelos.current()]
-        ), nextFreeRow+1, 1)
+        self.showSelectHistorial(self.ventana2)
         pass
 
     def ventana2(self, boleto):
@@ -686,6 +699,7 @@ class CancelarVuelo(VentanaBaseFuncionalidad):
         
         getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow+1, 0)
         getBotonContinuar(resultFrame.marco, lambda: confirmarCancelar(boleto), nextFreeRow+1, 1)
+        
         pass
 
 
