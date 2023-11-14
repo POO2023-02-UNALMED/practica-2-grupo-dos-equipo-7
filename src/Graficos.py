@@ -835,12 +835,13 @@ class CancelarVuelo(VentanaBaseFuncionalidad):
             ok = alertConfirmacion("Esta seguro de cancelar el vuelo? se regresara solo un 50% de su valor original")
             
             if ok:
-                if boleto.status != "Cancelado":
+                if boleto.status == "Cancelado":
+                    alertWarn("Error", "El boleto ya se encuentra cancelado")
+                else:
                     retorno = user.cancelarBoleto(boleto)
                     alertInfo("Proceso exitoso", f"Boleto cancelado con exito, se han regresado ${retorno} a su cuenta (Al cancelar un boleto se regresa un 50%)")
                     self.cancel()
-                else:
-                    alertWarn("Error", "El boleto ya se encuentra cancelado")
+                    
             pass
         
         resultFrame = ResultFrame(
