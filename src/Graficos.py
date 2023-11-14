@@ -510,9 +510,7 @@ class VentanaBaseFuncionalidad(tk.Frame):
         dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
         
         getBotonCancelar(infoVuelos.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-        getBotonContinuar(infoVuelos.marco, lambda: callback(
-            historialBoletos[dropDownVuelos.current()]
-        ), nextFreeRow+1, 1)
+        getBotonContinuar(infoVuelos.marco, lambda: callback(dropDownVuelos.current()), nextFreeRow+1, 1)
         pass
         
     
@@ -569,7 +567,7 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
                     "vuelo": vuelos[dropDownVuelos.current()],
                     "asiento": asientos[dropDownAsientos.current()],
                     "maletas": int(dropDownMaletas.current()),
-                }, formData # Origen, destino, cantidad maletas
+                }, formData # Origen, destino
             ),nextFreeRow+3, 1)
             
             pass
@@ -669,11 +667,148 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         self.showSelectHistorial(self.ventana2)
         pass
     
-    def ventana2(self):
+    def ventana2(self, indexBoleto):
+        self.clearZone()
+        boleto = user.getHistorial()[indexBoleto]
+        
+        def confirmarReasignacion(boleto, index):
+            ok = alertConfirmacion("Esta seguro de reasignar el vuelo? se cobrara un 10% adicional")
+            if ok:
+                # cosas de backend
+                self.ventana3(boleto)
+                pass
+        
+        resultFrame = ResultFrame(
+            "Detalles del boleto",
+            boleto.getInfo(),
+            self.zonaForm
+        )
+        nextFreeRow = resultFrame.nextFreeRow
+        
+        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow, 0)
+        getBotonContinuar(resultFrame.marco, lambda: confirmarReasignacion(boleto, indexBoleto), nextFreeRow, 1)
         pass
     
+    def ventana3(self, boleto):
+        vuelos = Vuelo.generarVuelos(5, boleto.origen, boleto.destino) #Genera los vuelos 
+        asientos = (vuelos[0]).generarAsientos(3, 5, 100)
+        
+        vuelosDisponibles = ResultFrame(
+            "Vuelos disponibles",
+            {f"Vuelo #{i+1}" : vuelo for i, vuelo in enumerate(vuelos) },
+            self.zonaForm
+        )
+        nextFreeRow = vuelosDisponibles.nextFreeRow
 
-    pass
+        def selecAsientos(event):
+            vuelo = vuelos[dropDownVuelos.current()]
+            asientos = vuelo.generarAsientos(3, 5, 100)
+            dropDownAsientos["values"] = asientos
+            pass
+        
+        # Seleccionar vuelo y asiento
+        labelVuelo = tk.Label(vuelosDisponibles.marco, text = "Vuelo:")
+        labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)
+        dropDownVuelos = ttk.Combobox(vuelosDisponibles.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(vuelos))] )
+        dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
+        dropDownVuelos.bind("<<ComboboxSelected>>", selecAsientos)
+        
+        labelAsiento = tk.Label(vuelosDisponibles.marco, text = "Asiento:")
+        labelAsiento.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
+        dropDownAsientos = ttk.Combobox(vuelosDisponibles.marco,state = "readonly",values = asientos )
+        dropDownAsientos.grid(row=nextFreeRow + 1, column=1, padx=15, pady=15)
+        
+        labelMaletas = tk.Label(vuelosDisponibles.marco, text = "Cantidad de maletas:")
+        labelMaletas.grid(row=nextFreeRow+2, column=0, padx=5, pady=5)
+        dropDownMaletas = ttk.Combobox(vuelosDisponibles.marco,state = "readonly",values = [0, 1, 2, 3, 4])
+        dropDownMaletas.grid(row=nextFreeRow+2, column=1, padx=15, pady=15)
+        
+        # Crea boton de siguiente y uno de cancelar  
+        getBotonCancelar(nextFreeRow.marco, lambda: self.cancel(), nextFreeRow+3, 0)
+        getBotonContinuar(nextFreeRow.marco, lambda: self.ventana2(
+            {
+                "vuelo": vuelos[dropDownVuelos.current()],
+                "asiento": asientos[dropDownAsientos.current()],
+                "maletas": int(dropDownMaletas.current()),
+            }, {"Origen": boleto.origen, "Destino": boleto.destino} # Origen, destino, cantidad maletas
+        ),nextFreeRow+3, 1)
+        pass
+
+        
+    def ventana4(self, newData, prevData):
+        self.clearZone()
+        
+        def callback(formData):  
+            maletas = [Maleta(index+1, float(formData[key])) for index, key in enumerate(formData.keys())]
+            v = 0
+            
+            for maleta in maletas:
+                maleta.asignarBoleto(boleto)
+                boleto.addEquipaje(maleta)
+                v += maleta.calcularPrecio()
+                
+            alertInfo("Previsualizacion del precio", f"Precio a pagar en total por {numMaletas} maletas: ${v}, Total: {boleto.getValor()}")
+            
+            # Crea boton de siguiente y uno de cancelar  
+            getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+            getBotonContinuar(formElement.marco, lambda: self.ventana3(boleto), nextFreeRow+1, 1)
+            pass
+        
+        
+        boleto = Boleto(
+            prevData["Origen"],
+            prevData["Destino"],
+            newData["vuelo"],
+            newData["asiento"],
+            user
+        )
+        
+        numMaletas = newData["maletas"]
+        
+        if (numMaletas == 0):
+            self.ventana3(boleto)
+        else:
+            # Inputs de maletas
+            criterios = [f"Maleta #{i}" for i in range(1, numMaletas + 1)]
+            formElement = FieldFrame(
+                "Maleta",
+                criterios,
+                "Peso de la maleta",
+                criterios,
+                None, self.zonaForm,
+                callback = callback
+            )
+            nextFreeRow = formElement.nextFreeRow
+        pass
+
+        
+    def ventana5(self, boleto):
+        self.clearZone()
+        # Se muestra info del vuelo y previsualizacion de datos y se pide confirmacion
+        def confirmarCompra():
+            ok = alertConfirmacion("Comprar vuelo?")
+            
+            if (user.getDinero() >= boleto.getValor()):
+                user.comprarBoleto(boleto)
+                boleto.asignarAsiento(boleto.getAsiento())
+                alertInfo("Compra exitosa", "Boleto comprado con exito, gracias por su atencion")
+                self.cancel()
+            else:
+                alertWarn("Dinero Insuficiente", "Error, dinero en la cuenta insuficiente, compra cancelada")
+                self.cancel()
+                pass
+            pass
+        
+        resultFrame = ResultFrame(
+            "Detalles del boleto",
+            boleto.getInfo(),
+            self.zonaForm
+        )
+        nextFreeRow = resultFrame.nextFreeRow
+        
+        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+        getBotonContinuar(resultFrame.marco, lambda: confirmarCompra(), nextFreeRow+1, 1)
+        pass
 
 class CancelarVuelo(VentanaBaseFuncionalidad):
 
@@ -681,8 +816,9 @@ class CancelarVuelo(VentanaBaseFuncionalidad):
         self.showSelectHistorial(self.ventana2)
         pass
 
-    def ventana2(self, boleto):
+    def ventana2(self, indexBoleto):
         self.clearZone()
+        boleto = user.getHistorial()[indexBoleto]
         
         def confirmarCancelar(boleto):
             result = alertConfirmacion("Esta seguro de cancelar el vuelo? se regresara solo un 50% de su valor original")
@@ -697,11 +833,9 @@ class CancelarVuelo(VentanaBaseFuncionalidad):
         )
         nextFreeRow = resultFrame.nextFreeRow
         
-        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-        getBotonContinuar(resultFrame.marco, lambda: confirmarCancelar(boleto), nextFreeRow+1, 1)
-        
+        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow, 0)
+        getBotonContinuar(resultFrame.marco, lambda: confirmarCancelar(boleto), nextFreeRow, 1)
         pass
-
 
 
 class CheckIn(VentanaBaseFuncionalidad):
