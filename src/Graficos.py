@@ -914,12 +914,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                         alertInfo("Check In", "Check In realizado con exito")
                         self.ventanaServicios(boleto)
 
-    def ventanaServicios(self, boleto):
-        
-        handlersCheckIn = {
-            "Mejorar asiento": mejoraSilla,
-            "Comprar servicios especiales": comprarServicios,
-        }
+    def ventanaServicios(self, boleto):        
         
         # Mostrar millas disponibles
         infoServicios = ResultFrame(
@@ -954,7 +949,7 @@ class CheckIn(VentanaBaseFuncionalidad):
             labelAsiento = tk.Label(infoServicios.marco, text = "Seleccionar nuevo asiento")
             labelAsiento.grid(row=nextRow, column=0, padx=5, pady=5)
             dropDownAsiento = ttk.Combobox(infoServicios.marco, state = "readonly", values = boleto.vuelo.asientos)
-            dropDownAsiento.grid(row=nextRow+1, column=1, padx=15, pady=15)
+            dropDownAsiento.grid(row=nextRow, column=1, padx=15, pady=15)
 
             getBotonCancelar(infoServicios.marco, lambda: self.cancel(), nextRow+1, 0)
             getBotonContinuar(infoServicios.marco, lambda: confirmar(
@@ -991,6 +986,10 @@ class CheckIn(VentanaBaseFuncionalidad):
             }
             pass
         
+        handlersCheckIn = {
+            "Mejorar asiento": mejoraSilla,
+            "Comprar servicios especiales": comprarServicios,
+        }
         pass
     
 class GestionUsuario(VentanaBaseFuncionalidad):
