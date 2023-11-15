@@ -508,11 +508,10 @@ class VentanaBaseFuncionalidad(tk.Frame):
     
     def showSelectHistorial(self, callback):
         historialBoletos = user.getHistorial()
-        vuelos = [boleto.vuelo for boleto in historialBoletos]
         
         infoVuelos = ResultFrame(
             "Historial de vuelos",
-            {f"Vuelo #{i+1}" : vuelo for i, vuelo in enumerate(vuelos) },
+            {f"Boleto #{i+1}" : boleto.getStr() for i, boleto in enumerate(historialBoletos) },
             self.zonaForm
         )
         nextFreeRow = infoVuelos.nextFreeRow
@@ -521,9 +520,8 @@ class VentanaBaseFuncionalidad(tk.Frame):
         
         labelVuelo = tk.Label(infoVuelos.marco, text = "Vuelo:")
         labelVuelo.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
-        dropDownVuelos = ttk.Combobox(infoVuelos.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(vuelos))] )
+        dropDownVuelos = ttk.Combobox(infoVuelos.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(historialBoletos))] )
         dropDownVuelos.grid(row=nextFreeRow+1, column=1, padx=15, pady=15)
-        
         
         getBotonCancelar(infoVuelos.marco, lambda: self.cancel(), nextFreeRow+2, 0)
         getBotonContinuar(infoVuelos.marco, lambda: callback(dropDownVuelos.current()), nextFreeRow+2, 1)
@@ -875,7 +873,7 @@ class CheckIn(VentanaBaseFuncionalidad):
     
     def ventana1(self):
         self.clearZone()
-        self.showSelectHistorial(self.ventanaMillas2)
+        self.showSelectHistorial(self.ventana2)
         pass
     
     def ventana2(self, indexBoleto):
@@ -899,7 +897,7 @@ class CheckIn(VentanaBaseFuncionalidad):
             # SI el boleto ya tiene check in pasa a los servicios
             if (boleto.checkInRealizado):
                 alertConfirmacion("El boleto seleccionado ya tiene check in, pasando al menu de servicios")
-                self.ventanaMillasMenu(boleto)
+                self.ventanaServicios(boleto)
 
             else:
                 if boleto.status == "Cancelado":
@@ -914,9 +912,53 @@ class CheckIn(VentanaBaseFuncionalidad):
                         
                         # Backend check In
                         alertInfo("Check In", "Check In realizado con exito")
-                        self.ventanaMillasMenu(boleto)
+                        self.ventanaServicios(boleto)
 
+    def ventanaServicios(self, boleto):
+        
+        # Mostrar millas disponibles
+        infoMillas = ResultFrame(
+            "Informacion del boleto",
+            {
+                "Origen - Destino": boleto.getOrigenDestino(),
+                "Tipo asiento": boleto.tipo,
+                "Cantidad maletas": len(boleto.equipaje), 
+                "Servicios contratados": len(boleto.serviciosContratados) 
+            },
+            self.zonaForm
+        )
+        nextFreeRow = infoMillas.nextFreeRow
+        
+        # Dropdown de la opcion
+        labelOpciones = tk.Label(infoMillas.marco, text = "Seleccionar opcion")
+        labelOpciones.grid(row=nextFreeRow, column=0, padx=5, pady=5)            
+        dropDownOpciones = ttk.Combobox(infoMillas.marco, state = "readonly", values = [
+            "Mejorar asiento", "Comprar servicios especiales"
+        ])
+        
+        nextRow = nextFreeRow + 2
+        dropDownOpciones.grid(row=nextFreeRow, column=1, padx=15, pady=15)
+        dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersMillas[dropDownOpciones.get()](nextRow, boleto))
+        
+        separador = getSeparador(infoMillas.marco, nextFreeRow + 1, 2)
 
+        def mejoraSilla(nextRow, boleto):
+            def confirmar():
+                pass
+            pass
+        
+        
+        def comprarServicios(nextRow, boleto):
+            def confirmar():
+                pass
+            pass
+        
+        handlersMillas = {
+            "Mejorar asiento": mejoraSilla,
+            "Comprar servicios especiales": comprarServicios,
+        }
+        pass
+    
 class GestionUsuario(VentanaBaseFuncionalidad):
     
     def ventanaHistorial(self):
@@ -981,7 +1023,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         
         # Mostrar millas disponibles
         infoMillas = ResultFrame(
-            "Detalles del boleto",
+            "Informacion de la Cuenta:",
             {"Millas disponibles": user.millas},
             self.zonaForm
         )
