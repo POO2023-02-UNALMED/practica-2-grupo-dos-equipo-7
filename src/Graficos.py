@@ -978,11 +978,83 @@ class GestionUsuario(VentanaBaseFuncionalidad):
     
     def ventanaCanjearMillas(self):
         self.clearZone()
-        self.showSelectHistorial(self.ventanaMillas2)
+        
+        # Mostrar millas disponibles
+        labelMillas = tk.Label(self.zonaForm, text = "Millas disponibles:")
+        labelMillas.grid(row=0, column=0, padx=5, pady=5)
+                   
+        labelMillasDisponibles = tk.Label(self.zonaForm, text = user.millas)
+        labelMillasDisponibles.grid(row=0, column=1, padx=5, pady=5)            
+        
+        # Dropdown de la opcion
+        labelOpciones = tk.Label(self.zonaForm, text = "Seleccionar opcion")
+        labelOpciones.grid(row=1, column=0, padx=5, pady=5)            
+        dropDownOpciones = ttk.Combobox(self.zonaForm, state = "readonly", values = [
+            "Mejora de silla", "Descuento vuelo",
+            "Descuento maleta", "Aplicar descuentos",
+            "Ver descuentos del usuario"
+        ])
+        
+        nextFreeRow = 3
+        dropDownOpciones.grid(row=1, column=1, padx=15, pady=15)
+        dropDownOpciones.bind("<<ComboboxSelected>>", lambda: handlersMillas[dropDownOpciones.get()](nextFreeRow))
+        
+        separador = getSeparador(self.zonaForm, 2, 2)
+
+        # . . . Menu . . .
+        
+        
+        #getBotonCancelar(self.zonaForm, lambda: self.cancel(), 1, 0)
+        #getBotonContinuar(self.zonaForm, lambda: 1, 1, 1)
+        
+        
+        # HandlersMillas
+        
+        def mejoraSilla(nextFreeRow):
+            def selecAsientos():
+                dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).boleto.vuelo.asientos
+                pass
+            
+            labelBoleto = tk.Label(self.zonaForm, text = "Seleccionar opcion")
+            labelBoleto.grid(row=nextFreeRow, column=0, padx=5, pady=5)
+            dropDownBoleto = ttk.Combobox(self.zonaForm, state = "readonly", values = [boleto.toStr() for boleto in user.getHistorial()])
+            dropDownBoleto.grid(row=nextFreeRow, column=1, padx=15, pady=15)
+            dropDownBoleto.bind("<<ComboboxSelected>>", lambda e: selecAsientos())
+        
+            
+            labelAsiento = tk.Label(self.zonaForm, text = "Seleccionar opcion")
+            labelAsiento.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
+            dropDownAsiento = ttk.Combobox(self.zonaForm, state = "readonly", values = ((user.getHistorial())[0]).boleto.vuelo.asientos)
+            dropDownAsiento.grid(row=nextFreeRow+1, column=1, padx=15, pady=15)            
+            pass
+
+        def descuentoVuelo(lastIndex):
+            pass
+
+        def descuentoMaleta(lastIndex):
+            pass
+
+        def aplicarDescuento(lastIndex):
+            pass
+
+        def showDescuento(lastIndex):
+            pass
+
+        handlersMillas = {
+            "Mejora de silla": mejoraSilla,
+            "Descuento vuelo": descuentoVuelo,
+            "Descuento maleta": descuentoMaleta,
+            "Aplicar descuentos": aplicarDescuento,
+            "Ver descuentos del usuario": showDescuento
+        }
+        
+        # Handlers continuar
+        
+        
         pass
     
     def ventanaMillas2(self, indexBoleto):
-        self.clearZone()
+        
         
         boleto = user.getHistorial()[indexBoleto]
                 
@@ -1029,19 +1101,6 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         )
         nextFreeRow = resultFrame.nextFreeRow
 
-        # Dropdown de la opcion
-        labelOpciones = tk.Label(resultFrame.marco, text = "Vuelo:")
-        labelOpciones.grid(row=nextFreeRow, column=0, padx=5, pady=5)            
-        dropDownOpciones = ttk.Combobox(resultFrame.marco, state = "readonly", values = [
-            "Mejora de silla", "Descuento vuelo",
-            "Descuento maleta", "Aplicar descuentos",
-            "Ver descuentos del usuario"
-        ])
-        dropDownOpciones.grid(row=nextFreeRow, column=1, padx=15, pady=15)
-        dropDownOpciones.bind("<<ComboboxSelected>>", lambda: 1)
-        
-        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-        getBotonContinuar(resultFrame.marco, lambda: 1, nextFreeRow+1, 1)
         
     
         pass

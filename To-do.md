@@ -43,3 +43,7 @@
 - Funcionalidad canjear millas
     - Ventana que pide al usuario seleccionar de un menu de opciones auto actualizable
     - Segun la opcion se generan los inputs y se hace
+        - Mejora de silla
+        - Descuento de vuelo
+        - Descuento maleta
+        - Aplicar descuento
