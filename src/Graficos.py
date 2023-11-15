@@ -872,15 +872,50 @@ class CancelarVuelo(VentanaBaseFuncionalidad):
 
 
 class CheckIn(VentanaBaseFuncionalidad):
+    
     def ventana1(self):
-        formElement = FieldFrame(
-            "Datos del Vuelo",
-            [],
-            "Ingrese los datos",
-            [],
-            None, self.zonaForm
-        )
+        self.clearZone()
+        self.showSelectHistorial(self.ventanaMillas2)
         pass
+    
+    def ventana2(self, indexBoleto):
+        
+        self.clearZone()
+        boleto = user.getHistorial()[indexBoleto]
+                
+        resultFrame = ResultFrame(
+            "Detalles del boleto",
+            boleto.getInfo(),
+            self.zonaForm
+        )
+        
+        nextFreeRow = resultFrame.nextFreeRow
+        
+        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow, 0)
+        getBotonContinuar(resultFrame.marco, lambda: confirmacion(boleto), nextFreeRow, 1)
+
+        def confirmacion(boleto):
+            
+            # SI el boleto ya tiene check in pasa a los servicios
+            if (boleto.checkInRealizado):
+                alertConfirmacion("El boleto seleccionado ya tiene check in, pasando al menu de servicios")
+                self.ventanaMillasMenu(boleto)
+
+            else:
+                if boleto.status == "Cancelado":
+                    alertWarn("Error", "El boleto es un boleto cancelado, no se puede hacer Check In")
+                    self.cancel()
+                else: 
+                    # SI no tiene check se pide la verificacion para hacer check in, y se pasa a los servicios
+                    ok = alertConfirmacion("El boleto seleccionado aun no tiene check in, desea confirmar el check in?")
+                    if ok:
+                        boleto.status = "Confirmado"
+                        boleto.setCheckInRealizado = True
+                        
+                        # Backend check In
+                        alertInfo("Check In", "Check In realizado con exito")
+                        self.ventanaMillasMenu(boleto)
+
 
 class GestionUsuario(VentanaBaseFuncionalidad):
     
@@ -986,6 +1021,29 @@ class GestionUsuario(VentanaBaseFuncionalidad):
     def ventanaMillasMenu(self, boleto):
         self.clearZone()
         
+        # Breve informacion del vuelo
+        resultFrame = ResultFrame(
+            "Informacion del vuelo",
+            {"Vuelo: " : boleto.getStr()},
+            self.zonaForm
+        )
+        nextFreeRow = resultFrame.nextFreeRow
+
+        # Dropdown de la opcion
+        labelOpciones = tk.Label(resultFrame.marco, text = "Vuelo:")
+        labelOpciones.grid(row=nextFreeRow, column=0, padx=5, pady=5)            
+        dropDownOpciones = ttk.Combobox(resultFrame.marco, state = "readonly", values = [
+            "Mejora de silla", "Descuento vuelo",
+            "Descuento maleta", "Aplicar descuentos",
+            "Ver descuentos del usuario"
+        ])
+        dropDownOpciones.grid(row=nextFreeRow, column=1, padx=15, pady=15)
+        dropDownOpciones.bind("<<ComboboxSelected>>", lambda: 1)
+        
+        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+        getBotonContinuar(resultFrame.marco, lambda: 1, nextFreeRow+1, 1)
+        
+    
         pass
     
 ventanaInicial = VentanaInicial()

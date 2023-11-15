@@ -30,11 +30,16 @@
 
 **Check in**
 - Se selecciona el vuelo...
+- Si ya tiene check in pasa al menu, sino, se confirma y va al menu
+- En el menu al seleccionar una opcion segun lo q queremos se genera informacion:
+    - Mejorar nuestro asiento
+    - Comprar servicios especiales (Horrible?)
 
 **Gestion Usuario**
 - Se abre la ventana de gestion de usuario con una descripcion de la cuenta y diferentes opciones para seleccionar de las funcionalidades
 - Depositar dinero con un popUp?
 - Ventana historial de vuelos (En trabajo)
+
 - Funcionalidad canjear millas
-    - Ventana que pide al usuario seleccionar de un menu de opciones auto actualizables
-    - 
+    - Ventana que pide al usuario seleccionar de un menu de opciones auto actualizable
+    - Segun la opcion se generan los inputs y se hace
