@@ -1122,8 +1122,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         
         def mejoraSilla(nextRow):
             map(lambda e: e.destroy(), GestionUsuario.tempElements)
-            
-            
+
             def selecAsientos():
                 dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos
                 pass
@@ -1148,7 +1147,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
                 ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos[dropDownAsiento.current()]
             ), nextRow+2, 1)
             
-            CheckIn.tempElements = [labelBoleto, dropDownBoleto, dropDownAsiento, labelAsiento, b1, b2]
+            GestionUsuario.tempElements = [labelBoleto, dropDownBoleto, dropDownAsiento, labelAsiento, b1, b2]
             pass
 
         def descuentoVuelo(nextRow):
@@ -1165,7 +1164,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextRow+1, 0)
             b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
             
-            CheckIn.tempElements = [labelBoleto, dropDownBoleto, b1, b2]
+            GestionUsuario.tempElements = [labelBoleto, dropDownBoleto, b1, b2]
             
             pass
 
@@ -1183,7 +1182,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextRow+1, 0)
             b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
             
-            CheckIn.tempElements = [labelBoleto, dropDownBoleto, b1, b2]
+            GestionUsuario.tempElements = [labelBoleto, dropDownBoleto, b1, b2]
             pass
 
         def aplicarDescuento(nextRow):
