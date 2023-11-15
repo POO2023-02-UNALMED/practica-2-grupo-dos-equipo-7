@@ -961,6 +961,9 @@ class GestionUsuario(VentanaBaseFuncionalidad):
                     # SI no tiene check se pide la verificacion para hacer check in, y se pasa a los servicios
                     ok = alertConfirmacion("El boleto seleccionado aun no tiene check in, desea confirmar el check in?")
                     if ok:
+                        boleto.status = "Confirmado"
+                        boleto.setCheckInRealizado = True
+                        
                         # Backend check In
                         alertInfo("Check In", "Check In realizado con exito")
                         self.ventanaMillasMenu(boleto)
