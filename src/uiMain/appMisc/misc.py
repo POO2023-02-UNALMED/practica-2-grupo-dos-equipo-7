@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox as messagebox
 from PIL import ImageTk, Image
+from baseDatos.Serializador import *
+
 
 # Archivo temporal para tener cierta organizacion con handlers y funcionalidades extra?
 

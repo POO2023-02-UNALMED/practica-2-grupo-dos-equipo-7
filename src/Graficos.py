@@ -7,23 +7,12 @@ from uiMain.appMisc.misc import *
 # ------------------------------------
 # Backend (TEMPORAL)
 
-from gestorAplicacion.Aerolinea.Asiento import Asiento
 from gestorAplicacion.Aerolinea.Boleto import Boleto
 from gestorAplicacion.Aerolinea.Maleta import Maleta
-from gestorAplicacion.Aerolinea.RestriccionesMaleta import RestriccionesMaleta
-from gestorAplicacion.Aerolinea.ServiciosEspeciales import ServiciosEspeciales
 from gestorAplicacion.Aerolinea.Vuelo import Vuelo
-
 from gestorAplicacion.Cuenta.Usuario import Usuario
+from baseDatos.Serializador import *
 
-from gestorAplicacion.Descuentos.Descuento import Descuento
-from gestorAplicacion.Descuentos.descuentoMaleta import descuentoMaleta
-from gestorAplicacion.Descuentos.descuentoVuelo import descuentoVuelo
-from gestorAplicacion.Descuentos.upgradeAsiento import upgradeAsiento
-
-from gestorAplicacion.Mascotas.Animal import Animal
-from gestorAplicacion.Mascotas.Perro import Perro
-from gestorAplicacion.Mascotas.Gato import Gato
 # ------------------------------------
 
 App = tk.Tk()
@@ -31,7 +20,8 @@ App.title("Ventana de Inicio")
 App.geometry("800x600")
 
 global user
-user = Usuario("Largod </>", "largod@unal.edu.co", 1000)
+# Usuario("Largod </>", "largod@unal.edu.co", 1000)
+user = deserializarUsuario()
 
 handlersProcesoConsulta = {
     "Comprar vuelo": lambda mainMenu: ComprarVuelo().generar(
