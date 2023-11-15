@@ -15,13 +15,37 @@ from baseDatos.Serializador import *
 
 # ------------------------------------
 
+def createMainUser():
+    mainUser = Usuario("Largod </>", "largod@unal.edu.co", 5000)
+    
+    baseData = [
+        { "Origen": "Medellin", "Destino": "Codazzi",   "Maletas": 2, "Vuelo": 2, "Asiento": 3 },
+        { "Origen": "Bogota",   "Destino": "Venezuela", "Maletas": 1, "Vuelo": 3, "Asiento": 4 },
+        { "Origen": "de Mal",   "Destino": "a Peor",    "Maletas": 0, "Vuelo": 4, "Asiento": 5 },
+        { "Origen": "Bogota",   "Destino": "Medellin",  "Maletas": 4, "Vuelo": 5, "Asiento": 2 },
+    ]
+    
+    for data in baseData:
+        vuelo = Vuelo.generarVuelos(5, data["Origen"], data["Destino"])[data["Vuelo"]] #Genera los vuelos 
+        boleto = Boleto(
+            data["Origen"],
+            data["Destino"],
+            vuelo,
+            vuelo.generarAsientos(3, 5, 100)[data["Asiento"]],
+            mainUser
+        )
+        maletas = [Maleta(i+1, 12, boleto) for i in range(data["Maletas"])]
+        mainUser.comprarBoleto(boleto)
+    return mainUser
+
+
 App = tk.Tk()
 App.title("Ventana de Inicio")
 App.geometry("800x600")
 
 global user
-# Usuario("Largod </>", "largod@unal.edu.co", 1000)
-user = deserializarUsuario()
+
+user = createMainUser()
 
 handlersProcesoConsulta = {
     "Comprar vuelo": lambda mainMenu: ComprarVuelo().generar(
