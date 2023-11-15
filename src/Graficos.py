@@ -888,7 +888,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         
         resultFrame = ResultFrame(
             "Historial de vuelos",
-            [boleto.getStr() for boleto in user.historial],
+            {f"Vuelo #{i+1}" : boleto.getStr() for i, boleto in enumerate(user.historial)},
             self.zonaForm
         )
         nextFreeRow = resultFrame.nextFreeRow
