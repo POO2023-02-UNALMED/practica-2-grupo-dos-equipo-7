@@ -54,5 +54,9 @@ class Vuelo:
     def getInfo(self):
         return f"Id: {self.ID}, Origen: {self.ORIGEN} , Destino: {self.DESTINO} , Hora salida: {self.horaSalida}"
 
+    def getStr(self):
+        return f"Id: {self.ID}, Origen: {self.ORIGEN} , Destino: {self.DESTINO} , Hora salida: {self.horaSalida}"
+
+    
     def __str__(self):
         return self.getInfo()

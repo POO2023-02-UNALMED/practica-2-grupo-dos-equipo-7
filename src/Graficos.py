@@ -870,24 +870,30 @@ class CheckIn(VentanaBaseFuncionalidad):
 class GestionUsuario(VentanaBaseFuncionalidad):
     
     def ventanaHistorial(self):
+        self.clearZone()
+        
+        resultFrame = ResultFrame(
+            "Historial de vuelos",
+            [boleto.getStr() for boleto in user.historial],
+            self.zonaForm
+        )
+        nextFreeRow = resultFrame.nextFreeRow
+        
+        boton = tk.Button(resultFrame.marco, text="Volver", bg="white", borderwidth=0, command = lambda: self.ventana())
+        boton.grid(row=nextFreeRow, column=0, padx=5, pady=5)
         pass
-    
-    
-    def ventanaCanjearMillas(self):
-        pass
-    
     
     def ventanaDepositar(self):
         valor = 100
         user.depositarDinero(valor)
 
         alertInfo("Deposito realizado con exito", f"Se ha agregado ${valor} a tu cuenta, nuevo saldo: {user.dinero}")
-        
         self.cancel()
         pass
     
     
     def ventana1(self):
+        self.clearZone()
         
         infoCuenta = ResultFrame(
             "Detalles del boleto",
@@ -920,7 +926,49 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         botonCanjearMillas.grid(row=nextFreeRow+4, column=1, padx=5, pady=5)    
         pass
     
+    def ventanaCanjearMillas(self):
+        self.clearZone()
+        self.showSelectHistorial(self.ventanaMillas2)
+        pass
     
+    def ventanaMillas2(self, indexBoleto):
+        self.clearZone()
+        
+        boleto = user.getHistorial()[indexBoleto]
+                
+        resultFrame = ResultFrame(
+            "Detalles del boleto",
+            boleto.getInfo(),
+            self.zonaForm
+        )
+        nextFreeRow = resultFrame.nextFreeRow
+        
+        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow, 0)
+        getBotonContinuar(resultFrame.marco, lambda: confirmacion(boleto), nextFreeRow, 1)
+
+        def confirmacion(boleto):
+            
+            # SI el boleto ya tiene check in pasa a los servicios
+            if (boleto.checkInRealizado):
+                alertConfirmacion("El boleto seleccionado ya tiene check in, pasando al menu de servicios")
+                self.ventanaMillasMenu(boleto)
+
+            else:
+                if boleto.status == "Cancelado":
+                    alertWarn("Error", "El boleto es un boleto cancelado, no se puede hacer Check In")
+                    self.cancel()
+                else: 
+                    # SI no tiene check se pide la verificacion para hacer check in, y se pasa a los servicios
+                    ok = alertConfirmacion("El boleto seleccionado aun no tiene check in, desea confirmar el check in?")
+                    if ok:
+                        # Backend check In
+                        alertInfo("Check In", "Check In realizado con exito")
+                        self.ventanaMillasMenu(boleto)
+
+    def ventanaMillasMenu(self, boleto):
+        self.clearZone()
+        
+        pass
     
 ventanaInicial = VentanaInicial()
 ventanaInicial.generar()

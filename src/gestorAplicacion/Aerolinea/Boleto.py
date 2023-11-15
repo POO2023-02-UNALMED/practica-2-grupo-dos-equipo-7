@@ -117,3 +117,6 @@ class Boleto:
             "Estado": self.status,
             "Servicios contratados": len(self.serviciosContratados)
         }
+        
+    def getStr(self):
+        return f"Origen-Destino: {self.getOrigenDestino()}, Precio: {self.valor}, Tipo asiento: {self.tipo}, Cantidad maletas: {len(self.equipaje)}, Estado: {self.status,}, Servicios: {len(self.serviciosContratados)}"

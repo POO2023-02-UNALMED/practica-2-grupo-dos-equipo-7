@@ -654,6 +654,7 @@ def checkin(user):
     saltoO()
     continuar()
     opcion
+    
     # verifica si ya se realizo el checkin para el vuelo
     # en caso de que ya se realizo el check in no dejaria entrar a este menu
     if ((not boleto.getCheckInRealizado()) and boleto.getStatus() != "Cancelado"):

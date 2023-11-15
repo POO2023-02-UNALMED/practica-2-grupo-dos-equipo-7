@@ -34,7 +34,7 @@
 **Gestion Usuario**
 - Se abre la ventana de gestion de usuario con una descripcion de la cuenta y diferentes opciones para seleccionar de las funcionalidades
 - Depositar dinero con un popUp?
-- Ventana historial de vuelos
+- Ventana historial de vuelos (En trabajo)
 - Funcionalidad canjear millas
     - Ventana que pide al usuario seleccionar de un menu de opciones auto actualizables
     - 
