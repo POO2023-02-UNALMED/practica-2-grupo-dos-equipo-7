@@ -22,7 +22,7 @@ def createMainUser():
         { "Origen": "Medellin", "Destino": "Codazzi",   "Maletas": 2, "Vuelo": 2, "Asiento": 3 },
         { "Origen": "Bogota",   "Destino": "Venezuela", "Maletas": 1, "Vuelo": 3, "Asiento": 4 },
         { "Origen": "de Mal",   "Destino": "a Peor",    "Maletas": 0, "Vuelo": 4, "Asiento": 5 },
-        { "Origen": "Bogota",   "Destino": "Medellin",  "Maletas": 4, "Vuelo": 5, "Asiento": 2 },
+        { "Origen": "Bogota",   "Destino": "Medellin",  "Maletas": 4, "Vuelo": 0, "Asiento": 2 },
     ]
     
     for data in baseData:
@@ -43,9 +43,10 @@ App = tk.Tk()
 App.title("Ventana de Inicio")
 App.geometry("800x600")
 
+#serializarUsuario(createMainUser())
 global user
+user = deserializarUsuario()
 
-user = createMainUser()
 
 handlersProcesoConsulta = {
     "Comprar vuelo": lambda mainMenu: ComprarVuelo().generar(
@@ -78,7 +79,7 @@ handlersProcesoConsulta = {
         TEXT_DATA["descripcionGestionUsuario"]
     ),
     
-    "Salir" : exitHandler
+    "Salir" : lambda: exitHandler(user)
 }
 
 
@@ -375,7 +376,7 @@ class VentanaInicial:
         menuInicio = tk.Menu(menuBar, tearoff=False)
         menuBar.add_cascade(menu=menuInicio, label="Inicio")
     
-        menuInicio.add_command( label="Salir", command = exitHandler )
+        menuInicio.add_command( label="Salir", command = lambda: exitHandler(user) )
         menuInicio.add_command( label="Descripcion", command = lambda: p3Label.config(text = TEXT_DATA["breveDescripcionApp"]))
 
         # Diferentes paneles

@@ -2,14 +2,14 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox as messagebox
 from PIL import ImageTk, Image
-from baseDatos.Serializador import *
-
+from baseDatos.Serializador import serializarUsuario, deserializarUsuario
 
 # Archivo temporal para tener cierta organizacion con handlers y funcionalidades extra?
 
-def exitHandler():
+def exitHandler(USER):
     ok = messagebox.askokcancel("Confirmacion", "Desea salir del programa?")
     if ok:
+        serializarUsuario(USER)
         exit()
 
 def cancelarHandler(callback):

@@ -1,13 +1,14 @@
 import pickle
-from gestorAplicacion.Cuenta.Usuario import Usuario
 
 def serializarUsuario(instanciaUsuario):
-    file = open("baseDatos/temp/mainUser.pickle","wb")
-    serializacion = pickle.dump(instanciaUsuario, file)
+    file = open("src/baseDatos/temp/mainUser.pickle","wb")
+    pickle.dump(instanciaUsuario, file)
     file.close()
-    return
+    print("Usuario guardado")
+    
 
 def deserializarUsuario():
-    file = open("baseDatos/temp/mainUser.pickle","rb")
+    file = open("src/baseDatos/temp/mainUser.pickle","rb")
     instancia = pickle.load(file)
+    print("Usuario cargado")
     return instancia
