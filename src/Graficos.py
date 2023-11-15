@@ -871,6 +871,8 @@ class CancelarVuelo(VentanaBaseFuncionalidad):
 
 class CheckIn(VentanaBaseFuncionalidad):
     
+    tempElements = []
+    
     def ventana1(self):
         self.clearZone()
         self.showSelectHistorial(self.ventana2)
@@ -944,6 +946,9 @@ class CheckIn(VentanaBaseFuncionalidad):
         separador = getSeparador(infoServicios.marco, nextFreeRow + 1, 2)
 
         def mejoraSilla(nextRow, boleto):
+            
+            map(CheckIn.tempElements, lambda e: e.destroy())
+            
             def confirmar(asiento):
                 pass
             
@@ -952,15 +957,18 @@ class CheckIn(VentanaBaseFuncionalidad):
             dropDownAsiento = ttk.Combobox(infoServicios.marco, state = "readonly", values = boleto.vuelo.asientos)
             dropDownAsiento.grid(row=nextRow, column=1, padx=15, pady=15)
 
-            getBotonCancelar(infoServicios.marco, lambda: self.cancel(), nextRow+1, 0)
-            getBotonContinuar(infoServicios.marco, lambda: confirmar(
+            b1 = getBotonCancelar(infoServicios.marco, lambda: self.cancel(), nextRow+1, 0)
+            b2 = getBotonContinuar(infoServicios.marco, lambda: confirmar(
                 boleto.vuelo.asientos[dropDownAsiento.current()]
             ), nextRow+1, 1)
             
+            CheckIn.tempElements = [labelAsiento, dropDownOpciones, b1, b2]
             pass
         
         
         def comprarServicios(nextRow, boleto):
+            map(CheckIn.tempElements, lambda e: e.destroy())
+            
             def confirmar():
                 pass
 
@@ -976,6 +984,9 @@ class CheckIn(VentanaBaseFuncionalidad):
             dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersServicios[dropDownOpciones.get()](nextRow+2, boleto))
         
             separador = getSeparador(infoServicios.marco, nextFreeRow + 1, 2)
+            
+            CheckIn.tempElements = [labelOpciones, dropDownOpciones, separador]
+            
 
             # Servicios especiales:
             handlersServicios = {
@@ -1015,6 +1026,8 @@ class CheckIn(VentanaBaseFuncionalidad):
         pass
     
 class GestionUsuario(VentanaBaseFuncionalidad):
+    
+    tempElements = []
     
     def ventanaHistorial(self):
         self.clearZone()
@@ -1108,6 +1121,8 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         # HandlersMillas
         
         def mejoraSilla(nextRow):
+            map(CheckIn.tempElements, lambda e: e.destroy())
+            
             def selecAsientos():
                 dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos
                 pass
@@ -1126,14 +1141,18 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             dropDownAsiento = ttk.Combobox(infoMillas.marco, state = "readonly", values = ((user.getHistorial())[0]).vuelo.asientos)
             dropDownAsiento.grid(row=nextRow+1, column=1, padx=15, pady=15)
 
-            getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+2, 0)
-            getBotonContinuar(infoMillas.marco, lambda: confirmar(
+            b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+2, 0)
+            b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar(
                 (user.getHistorial())[dropDownBoleto.current()],
                 ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos[dropDownAsiento.current()]
             ), nextFreeRow+2, 1)
+            
+            CheckIn.tempElements = [labelBoleto, dropDownBoleto, dropDownAsiento, labelAsiento, b1, b2]
             pass
 
         def descuentoVuelo(nextRow):
+            map(CheckIn.tempElements, lambda e: e.destroy())
+            
             def confirmar(boleto):
                 pass
 
@@ -1142,11 +1161,16 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             dropDownBoleto = ttk.Combobox(infoMillas.marco, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             
-            getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-            getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextFreeRow+1, 1)
+            b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+            b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextFreeRow+1, 1)
+            
+            CheckIn.tempElements = [labelBoleto, dropDownBoleto, b1, b2]
+            
             pass
 
         def descuentoMaleta(nextRow):
+            map(CheckIn.tempElements, lambda e: e.destroy())
+            
             def confirmar(boleto):
                 pass
             
@@ -1155,15 +1179,16 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             dropDownBoleto = ttk.Combobox(infoMillas.marco, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             
-            getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-            getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextFreeRow+1, 1)
+            b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+            b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextFreeRow+1, 1)
+            
+            CheckIn.tempElements = [labelBoleto, dropDownBoleto, b1, b2]
             pass
 
         def aplicarDescuento(nextRow):
             pass
 
         def showDescuento(nextRow):
-            
             pass
 
         handlersMillas = {
