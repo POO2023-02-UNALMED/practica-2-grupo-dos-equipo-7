@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5114b6bd-e9ac-4245-ab63-687acb674657" name="Changes" comment="" />
+    <list default="true" id="5114b6bd-e9ac-4245-ab63-687acb674657" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -43,6 +45,7 @@
       <updated>1699830237231</updated>
       <workItem from="1699830242565" duration="5063000" />
       <workItem from="1699970990665" duration="693000" />
+      <workItem from="1700018723097" duration="1361000" />
     </task>
     <task id="LOCAL-00001" summary="cositas serializacion">
       <option name="closed" value="true" />
