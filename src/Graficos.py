@@ -894,7 +894,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         )
         nextFreeRow = resultFrame.nextFreeRow
         
-        boton = tk.Button(resultFrame.marco, text="Volver", bg="white", borderwidth=0, command = lambda: self.ventana())
+        boton = tk.Button(resultFrame.marco, text="Volver", bg="white", borderwidth=0, command = lambda: self.ventana1())
         boton.grid(row=nextFreeRow, column=0, padx=5, pady=5)
         pass
     
