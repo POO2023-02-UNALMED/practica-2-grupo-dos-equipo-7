@@ -997,7 +997,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         
         nextFreeRow = 3
         dropDownOpciones.grid(row=1, column=1, padx=15, pady=15)
-        dropDownOpciones.bind("<<ComboboxSelected>>", lambda: handlersMillas[dropDownOpciones.get()](nextFreeRow))
+        dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersMillas[dropDownOpciones.get()](nextFreeRow))
         
         separador = getSeparador(self.zonaForm, 2, 2)
 
@@ -1012,19 +1012,18 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         
         def mejoraSilla(nextFreeRow):
             def selecAsientos():
-                dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).boleto.vuelo.asientos
+                dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos
                 pass
             
-            labelBoleto = tk.Label(self.zonaForm, text = "Seleccionar opcion")
+            labelBoleto = tk.Label(self.zonaForm, text = "Seleccionar vuelo")
             labelBoleto.grid(row=nextFreeRow, column=0, padx=5, pady=5)
-            dropDownBoleto = ttk.Combobox(self.zonaForm, state = "readonly", values = [boleto.toStr() for boleto in user.getHistorial()])
+            dropDownBoleto = ttk.Combobox(self.zonaForm, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextFreeRow, column=1, padx=15, pady=15)
             dropDownBoleto.bind("<<ComboboxSelected>>", lambda e: selecAsientos())
         
-            
-            labelAsiento = tk.Label(self.zonaForm, text = "Seleccionar opcion")
+            labelAsiento = tk.Label(self.zonaForm, text = "Seleccionar asiento")
             labelAsiento.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
-            dropDownAsiento = ttk.Combobox(self.zonaForm, state = "readonly", values = ((user.getHistorial())[0]).boleto.vuelo.asientos)
+            dropDownAsiento = ttk.Combobox(self.zonaForm, state = "readonly", values = [])
             dropDownAsiento.grid(row=nextFreeRow+1, column=1, padx=15, pady=15)            
             pass
 
