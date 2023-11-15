@@ -916,8 +916,13 @@ class CheckIn(VentanaBaseFuncionalidad):
 
     def ventanaServicios(self, boleto):
         
+        handlersCheckIn = {
+            "Mejorar asiento": mejoraSilla,
+            "Comprar servicios especiales": comprarServicios,
+        }
+        
         # Mostrar millas disponibles
-        infoMillas = ResultFrame(
+        infoServicios = ResultFrame(
             "Informacion del boleto",
             {
                 "Origen - Destino": boleto.getOrigenDestino(),
@@ -927,36 +932,65 @@ class CheckIn(VentanaBaseFuncionalidad):
             },
             self.zonaForm
         )
-        nextFreeRow = infoMillas.nextFreeRow
+        nextFreeRow = infoServicios.nextFreeRow
         
         # Dropdown de la opcion
-        labelOpciones = tk.Label(infoMillas.marco, text = "Seleccionar opcion")
+        labelOpciones = tk.Label(infoServicios.marco, text = "Seleccionar opcion")
         labelOpciones.grid(row=nextFreeRow, column=0, padx=5, pady=5)            
-        dropDownOpciones = ttk.Combobox(infoMillas.marco, state = "readonly", values = [
+        dropDownOpciones = ttk.Combobox(infoServicios.marco, state = "readonly", values = [
             "Mejorar asiento", "Comprar servicios especiales"
         ])
         
         nextRow = nextFreeRow + 2
         dropDownOpciones.grid(row=nextFreeRow, column=1, padx=15, pady=15)
-        dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersMillas[dropDownOpciones.get()](nextRow, boleto))
+        dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersCheckIn[dropDownOpciones.get()](nextRow, boleto))
         
-        separador = getSeparador(infoMillas.marco, nextFreeRow + 1, 2)
+        separador = getSeparador(infoServicios.marco, nextFreeRow + 1, 2)
 
         def mejoraSilla(nextRow, boleto):
-            def confirmar():
+            def confirmar(asiento):
                 pass
+            
+            labelAsiento = tk.Label(infoServicios.marco, text = "Seleccionar nuevo asiento")
+            labelAsiento.grid(row=nextRow, column=0, padx=5, pady=5)
+            dropDownAsiento = ttk.Combobox(infoServicios.marco, state = "readonly", values = boleto.vuelo.asientos)
+            dropDownAsiento.grid(row=nextRow+1, column=1, padx=15, pady=15)
+
+            getBotonCancelar(infoServicios.marco, lambda: self.cancel(), nextRow+1, 0)
+            getBotonContinuar(infoServicios.marco, lambda: confirmar(
+                boleto.vuelo.asientos[dropDownAsiento.current()]
+            ), nextRow+1, 1)
+            
             pass
         
         
         def comprarServicios(nextRow, boleto):
             def confirmar():
                 pass
+
+            # Dropdown de la opcion
+            labelOpciones = tk.Label(infoServicios.marco, text = "Seleccionar servicio")
+            labelOpciones.grid(row=nextRow, column=0, padx=5, pady=5)
+            dropDownOpciones = ttk.Combobox(infoServicios.marco, state = "readonly", values = [
+                "Comida a la carta", "Viaje con mascota", "Acompañante para menor de edad",
+                "Asistencia para pasajero con necesidades especiales", "Transporte terrestre",
+                "Ver servicios contratados"
+            ])
+            dropDownOpciones.grid(row=nextRow, column=1, padx=15, pady=15)
+            dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersServicios[dropDownOpciones.get()](nextRow+1, boleto))
+        
+            # Servicios especiales:
+
+            handlersServicios = {
+                "Comida a la carta"
+                "Viaje con mascota"
+                "Acompañante para menor de edad"
+                "Asistencia para pasajero con necesidades especiales"
+                "Transporte terrestre"
+                "Ver servicios contratados"
+            }
             pass
         
-        handlersMillas = {
-            "Mejorar asiento": mejoraSilla,
-            "Comprar servicios especiales": comprarServicios,
-        }
         pass
     
 class GestionUsuario(VentanaBaseFuncionalidad):
