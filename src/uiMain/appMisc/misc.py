@@ -40,6 +40,14 @@ def getImage(parent, path, size, **kwargs):
     imagen.image = imageTemp
     return imagen
 
+def getSeparador(parent, row, col, pad = 5):
+    seps = []
+    for i in range(col):
+        separator = ttk.Separator(parent, orient="horizontal")
+        separator.grid(row=row, column=i, sticky="ew", padx=0, pady=pad)
+        seps.append(separator)
+    return seps
+
 #Pop up functions
 def alertWarn(errMsg, msg):
     return messagebox.showerror(errMsg, msg)
@@ -52,6 +60,7 @@ def alertInfo(title, info):
 
 def makePopUp():
     pass
+
 
 
 TEXT_DATA = {
