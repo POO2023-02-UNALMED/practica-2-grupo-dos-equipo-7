@@ -1142,11 +1142,11 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             dropDownAsiento = ttk.Combobox(infoMillas.marco, state = "readonly", values = ((user.getHistorial())[0]).vuelo.asientos)
             dropDownAsiento.grid(row=nextRow+1, column=1, padx=15, pady=15)
 
-            b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+2, 0)
+            b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextRow+2, 0)
             b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar(
                 (user.getHistorial())[dropDownBoleto.current()],
                 ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos[dropDownAsiento.current()]
-            ), nextFreeRow+2, 1)
+            ), nextRow+2, 1)
             
             CheckIn.tempElements = [labelBoleto, dropDownBoleto, dropDownAsiento, labelAsiento, b1, b2]
             pass
@@ -1162,8 +1162,8 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             dropDownBoleto = ttk.Combobox(infoMillas.marco, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             
-            b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-            b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextFreeRow+1, 1)
+            b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextRow+1, 0)
+            b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
             
             CheckIn.tempElements = [labelBoleto, dropDownBoleto, b1, b2]
             
@@ -1180,8 +1180,8 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             dropDownBoleto = ttk.Combobox(infoMillas.marco, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             
-            b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-            b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextFreeRow+1, 1)
+            b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextRow+1, 0)
+            b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
             
             CheckIn.tempElements = [labelBoleto, dropDownBoleto, b1, b2]
             pass
