@@ -980,29 +980,29 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         self.clearZone()
         
         # Mostrar millas disponibles
-        labelMillas = tk.Label(self.zonaForm, text = "Millas disponibles:")
-        labelMillas.grid(row=0, column=0, padx=5, pady=5)
-                   
-        labelMillasDisponibles = tk.Label(self.zonaForm, text = user.millas)
-        labelMillasDisponibles.grid(row=0, column=1, padx=5, pady=5)            
+        infoMillas = ResultFrame(
+            "Detalles del boleto",
+            {"Millas disponibles": user.millas},
+            self.zonaForm
+        )
+        nextFreeRow = infoMillas.nextFreeRow
         
         # Dropdown de la opcion
-        labelOpciones = tk.Label(self.zonaForm, text = "Seleccionar opcion")
-        labelOpciones.grid(row=1, column=0, padx=5, pady=5)            
-        dropDownOpciones = ttk.Combobox(self.zonaForm, state = "readonly", values = [
+        labelOpciones = tk.Label(infoMillas.marco, text = "Seleccionar opcion")
+        labelOpciones.grid(row=nextFreeRow, column=0, padx=5, pady=5)            
+        dropDownOpciones = ttk.Combobox(infoMillas.marco, state = "readonly", values = [
             "Mejora de silla", "Descuento vuelo",
             "Descuento maleta", "Aplicar descuentos",
             "Ver descuentos del usuario"
         ])
         
-        nextFreeRow = 3
-        dropDownOpciones.grid(row=1, column=1, padx=15, pady=15)
-        dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersMillas[dropDownOpciones.get()](nextFreeRow))
+        nextRow = nextFreeRow + 2
+        dropDownOpciones.grid(row=nextFreeRow, column=1, padx=15, pady=15)
+        dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersMillas[dropDownOpciones.get()](nextRow))
         
-        separador = getSeparador(self.zonaForm, 2, 2)
+        separador = getSeparador(infoMillas.marco, nextFreeRow + 1, 2)
 
         # . . . Menu . . .
-        
         
         #getBotonCancelar(self.zonaForm, lambda: self.cancel(), 1, 0)
         #getBotonContinuar(self.zonaForm, lambda: 1, 1, 1)
@@ -1010,33 +1010,33 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         
         # HandlersMillas
         
-        def mejoraSilla(nextFreeRow):
+        def mejoraSilla(nextRow):
             def selecAsientos():
                 dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos
                 pass
             
-            labelBoleto = tk.Label(self.zonaForm, text = "Seleccionar vuelo")
-            labelBoleto.grid(row=nextFreeRow, column=0, padx=5, pady=5)
+            labelBoleto = tk.Label(infoMillas.marco, text = "Seleccionar vuelo")
+            labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)
             dropDownBoleto = ttk.Combobox(self.zonaForm, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
-            dropDownBoleto.grid(row=nextFreeRow, column=1, padx=15, pady=15)
+            dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             dropDownBoleto.bind("<<ComboboxSelected>>", lambda e: selecAsientos())
         
             labelAsiento = tk.Label(self.zonaForm, text = "Seleccionar asiento")
-            labelAsiento.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
+            labelAsiento.grid(row=nextRow+1, column=0, padx=5, pady=5)
             dropDownAsiento = ttk.Combobox(self.zonaForm, state = "readonly", values = [])
-            dropDownAsiento.grid(row=nextFreeRow+1, column=1, padx=15, pady=15)            
+            dropDownAsiento.grid(row=nextRow+1, column=1, padx=15, pady=15)
             pass
 
-        def descuentoVuelo(lastIndex):
+        def descuentoVuelo(nextRow):
             pass
 
-        def descuentoMaleta(lastIndex):
+        def descuentoMaleta(nextRow):
             pass
 
-        def aplicarDescuento(lastIndex):
+        def aplicarDescuento(nextRow):
             pass
 
-        def showDescuento(lastIndex):
+        def showDescuento(nextRow):
             pass
 
         handlersMillas = {
@@ -1047,61 +1047,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             "Ver descuentos del usuario": showDescuento
         }
         
-        # Handlers continuar
-        
-        
-        pass
-    
-    def ventanaMillas2(self, indexBoleto):
-        
-        
-        boleto = user.getHistorial()[indexBoleto]
-                
-        resultFrame = ResultFrame(
-            "Detalles del boleto",
-            boleto.getInfo(),
-            self.zonaForm
-        )
-        nextFreeRow = resultFrame.nextFreeRow
-        
-        getBotonCancelar(resultFrame.marco, lambda: self.cancel(), nextFreeRow, 0)
-        getBotonContinuar(resultFrame.marco, lambda: confirmacion(boleto), nextFreeRow, 1)
-
-        def confirmacion(boleto):
-            
-            # SI el boleto ya tiene check in pasa a los servicios
-            if (boleto.checkInRealizado):
-                alertConfirmacion("El boleto seleccionado ya tiene check in, pasando al menu de servicios")
-                self.ventanaMillasMenu(boleto)
-
-            else:
-                if boleto.status == "Cancelado":
-                    alertWarn("Error", "El boleto es un boleto cancelado, no se puede hacer Check In")
-                    self.cancel()
-                else: 
-                    # SI no tiene check se pide la verificacion para hacer check in, y se pasa a los servicios
-                    ok = alertConfirmacion("El boleto seleccionado aun no tiene check in, desea confirmar el check in?")
-                    if ok:
-                        boleto.status = "Confirmado"
-                        boleto.setCheckInRealizado = True
-                        
-                        # Backend check In
-                        alertInfo("Check In", "Check In realizado con exito")
-                        self.ventanaMillasMenu(boleto)
-
-    def ventanaMillasMenu(self, boleto):
-        self.clearZone()
-        
-        # Breve informacion del vuelo
-        resultFrame = ResultFrame(
-            "Informacion del vuelo",
-            {"Vuelo: " : boleto.getStr()},
-            self.zonaForm
-        )
-        nextFreeRow = resultFrame.nextFreeRow
-
-        
-    
+        # Handlers continuar    
         pass
     
 ventanaInicial = VentanaInicial()
