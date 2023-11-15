@@ -947,7 +947,7 @@ class CheckIn(VentanaBaseFuncionalidad):
 
         def mejoraSilla(nextRow, boleto):
             
-            map(CheckIn.tempElements, lambda e: e.destroy())
+            map(lambda e: e.destroy(), CheckIn.tempElements)
             
             def confirmar(asiento):
                 pass
@@ -967,7 +967,7 @@ class CheckIn(VentanaBaseFuncionalidad):
         
         
         def comprarServicios(nextRow, boleto):
-            map(CheckIn.tempElements, lambda e: e.destroy())
+            map(lambda e: e.destroy(), CheckIn.tempElements)
             
             def confirmar():
                 pass
@@ -1121,7 +1121,8 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         # HandlersMillas
         
         def mejoraSilla(nextRow):
-            map(CheckIn.tempElements, lambda e: e.destroy())
+            map(lambda e: e.destroy(), GestionUsuario.tempElements)
+            
             
             def selecAsientos():
                 dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos
@@ -1151,7 +1152,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             pass
 
         def descuentoVuelo(nextRow):
-            map(CheckIn.tempElements, lambda e: e.destroy())
+            map(lambda e: e.destroy(), GestionUsuario.tempElements)
             
             def confirmar(boleto):
                 pass
@@ -1169,7 +1170,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             pass
 
         def descuentoMaleta(nextRow):
-            map(CheckIn.tempElements, lambda e: e.destroy())
+            map(lambda e: e.destroy(), GestionUsuario.tempElements)
             
             def confirmar(boleto):
                 pass
