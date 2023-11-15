@@ -1071,24 +1071,24 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             dropDownAsiento = ttk.Combobox(infoMillas.marco, state = "readonly", values = ((user.getHistorial())[0]).vuelo.asientos)
             dropDownAsiento.grid(row=nextRow+1, column=1, padx=15, pady=15)
 
-            getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow, 0)
+            getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+2, 0)
             getBotonContinuar(infoMillas.marco, lambda: confirmar(
                 (user.getHistorial())[dropDownBoleto.current()],
                 ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos[dropDownAsiento.current()]
-            ), nextFreeRow, 1)
+            ), nextFreeRow+2, 1)
             pass
 
         def descuentoVuelo(nextRow):
             def confirmar(boleto):
                 pass
-            
+
             labelBoleto = tk.Label(infoMillas.marco, text = "Seleccionar vuelo")
             labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)
             dropDownBoleto = ttk.Combobox(infoMillas.marco, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             
-            getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow, 0)
-            getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextFreeRow, 1)
+            getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+            getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextFreeRow+1, 1)
             pass
 
         def descuentoMaleta(nextRow):
@@ -1100,8 +1100,8 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             dropDownBoleto = ttk.Combobox(infoMillas.marco, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             
-            getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow, 0)
-            getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextFreeRow, 1)
+            getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextFreeRow+1, 0)
+            getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextFreeRow+1, 1)
             pass
 
         def aplicarDescuento(nextRow):
