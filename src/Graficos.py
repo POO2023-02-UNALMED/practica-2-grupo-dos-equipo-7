@@ -914,7 +914,8 @@ class CheckIn(VentanaBaseFuncionalidad):
                         alertInfo("Check In", "Check In realizado con exito")
                         self.ventanaServicios(boleto)
 
-    def ventanaServicios(self, boleto):        
+    def ventanaServicios(self, boleto):
+        self.clearZone()
         
         # Mostrar millas disponibles
         infoServicios = ResultFrame(
@@ -972,18 +973,39 @@ class CheckIn(VentanaBaseFuncionalidad):
                 "Ver servicios contratados"
             ])
             dropDownOpciones.grid(row=nextRow, column=1, padx=15, pady=15)
-            dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersServicios[dropDownOpciones.get()](nextRow+1, boleto))
+            dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersServicios[dropDownOpciones.get()](nextRow+2, boleto))
         
-            # Servicios especiales:
+            separador = getSeparador(infoServicios.marco, nextFreeRow + 1, 2)
 
+            # Servicios especiales:
             handlersServicios = {
-                "Comida a la carta"
-                "Viaje con mascota"
-                "Acompañante para menor de edad"
-                "Asistencia para pasajero con necesidades especiales"
-                "Transporte terrestre"
-                "Ver servicios contratados"
+                "Comida a la carta": servicioComida,
+                "Viaje con mascota": servicioMascota,
+                "Acompañante para menor de edad": servicioMenor,
+                "Asistencia para pasajero con necesidades especiales": servicioAsistencia,
+                "Transporte terrestre": servicioTransporte,
+                "Ver servicios contratados": showServicios,
             }
+            
+            def servicioComida(nextRow, boleto):
+                pass
+
+            def servicioMascota(nextRow, boleto):
+                pass
+
+            def servicioMenor(nextRow, boleto):
+                pass
+
+            def servicioAsistencia(nextRow, boleto):
+                pass
+
+            def servicioTransporte(nextRow, boleto):
+                pass
+
+            def showServicios(nextRow, boleto):
+                pass
+
+
             pass
         
         handlersCheckIn = {
