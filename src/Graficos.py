@@ -1088,10 +1088,10 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         self.clearZone()
         
         self.zona1 = tk.Frame(self.zonaForm, bg="yellow", borderwidth=1, relief="solid")
-        self.zona1.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        self.zona1.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
         
         self.zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
-        self.zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        self.zona2.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
         
         # Mostrar millas disponibles
         infoMillas = ResultFrame(
@@ -1128,7 +1128,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             
             self.zona2.destroy()
             self.zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
-            self.zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+            self.zona2.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
         
             def selecAsientos():
                 dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos
@@ -1159,7 +1159,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         def descuentoVuelo(nextRow):
             self.zona2.destroy()
             self.zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
-            self.zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+            self.zona2.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
         
             def confirmar(boleto):
                 pass
@@ -1177,7 +1177,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         def descuentoMaleta(nextRow):
             self.zona2.destroy()
             self.zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
-            self.zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+            self.zona2.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
         
             def confirmar(boleto):
                 pass
