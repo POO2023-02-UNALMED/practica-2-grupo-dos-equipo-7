@@ -1026,9 +1026,7 @@ class CheckIn(VentanaBaseFuncionalidad):
         pass
     
 class GestionUsuario(VentanaBaseFuncionalidad):
-    
-    tempElements = []
-    
+        
     def ventanaHistorial(self):
         self.clearZone()
         
@@ -1089,11 +1087,17 @@ class GestionUsuario(VentanaBaseFuncionalidad):
     def ventanaCanjearMillas(self):
         self.clearZone()
         
+        zona1 = tk.Frame(self.zonaForm, bg="yellow", borderwidth=1, relief="solid")
+        zona1.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        
+        zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+        zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        
         # Mostrar millas disponibles
         infoMillas = ResultFrame(
             "Informacion de la Cuenta:",
             {"Millas disponibles": user.millas},
-            self.zonaForm
+            zona1
         )
         nextFreeRow = infoMillas.nextFreeRow
         
@@ -1121,8 +1125,12 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         # HandlersMillas
         
         def mejoraSilla(nextRow):
-            map(lambda e: e.destroy(), GestionUsuario.tempElements)
-
+            
+            zona2.destroy()
+            zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        
+            
             def selecAsientos():
                 dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos
                 pass
@@ -1130,47 +1138,48 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             def confirmar(boleto, newAsiento):
                 pass
             
-            labelBoleto = tk.Label(infoMillas.marco, text = "Seleccionar vuelo")
+            labelBoleto = tk.Label(zona2, text = "Seleccionar vuelo")
             labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)
-            dropDownBoleto = ttk.Combobox(infoMillas.marco, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
+            dropDownBoleto = ttk.Combobox(zona2, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             dropDownBoleto.bind("<<ComboboxSelected>>", lambda e: selecAsientos())
         
-            labelAsiento = tk.Label(infoMillas.marco, text = "Seleccionar asiento")
+            labelAsiento = tk.Label(zona2, text = "Seleccionar asiento")
             labelAsiento.grid(row=nextRow+1, column=0, padx=5, pady=5)
-            dropDownAsiento = ttk.Combobox(infoMillas.marco, state = "readonly", values = ((user.getHistorial())[0]).vuelo.asientos)
+            dropDownAsiento = ttk.Combobox(zona2, state = "readonly", values = ((user.getHistorial())[0]).vuelo.asientos)
             dropDownAsiento.grid(row=nextRow+1, column=1, padx=15, pady=15)
 
-            b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextRow+2, 0)
-            b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar(
+            b1 = getBotonCancelar(zona2, lambda: self.cancel(), nextRow+2, 0)
+            b2 = getBotonContinuar(zona2, lambda: confirmar(
                 (user.getHistorial())[dropDownBoleto.current()],
                 ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos[dropDownAsiento.current()]
             ), nextRow+2, 1)
             
-            GestionUsuario.tempElements = [labelBoleto, dropDownBoleto, dropDownAsiento, labelAsiento, b1, b2]
             pass
 
         def descuentoVuelo(nextRow):
-            map(lambda e: e.destroy(), GestionUsuario.tempElements)
-            
+            zona2.destroy()
+            zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        
             def confirmar(boleto):
                 pass
 
-            labelBoleto = tk.Label(infoMillas.marco, text = "Seleccionar vuelo")
+            labelBoleto = tk.Label(zona2, text = "Seleccionar vuelo")
             labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)
-            dropDownBoleto = ttk.Combobox(infoMillas.marco, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
+            dropDownBoleto = ttk.Combobox(zona2, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             
-            b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextRow+1, 0)
-            b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
-            
-            GestionUsuario.tempElements = [labelBoleto, dropDownBoleto, b1, b2]
+            b1 = getBotonCancelar(zona2, lambda: self.cancel(), nextRow+1, 0)
+            b2 = getBotonContinuar(zona2, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
             
             pass
 
         def descuentoMaleta(nextRow):
-            map(lambda e: e.destroy(), GestionUsuario.tempElements)
-            
+            zona2.destroy()
+            zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            zona2.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        
             def confirmar(boleto):
                 pass
             
@@ -1182,7 +1191,6 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             b1 = getBotonCancelar(infoMillas.marco, lambda: self.cancel(), nextRow+1, 0)
             b2 = getBotonContinuar(infoMillas.marco, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
             
-            GestionUsuario.tempElements = [labelBoleto, dropDownBoleto, b1, b2]
             pass
 
         def aplicarDescuento(nextRow):
@@ -1202,6 +1210,9 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         # Handlers continuar    
         pass
     
+
+
+
 ventanaInicial = VentanaInicial()
 ventanaInicial.generar()
 
