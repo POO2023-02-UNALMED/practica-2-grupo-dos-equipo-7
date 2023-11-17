@@ -970,40 +970,16 @@ class CheckIn(VentanaBaseFuncionalidad):
         
         
         def comprarServicios(nextRow, boleto):
-            self.zonaResult.destroy()
-            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
-            self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
-            
-            def confirmar():
-                pass
-
-            # Dropdown de la opcion
-            labelOpciones = tk.Label(self.zonaResult, text = "Seleccionar servicio")
-            labelOpciones.grid(row=nextRow, column=0, padx=5, pady=5)
-            dropDownOpciones = ttk.Combobox(self.zonaResult, state = "readonly", values = [
-                "Comida a la carta", "Viaje con mascota", "Acompañante para menor de edad",
-                "Asistencia para pasajero con necesidades especiales", "Transporte terrestre",
-                "Ver servicios contratados"
-            ])
-            dropDownOpciones.grid(row=nextRow, column=1, padx=15, pady=15)
-            dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersServicios[dropDownOpciones.get()](nextRow+2, boleto))
-        
-            separador = getSeparador(self.zonaResult, nextFreeRow + 1, 2)
-            
-            # Servicios especiales:
-            handlersServicios = {
-                "Comida a la carta": servicioComida,
-                "Viaje con mascota": servicioMascota,
-                "Acompañante para menor de edad": servicioMenor,
-                "Asistencia para pasajero con necesidades especiales": servicioAsistencia,
-                "Transporte terrestre": servicioTransporte,
-                "Ver servicios contratados": showServicios,
-            }
             
             def servicioComida(nextRow, boleto):
                 pass
 
             def servicioMascota(nextRow, boleto):
+                separador = getSeparador(self.zonaResult, nextRow, 2)
+
+                
+                # Perro/Gato, Nombre, Peso
+                
                 pass
 
             def servicioMenor(nextRow, boleto):
@@ -1017,8 +993,37 @@ class CheckIn(VentanaBaseFuncionalidad):
 
             def showServicios(nextRow, boleto):
                 pass
+            
+            # Servicios especiales:
+            handlersServicios = {
+                "Comida a la carta": servicioComida,
+                "Viaje con mascota": servicioMascota,
+                "Acompañante para menor de edad": servicioMenor,
+                "Asistencia para pasajero con necesidades especiales": servicioAsistencia,
+                "Transporte terrestre": servicioTransporte,
+                "Ver servicios contratados": showServicios,
+            }
+            
+            self.zonaResult.destroy()
+            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+            
+            def confirmar():
+                pass
 
+            # Dropdown de la opcion
+            
+            labelOpciones = tk.Label(self.zonaResult, text = "Seleccionar servicio")
+            labelOpciones.grid(row=nextRow, column=0, padx=5, pady=5)
+            dropDownOpciones = ttk.Combobox(self.zonaResult, state = "readonly", values = [
+                "Comida a la carta", "Viaje con mascota", "Acompañante para menor de edad",
+                "Asistencia para pasajero con necesidades especiales", "Transporte terrestre",
+                "Ver servicios contratados"
+            ])
+            dropDownOpciones.grid(row=nextRow, column=1, padx=15, pady=15)
 
+            b1 = getBotonCancelar(self.zonaResult, lambda: self.cancel(), nextRow+1, 0)
+            b2 = getBotonContinuar(self.zonaResult, lambda: handlersServicios[dropDownOpciones.get()](nextRow+2, boleto), nextRow+1, 1)            
             pass
         
         handlersCheckIn = {
