@@ -871,8 +871,6 @@ class CancelarVuelo(VentanaBaseFuncionalidad):
 
 class CheckIn(VentanaBaseFuncionalidad):
     
-    tempElements = []
-    
     def ventana1(self):
         self.clearZone()
         self.showSelectHistorial(self.ventana2)
@@ -945,37 +943,44 @@ class CheckIn(VentanaBaseFuncionalidad):
         
         separador = getSeparador(infoServicios.marco, nextFreeRow + 1, 2)
 
+        self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+        self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+
+
         def mejoraSilla(nextRow, boleto):
             
-            map(lambda e: e.destroy(), CheckIn.tempElements)
+            self.zonaResult.destroy()
+            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
             
             def confirmar(asiento):
                 pass
             
-            labelAsiento = tk.Label(infoServicios.marco, text = "Seleccionar nuevo asiento")
+            labelAsiento = tk.Label(self.zonaResult, text = "Seleccionar nuevo asiento")
             labelAsiento.grid(row=nextRow, column=0, padx=5, pady=5)
-            dropDownAsiento = ttk.Combobox(infoServicios.marco, state = "readonly", values = boleto.vuelo.asientos)
+            dropDownAsiento = ttk.Combobox(self.zonaResult, state = "readonly", values = boleto.vuelo.asientos)
             dropDownAsiento.grid(row=nextRow, column=1, padx=15, pady=15)
 
-            b1 = getBotonCancelar(infoServicios.marco, lambda: self.cancel(), nextRow+1, 0)
-            b2 = getBotonContinuar(infoServicios.marco, lambda: confirmar(
+            b1 = getBotonCancelar(self.zonaResult, lambda: self.cancel(), nextRow+1, 0)
+            b2 = getBotonContinuar(self.zonaResult, lambda: confirmar(
                 boleto.vuelo.asientos[dropDownAsiento.current()]
             ), nextRow+1, 1)
             
-            CheckIn.tempElements = [labelAsiento, dropDownOpciones, b1, b2]
             pass
         
         
         def comprarServicios(nextRow, boleto):
-            map(lambda e: e.destroy(), CheckIn.tempElements)
+            self.zonaResult.destroy()
+            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
             
             def confirmar():
                 pass
 
             # Dropdown de la opcion
-            labelOpciones = tk.Label(infoServicios.marco, text = "Seleccionar servicio")
+            labelOpciones = tk.Label(self.zonaResult, text = "Seleccionar servicio")
             labelOpciones.grid(row=nextRow, column=0, padx=5, pady=5)
-            dropDownOpciones = ttk.Combobox(infoServicios.marco, state = "readonly", values = [
+            dropDownOpciones = ttk.Combobox(self.zonaResult, state = "readonly", values = [
                 "Comida a la carta", "Viaje con mascota", "Acompañante para menor de edad",
                 "Asistencia para pasajero con necesidades especiales", "Transporte terrestre",
                 "Ver servicios contratados"
@@ -983,11 +988,8 @@ class CheckIn(VentanaBaseFuncionalidad):
             dropDownOpciones.grid(row=nextRow, column=1, padx=15, pady=15)
             dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersServicios[dropDownOpciones.get()](nextRow+2, boleto))
         
-            separador = getSeparador(infoServicios.marco, nextFreeRow + 1, 2)
+            separador = getSeparador(self.zonaResult, nextFreeRow + 1, 2)
             
-            CheckIn.tempElements = [labelOpciones, dropDownOpciones, separador]
-            
-
             # Servicios especiales:
             handlersServicios = {
                 "Comida a la carta": servicioComida,
@@ -1087,17 +1089,11 @@ class GestionUsuario(VentanaBaseFuncionalidad):
     def ventanaCanjearMillas(self):
         self.clearZone()
         
-        self.zona1 = tk.Frame(self.zonaForm, bg="yellow", borderwidth=1, relief="solid")
-        self.zona1.grid(row=0, column=0, sticky="ew", padx=5, pady=5)
-        
-        self.zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
-        self.zona2.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
-        
         # Mostrar millas disponibles
         infoMillas = ResultFrame(
             "Informacion de la Cuenta:",
             {"Millas disponibles": user.millas},
-            self.zona1
+            self.zonaForm
         )
         nextFreeRow = infoMillas.nextFreeRow
         
@@ -1115,21 +1111,23 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: handlersMillas[dropDownOpciones.get()](nextRow))
         
         separador = getSeparador(infoMillas.marco, nextFreeRow + 1, 2)
+        
+        self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+        self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
         # . . . Menu . . .
         
         #getBotonCancelar(self.zonaForm, lambda: self.cancel(), 1, 0)
         #getBotonContinuar(self.zonaForm, lambda: 1, 1, 1)
         
-        
         # HandlersMillas
         
         def mejoraSilla(nextRow):
             
-            self.zona2.destroy()
-            self.zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
-            self.zona2.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
-        
+            self.zonaResult.destroy()
+            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+
             def selecAsientos():
                 dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos
                 pass
@@ -1137,19 +1135,19 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             def confirmar(boleto, newAsiento):
                 pass
             
-            labelBoleto = tk.Label(self.zona2, text = "Seleccionar vuelo")
+            labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo")
             labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)
-            dropDownBoleto = ttk.Combobox(self.zona2, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
+            dropDownBoleto = ttk.Combobox(self.zonaResult, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             dropDownBoleto.bind("<<ComboboxSelected>>", lambda e: selecAsientos())
         
-            labelAsiento = tk.Label(self.zona2, text = "Seleccionar asiento")
+            labelAsiento = tk.Label(self.zonaResult, text = "Seleccionar asiento")
             labelAsiento.grid(row=nextRow+1, column=0, padx=5, pady=5)
-            dropDownAsiento = ttk.Combobox(self.zona2, state = "readonly", values = ((user.getHistorial())[0]).vuelo.asientos)
+            dropDownAsiento = ttk.Combobox(self.zonaResult, state = "readonly", values = ((user.getHistorial())[0]).vuelo.asientos)
             dropDownAsiento.grid(row=nextRow+1, column=1, padx=15, pady=15)
 
-            b1 = getBotonCancelar(self.zona2, lambda: self.cancel(), nextRow+2, 0)
-            b2 = getBotonContinuar(self.zona2, lambda: confirmar(
+            b1 = getBotonCancelar(self.zonaResult, lambda: self.cancel(), nextRow+2, 0)
+            b2 = getBotonContinuar(self.zonaResult, lambda: confirmar(
                 (user.getHistorial())[dropDownBoleto.current()],
                 ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos[dropDownAsiento.current()]
             ), nextRow+2, 1)
@@ -1157,38 +1155,38 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             pass
 
         def descuentoVuelo(nextRow):
-            self.zona2.destroy()
-            self.zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
-            self.zona2.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
-        
+            self.zonaResult.destroy()
+            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+
             def confirmar(boleto):
                 pass
 
-            labelBoleto = tk.Label(self.zona2, text = "Seleccionar vuelo")
+            labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo")
             labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)
-            dropDownBoleto = ttk.Combobox(self.zona2, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
+            dropDownBoleto = ttk.Combobox(self.zonaResult, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             
-            b1 = getBotonCancelar(self.zona2, lambda: self.cancel(), nextRow+1, 0)
-            b2 = getBotonContinuar(self.zona2, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
+            b1 = getBotonCancelar(self.zonaResult, lambda: self.cancel(), nextRow+1, 0)
+            b2 = getBotonContinuar(self.zonaResult, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
             
             pass
 
         def descuentoMaleta(nextRow):
-            self.zona2.destroy()
-            self.zona2 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
-            self.zona2.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
-        
+            self.zonaResult.destroy()
+            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+
             def confirmar(boleto):
                 pass
             
-            labelBoleto = tk.Label(self.zona2, text = "Seleccionar vuelo")
+            labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo")
             labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)
-            dropDownBoleto = ttk.Combobox(self.zona2, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
+            dropDownBoleto = ttk.Combobox(self.zonaResult, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             
-            b1 = getBotonCancelar(self.zona2, lambda: self.cancel(), nextRow+1, 0)
-            b2 = getBotonContinuar(self.zona2, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
+            b1 = getBotonCancelar(self.zonaResult, lambda: self.cancel(), nextRow+1, 0)
+            b2 = getBotonContinuar(self.zonaResult, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
             
             pass
 
