@@ -367,7 +367,7 @@ class VentanaInicial:
         pass
 
     def generar(self):
-        frame_grande = tk.Frame(App, bg="blue")
+        frame_grande = tk.Frame(App, bg="#DAD8FF")
         frame_grande.grid(row=0, column=0, sticky="nsew")
         App.grid_rowconfigure(0, weight=1)
         App.grid_columnconfigure(0, weight=1)
@@ -383,37 +383,37 @@ class VentanaInicial:
         menuInicio.add_command( label="Descripcion", command = lambda: p3Label.config(text = TEXT_DATA["breveDescripcionApp"]))
 
         # Diferentes paneles
-        p1 = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
+        p1 = tk.Frame(frame_grande, bg="#E0B4E7", borderwidth=1, relief="flat")
         p1.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         frame_grande.grid_rowconfigure(1, weight=1)
         frame_grande.grid_columnconfigure(0, weight=1)
         self.p1 = p1
         
-        p2 = tk.Frame(frame_grande, bg="red", borderwidth=1, relief="solid")
+        p2 = tk.Frame(frame_grande, bg="#E0B4E7", borderwidth=1, relief="flat")
         p2.grid(row=1, column=1, sticky="nsew", padx=5, pady=5)
         frame_grande.grid_rowconfigure(1, weight=1)
         frame_grande.grid_columnconfigure(1, weight=1)
         self.p2 = p2
 
-        p3 = tk.Frame(p1, bg="yellow", borderwidth=1, relief="solid")
+        p3 = tk.Frame(p1, bg="#FFD8EC", borderwidth=1, highlightbackground="#9656B6",highlightthickness=2)
         p3.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         p1.grid_rowconfigure(0, weight=1)
         p1.grid_columnconfigure(0, weight=1)
         self.p3 = p1
         
-        p4 = tk.Frame(p1, bg="orange", borderwidth=1, relief="solid")
+        p4 = tk.Frame(p1, bg="#FFD8EC", borderwidth=1,highlightbackground="#9656B6",highlightthickness=2)
         p4.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         p1.grid_rowconfigure(1, weight=1)
         p1.grid_columnconfigure(0, weight=1)
         self.p4 = p4
 
-        p5 = tk.Frame(p2, bg="purple", borderwidth=1, relief="solid")
+        p5 = tk.Frame(p2, bg="#FFD8EC", borderwidth=1, highlightbackground="#9656B6",highlightthickness=2)
         p5.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         p2.grid_rowconfigure(0, weight=1)
         p2.grid_columnconfigure(0, weight=1)
         self.p5 = p5
 
-        p6 = tk.Frame(p2, bg="pink", borderwidth=1, relief="solid")
+        p6 = tk.Frame(p2, bg="#FFD8EC", borderwidth=1, highlightbackground="#9656B6",highlightthickness=2)
         p6.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         p2.grid_rowconfigure(1, weight=1)
         p2.grid_columnconfigure(0, weight=1)
@@ -421,7 +421,8 @@ class VentanaInicial:
         #.............................
 
         # Corto saludo de bienvenida (P3)
-        p3Label = tk.Label(p3, text = TEXT_DATA["textoBienvenida"], anchor="w", justify="left")
+        #monospace = tk.font.Font(family="monospace", size=12,file="src\imagenes\JetBrainsMono-Regular.ttf")
+        p3Label = tk.Label(p3, text = TEXT_DATA["textoBienvenida"], anchor="w", justify="center", bg="#FFD8EC",fg="#5B2A73",font=("fixedsys",9))
         p3Label.grid(row=0,column=0,padx=5, pady=5, sticky="nsew")
 
         # Ingreso al sistema  y seccion de imagenes (P4)
@@ -496,7 +497,7 @@ class VentanaInicial:
             showImages(str(hojasVida["Indice"]))
             pass
         
-        hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10) )
+        hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10),bg="#FFD8EC")
         hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
         cambioHojaVida(hojasVida["Indice"])
