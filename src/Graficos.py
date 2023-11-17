@@ -1056,9 +1056,9 @@ class CheckIn(VentanaBaseFuncionalidad):
                 pass
 
             def showServicios(nextRow, boleto):
-                formResult = ResultFrame(
+                resultFrame = ResultFrame(
                     "Servicios contratados",
-                    boleto.serviciosContratados,
+                    {f"Servicio #{i}": servicio for i, servicio in enumerate(boleto.serviciosContratados)},
                     self.zona3
                 )
                 pass
@@ -1180,8 +1180,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         labelOpciones.grid(row=nextFreeRow, column=0, padx=5, pady=5)            
         dropDownOpciones = ttk.Combobox(infoMillas.marco, state = "readonly", values = [
             "Mejora de silla", "Descuento vuelo",
-            "Descuento maleta", "Aplicar descuentos",
-            "Ver descuentos del usuario"
+            "Descuento maleta", "Ver descuentos del usuario"
         ])
         
         nextRow = nextFreeRow + 2
@@ -1265,20 +1264,20 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             
             b1 = getBotonCancelar(self.zonaResult, lambda: self.cancel(), nextRow+1, 0)
             b2 = getBotonContinuar(self.zonaResult, lambda: confirmar((user.getHistorial())[dropDownBoleto.current()]), nextRow+1, 1)
-            
-            pass
-
-        def aplicarDescuento(nextRow):
             pass
 
         def showDescuento(nextRow):
+            resultFrame = ResultFrame(
+                "Descuentos del usuario",
+                {f"Descuento #{i}" : descuento for i, descuento in enumerate(user.descuentos)},
+                self.zonaResult
+            )
             pass
 
         handlersMillas = {
             "Mejora de silla": mejoraSilla,
             "Descuento vuelo": descuentoVuelo,
             "Descuento maleta": descuentoMaleta,
-            "Aplicar descuentos": aplicarDescuento,
             "Ver descuentos del usuario": showDescuento
         }
         
