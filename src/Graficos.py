@@ -1267,6 +1267,10 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             pass
 
         def showDescuento(nextRow):
+            self.zonaResult.destroy()
+            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+            
             resultFrame = ResultFrame(
                 "Descuentos del usuario",
                 {f"Descuento #{i}" : descuento for i, descuento in enumerate(user.descuentos)},
