@@ -117,14 +117,14 @@ class FieldFrame(tk.Frame):
         parent.grid_columnconfigure(0, weight=1)
 
         #Agregar el titulo de los criterios
-        elementoTituloCriterio = tk.Label(marco, text=tituloCriterio)
+        elementoTituloCriterio = tk.Label(marco, text=tituloCriterio,font=("fixedsys",12),bg="#E0B4E7")
         elementoTituloCriterio.grid(row=0, column=0, padx=5, pady=5)
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
 
         #Agregar el titulo de los valores
-        elementoTituloValores = tk.Label(marco, text=tituloValores)
+        elementoTituloValores = tk.Label(marco, text=tituloValores,font=("fixedsys",12),bg="#E0B4E7")
         elementoTituloValores.grid(row=0, column=1, padx=5, pady=5)
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(1, weight=1)
@@ -133,12 +133,12 @@ class FieldFrame(tk.Frame):
         for index, criterio in enumerate(criterios):
         
             #Crea el criterio y su valor y lo guarda
-            elementoCriterio = tk.Label(marco, text=criterio)
+            elementoCriterio = tk.Label(marco, text=criterio,bg="#FFD8EC",font=("fixedsys",12))
             elementoCriterio.grid(row=index+1, column=0, padx=5, pady=5)
             marco.grid_rowconfigure(index+1, weight=1)
             marco.grid_columnconfigure(0, weight=1)
 
-            elementoInput = tk.Entry(marco)
+            elementoInput = tk.Entry(marco,font=("fixedsys",12))
             elementoInput.grid(row=index+1, column=1, padx=5, pady=5)
             marco.grid_rowconfigure(index+1, weight=1)
             marco.grid_columnconfigure(1, weight=1)
@@ -149,12 +149,12 @@ class FieldFrame(tk.Frame):
             }
 
         
-        submitButton = tk.Button(marco, text="Enviar", bg="white", borderwidth=0, command = lambda: self.submitForm(callback))
+        submitButton = tk.Button(marco, text="Enviar", bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#7768D2", command = lambda: self.submitForm(callback))
         submitButton.grid(row=index+2, column=1, padx=5, pady=5)
         marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
-        clearButton = tk.Button(marco, text="Clear", bg="white", borderwidth=0, command = lambda: self.clear())
+        clearButton = tk.Button(marco, text="Clear",bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#7768D2",command = lambda: self.clear())
         clearButton.grid(row=index+2, column=0, padx=5, pady=5)
         marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(1, weight=1)
@@ -507,8 +507,8 @@ class VentanaInicial:
             showImages(str(hojasVida["Indice"]))
             pass
         
-        hojaVidaLabel = tk.Label(p5, text="", font=("fixedsys",12),bg="#FFD8EC",fg="#5B2A73")
-        hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
+        hojaVidaLabel = tk.Label(p5, text="", font=("fixedsys",14),bg="#FFD8EC",fg="#5B2A73",justify="center")
+        hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5,sticky="nsew")
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
         cambioHojaVida(hojasVida["Indice"])
         pass
