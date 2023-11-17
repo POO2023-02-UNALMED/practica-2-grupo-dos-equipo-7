@@ -356,6 +356,9 @@ class MainMenu:
         marco.grid_columnconfigure(0, weight=1)
 
         self.zona = zonaProceso
+        
+        # Ventana inicial del main menu
+        InitMainMenu().generar(self, "Bievenido al sistema de vuelos, aqui podras ... bla bla bla", TEXT_DATA["breveDescripcionApp"])
         pass
 
 
@@ -500,7 +503,6 @@ class VentanaInicial:
         pass
 
 
-
 class VentanaBaseFuncionalidad(tk.Frame):
     
     def generar(self, mainMenu, nombre, descripcion):
@@ -567,6 +569,21 @@ class VentanaBaseFuncionalidad(tk.Frame):
         self.zona.grid_columnconfigure(0, weight=1)
         pass
 
+class InitMainMenu(VentanaBaseFuncionalidad):
+    def ventana1(self):
+        info = [
+            "Como usar la aplicacion?",
+            "Texto de como usar la aplicacion",
+            "Que se puede hacer?",
+            "Texto de que se puede hacer"
+        ]
+        labels = [
+            tk.Label(self.zonaForm, text = texto, anchor="w", justify="left")
+            .grid(row=row, column=0, padx=5, pady=5)
+            for row, texto in enumerate(info)
+        ]
+        pass
+    pass
 
 class ComprarVuelo(VentanaBaseFuncionalidad):
     
