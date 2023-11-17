@@ -64,7 +64,6 @@ class Boleto:
     def asignarAsiento(self, asiento):
         asiento.asignarBoleto(self)
 
-
     # Actualiza el asiento a vip segun lo que seleccione el usuario, va de la mano
     # con la funcionalidad canjear millas
     def upgradeAsientoMillas(self, prevAsiento, newAsiento):
@@ -74,48 +73,43 @@ class Boleto:
         ahorrado = round(newAsiento.valorBase - prevAsiento.valorBase, 2)
         return ahorrado
     
+    def makeCheckIn(self):
+        self.status = "Confirmado"
+        self.checkInRealizado = True
+        pass
     
     
     # Actualiza un asiento asignado a un boleto a otro asiento, va de la mano con
     # la funcionalidad reasignar asiento
-    def upgradeAsiento(self, prevAsiento, newAsiento):
+    def upgradeAsiento(self, newAsiento):
         self.asiento = newAsiento
+        
         self.valorInicial = newAsiento.valorBase
-        self.valor = self.valorInicial
+        self.valor += 35
         self.tipo = newAsiento.tipo
 
-        temp = 0
-        for maleta in self.equipaje:
-            temp += maleta.calcularPrecio()
-
-        self.valorEquipaje = temp
-        self.valor = self.valorInicial + temp
-
-        prevAsiento.desasignarBoleto()
+        self.user.realizarPago(35)
         newAsiento.asignarBoleto(self)
 
-    def reasignarAsiento(self, asiento):
-        self.asiento = asiento
-        self.valorInicial = asiento.getValor() * (float)(1.1)
-        self.valor = self.valorInicial
-        self.tipo = asiento.getTipo()
 
-    def anadirServiciosEspeciales(self, servicio):
+    def comprarServicio(self, servicio):
         if (servicio == ServiciosEspeciales.MASCOTA_EN_CABINA):
             self.cantidadMascotasCabina += 1
         if (servicio == ServiciosEspeciales.MASCOTA_EN_BODEGA):
             self.cantidadMascotasBodega += 1
+        
         self.serviciosContratados.append(servicio)
+        self.user.realizarPago(servicio.get_precio())
 
-    def anadirServiciosMascota(self, mascota):
+    def comprarServicioMascota(self, mascota):
         self.mascotas.append(mascota)
-
+        self.comprarServicio(ServiciosEspeciales.MASCOTA_EN_CABINA)
+    
     def resetEquipaje(self):
         self.equipaje = []
 
     def getOrigenDestino(self):
         return self.origen + " - " + self.destino
-
 
     def getInfo(self):
         return {

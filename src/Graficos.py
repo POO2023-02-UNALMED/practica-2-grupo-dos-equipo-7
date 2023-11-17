@@ -2,22 +2,29 @@ import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox as messagebox
 from PIL import ImageTk, Image
-from uiMain.appMisc.misc import *
 
 # ------------------------------------
 # Backend (TEMPORAL)
-
-from gestorAplicacion.Aerolinea.Boleto import Boleto
-from gestorAplicacion.Aerolinea.Maleta import Maleta
-from gestorAplicacion.Aerolinea.Vuelo import Vuelo
-from gestorAplicacion.Cuenta.Usuario import Usuario
+from uiMain.appMisc.misc import *
 from baseDatos.Serializador import *
 
+from gestorAplicacion.Aerolinea.Asiento import Asiento
+from gestorAplicacion.Aerolinea.Boleto import Boleto
+from gestorAplicacion.Aerolinea.Maleta import Maleta
+from gestorAplicacion.Aerolinea.RestriccionesMaleta import RestriccionesMaleta
+from gestorAplicacion.Aerolinea.ServiciosEspeciales import ServiciosEspeciales
+from gestorAplicacion.Aerolinea.Vuelo import Vuelo
+
+from gestorAplicacion.Cuenta.Usuario import Usuario
 
 from gestorAplicacion.Descuentos.Descuento import Descuento
 from gestorAplicacion.Descuentos.descuentoMaleta import descuentoMaleta
 from gestorAplicacion.Descuentos.descuentoVuelo import descuentoVuelo
 from gestorAplicacion.Descuentos.upgradeAsiento import upgradeAsiento
+
+from gestorAplicacion.Mascotas.Animal import Animal
+from gestorAplicacion.Mascotas.Perro import Perro
+from gestorAplicacion.Mascotas.Gato import Gato
 
 
 # ------------------------------------
@@ -953,7 +960,7 @@ class CheckIn(VentanaBaseFuncionalidad):
             
             # SI el boleto ya tiene check in pasa a los servicios
             if (boleto.checkInRealizado):
-                alertConfirmacion("El boleto seleccionado ya tiene check in, pasando al menu de servicios")
+                alertInfo("El boleto seleccionado ya tiene check in, pasando al menu de servicios")
                 self.ventanaServicios(boleto)
 
             else:
@@ -964,11 +971,10 @@ class CheckIn(VentanaBaseFuncionalidad):
                     # SI no tiene check se pide la verificacion para hacer check in, y se pasa a los servicios
                     ok = alertConfirmacion("El boleto seleccionado aun no tiene check in, desea confirmar el check in?")
                     if ok:
-                        boleto.status = "Confirmado"
-                        boleto.setCheckInRealizado = True
-                        
                         # Backend check In
-                        alertInfo("Check In", "Check In realizado con exito")
+                        boleto.makeCheckIn()
+
+                        alertInfo("Check In", "Check In realizado con exito!")
                         self.ventanaServicios(boleto)
 
     def ventanaServicios(self, boleto):
@@ -1010,7 +1016,18 @@ class CheckIn(VentanaBaseFuncionalidad):
             self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
             
-            def confirmar(asiento):
+            def confirmar(boleto, asiento):
+                ok = alertConfirmacion(f"Desea hacer una mejora de su asiento por $35")
+                
+                if ok:
+                    if (boleto.tipo == "Vip"):
+                        alertWarn("Error", "Error, el boleto ya es de tipo VIP, no se puede mejorar mas")
+                    else:
+                        if (user.dinero >= 35):
+                            boleto.upgradeAsiento(asiento)
+                            alertInfo("Transaccion exitosa", "Mejora de asiento realizada con exito!")
+                        else:
+                            alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                 pass
             
             labelAsiento = tk.Label(self.zonaResult, text = "Seleccionar nuevo asiento")
@@ -1020,6 +1037,7 @@ class CheckIn(VentanaBaseFuncionalidad):
 
             b1 = getBotonCancelar(self.zonaResult, lambda: self.cancel(), nextRow+1, 0)
             b2 = getBotonContinuar(self.zonaResult, lambda: confirmar(
+                boleto,
                 boleto.vuelo.asientos[dropDownAsiento.current()]
             ), nextRow+1, 1)
             
@@ -1036,8 +1054,19 @@ class CheckIn(VentanaBaseFuncionalidad):
                 self.zona3.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
                 handlersServicios[key](0, boleto)
                 
+                
             def servicioComida(nextRow, boleto):
                 def confirmar(boleto):
+                    servicio = ServiciosEspeciales.COMIDA_A_LA_CARTA
+
+                    ok = alertConfirmacion(f"Desea comprar el servicio de comida a la acarta durante el vuelo? Esto tiene un costo de ${servicio.getPrecio()}")
+                
+                    if ok:
+                        if (user.dinero >= servicio.getPrecio()):                            
+                            boleto.comprarServicio(servicio)
+                            alertInfo("Transaccion exitosa", "Mejora de asiento realizada con exito!")
+                        else:
+                            alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
                 
                 labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
@@ -1053,26 +1082,52 @@ class CheckIn(VentanaBaseFuncionalidad):
 
             def servicioMascota(nextRow, boleto):
                 
-                def callback(data):
-                    pass
+                def confirmar(formData):
+                    servicio = ServiciosEspeciales.MASCOTA_EN_CABINA
+                    ok = alertConfirmacion(f"Desea contratar el servicio de transporte de mascota? tiene un costo de {servicio.getPrecio()}")
                 
+                    if ok:
+                        mascota = None
+                        if (formData["Perro/Gato"].lower() == "perro"):
+                            mascota = Perro(formData["Nombre"], formData["Raza"], formData["Peso"])
+                        elif (formData["Perro/Gato"].lower() == "gato"):
+                            mascota = Gato(formData["Nombre"], formData["Raza"], formData["Peso"])            
+                        else:
+                            alertWarn("Error", "Error, tipo de mascota no valido, solo se admite Perro o Gato")
+                            pass
+                            
+                        if mascota != None:
+                            if (user.dinero >= servicio.getPrecio()):                        
+                                boleto.comprarServicioMascota(mascota)
+                                alertInfo("Transaccion exitosa", f"Servicio agregado con exito, ahora {mascota.nombre} podra viajar contigo!")
+                            else:
+                                alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
+                    pass
             
                 formMascota = FieldFrame(
                     "Datos mascota",
                     ["Nombre", "Raza", "Peso", "Perro/Gato"],
                     "Datos",
                     None, None, self.zona3,
-                    callback=None
+                    callback=confirmar
                 )
-
-                
-                # Perro/Gato, Nombre, Peso
                 
                 pass
 
             def servicioMenor(nextRow, boleto):
+                
                 def confirmar(boleto):
+                    servicio = ServiciosEspeciales.ACOMPANANTE_PARA_MENOR
+                    ok = alertConfirmacion(f"Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de ${servicio.getPrecio()}")
+
+                    if ok:
+                        if (user.dinero >= servicio.getPrecio()):                            
+                            boleto.comprarServicio(servicio)
+                            alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
+                        else:
+                            alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
+                
                 
                 labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
                 labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
@@ -1085,7 +1140,17 @@ class CheckIn(VentanaBaseFuncionalidad):
                 pass
 
             def servicioAsistencia(nextRow, boleto):
+                
                 def confirmar(boleto):
+                    servicio = ServiciosEspeciales.ASISTENCIA_NECESIDADES_ESPECIALES
+                    ok = alertConfirmacion(f"Desea contratar un asistencia para pasajero con necesidades especiales? este servicio no tiene ningun costo")
+
+                    if ok:
+                        if (user.dinero >= servicio.getPrecio()):                            
+                            boleto.comprarServicio(servicio)
+                            alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
+                        else:
+                            alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
                 
                 labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
@@ -1100,6 +1165,15 @@ class CheckIn(VentanaBaseFuncionalidad):
 
             def servicioTransporte(nextRow, boleto):
                 def confirmar(boleto):
+                    servicio = ServiciosEspeciales.TRANSPORTE_TERRESTRE
+                    ok = alertConfirmacion(f"Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de ${servicio.getPrecio()}")
+
+                    if ok:
+                        if (user.dinero >= servicio.getPrecio()):                            
+                            boleto.comprarServicio(servicio)
+                            alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
+                        else:
+                            alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
                 
                 labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
@@ -1115,7 +1189,7 @@ class CheckIn(VentanaBaseFuncionalidad):
             def showServicios(nextRow, boleto):
                 resultFrame = ResultFrame(
                     "Servicios contratados",
-                    {f"Servicio #{i}": servicio for i, servicio in enumerate(boleto.serviciosContratados)},
+                    {f"Servicio #{i+1}": servicio for i, servicio in enumerate(boleto.serviciosContratados)},
                     self.zona3
                 )
                 pass
@@ -1134,9 +1208,6 @@ class CheckIn(VentanaBaseFuncionalidad):
             self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
             
-            def confirmar():
-                pass
-
             # Dropdown de la opcion
             
             labelOpciones = tk.Label(self.zonaResult, text = "Seleccionar servicio")
@@ -1183,7 +1254,6 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         alertInfo("Deposito realizado con exito", f"Se ha agregado ${valor} a tu cuenta, nuevo saldo: {user.dinero}")
         self.cancel()
         pass
-    
     
     def ventana1(self):
         self.clearZone()
