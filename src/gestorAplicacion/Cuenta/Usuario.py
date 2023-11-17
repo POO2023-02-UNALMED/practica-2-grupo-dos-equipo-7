@@ -21,7 +21,7 @@ class Usuario:
     def reasignarBoleto(self, newBoleto, indexBoleto):
         costo = newBoleto.calcularReasignacion(self.historial[indexBoleto])
         self.dinero -= costo
-        self.millas -= int(self.historial[indexBoleto] * 0.1)
+        self.millas -= int(self.historial[indexBoleto].valor * 0.1)
         newBoleto.status = "Reasignado"
         self.historial[indexBoleto] = newBoleto
 
