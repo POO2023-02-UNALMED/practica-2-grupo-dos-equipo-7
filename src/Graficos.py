@@ -1165,10 +1165,8 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         boton.grid(row=nextFreeRow, column=0, padx=5, pady=5)
         pass
     
-    def ventanaDepositar(self):
-        valor = 100
+    def ventanaDepositar(self, valor):
         user.depositarDinero(valor)
-
         alertInfo("Deposito realizado con exito", f"Se ha agregado ${valor} a tu cuenta, nuevo saldo: {user.dinero}")
         self.cancel()
         pass
@@ -1186,16 +1184,18 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         
         separador = getSeparador(infoCuenta.marco, nextFreeRow, 2, 5)
         
-        #Crea el criterio y su valor y lo guarda
-        elementoCriterio = tk.Label(infoCuenta.marco, text="Depositar")
-        elementoCriterio.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
+        #..........................................
+        # Seccion depositar dinero
+        labelDepositar = tk.Label(infoCuenta.marco, text="Depositar")
+        labelDepositar.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
         
-        elementoInput = tk.Entry(infoCuenta.marco)
-        elementoInput.grid(row=nextFreeRow+1, column=1, padx=5, pady=5)
+        inputDepositar = tk.Entry(infoCuenta.marco)
+        inputDepositar.grid(row=nextFreeRow+1, column=1, padx=5, pady=5)
         
         # Depositar dinero
-        botonDespositar = tk.Button(infoCuenta.marco, text="Depositar dinero", bg="white", borderwidth=0, command = self.ventanaDepositar)
+        botonDespositar = tk.Button(infoCuenta.marco, text="Depositar dinero", bg="white", borderwidth=0, command = lambda: self.ventanaDepositar(int(inputDepositar.get())))
         botonDespositar.grid(row=nextFreeRow+2, column=1, padx=5, pady=5) 
+        #..........................................
         
         sep2 = getSeparador(infoCuenta.marco, nextFreeRow+3, 2, 5)
         
