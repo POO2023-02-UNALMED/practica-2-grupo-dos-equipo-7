@@ -306,7 +306,7 @@ class MainMenu:
         pass
 
     def generar(self):
-        frame_grande = tk.Frame(App, bg="blue")
+        frame_grande = tk.Frame(App, bg="#DAD8FF")
         frame_grande.grid(row=0, column=0, sticky="nsew")
         App.grid_rowconfigure(0, weight=1)
         App.grid_columnconfigure(0, weight=1)
@@ -314,12 +314,12 @@ class MainMenu:
         nombre_aplicacion = tk.Label(frame_grande, text="Nombre aplicacion",fg="red")
         nombre_aplicacion.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
 
-        marco = tk.Frame(frame_grande, bg="green", borderwidth=1, relief="solid")
+        marco = tk.Frame(frame_grande, bg="#E0B4E7", borderwidth=1, relief="flat")
         marco.grid(row=1, column=0, sticky="nsew", padx=5, pady=10)
         frame_grande.grid_rowconfigure(1, weight=1)
         frame_grande.grid_columnconfigure(0, weight=1)
 
-        zonaSuperior = tk.Frame(marco, bg="yellow", borderwidth=1, relief="solid")
+        zonaSuperior = tk.Frame(marco, bg="#FFD8EC", highlightbackground="#9656B6",highlightthickness=2)
         zonaSuperior.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
@@ -350,7 +350,7 @@ class MainMenu:
         zonaSuperior.grid_columnconfigure(2, weight=1)
         
         #Zona main --------------------
-        zonaProceso = tk.Frame(marco, bg="orange", borderwidth=1, relief="solid")
+        zonaProceso = tk.Frame(marco, bg="orange", highlightbackground="#9656B6",highlightthickness=2)
         zonaProceso.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         marco.grid_rowconfigure(1, weight=1)
         marco.grid_columnconfigure(0, weight=1)
@@ -376,7 +376,7 @@ class VentanaInicial:
         menuBar = tk.Menu(App)
         App.config(menu=menuBar)
         
-        menuInicio = tk.Menu(menuBar, tearoff=False)
+        menuInicio = tk.Menu(menuBar, tearoff=False,bg="#DAD8FF")
         menuBar.add_cascade(menu=menuInicio, label="Inicio")
     
         menuInicio.add_command( label="Salir", command = lambda: exitHandler(user) )
