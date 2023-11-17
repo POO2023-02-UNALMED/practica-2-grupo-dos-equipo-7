@@ -203,13 +203,13 @@ class ResultFrame(tk.Frame):
         self.parent = parent
         
         #Crea el marco donde van a estar los elementos
-        marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
+        marco = tk.Frame(parent, bg="#FFD8EC", highlightbackground="#9656B6",highlightthickness=2)
         marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         parent.grid_rowconfigure(0, weight=1)
         parent.grid_columnconfigure(0, weight=1)
 
         #Agregar el titulo de los criterios
-        elementoTituloResultados = tk.Label(marco, text=tituloResultados)
+        elementoTituloResultados = tk.Label(marco, text=tituloResultados,font=("fixedsys",12),bg="#E0B4E7")
         elementoTituloResultados.grid(row=0, column=0, padx=5, pady=5)
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
@@ -219,12 +219,12 @@ class ResultFrame(tk.Frame):
         for index, key in enumerate(datos.keys()):
         
             #Crea el criterio y su valor y lo guarda
-            elementoKey = tk.Label(marco, text=key)
+            elementoKey = tk.Label(marco, text=key,font=("fixedsys",10),bg="#FFD8EC")
             elementoKey.grid(row=index+1, column=0, padx=5, pady=5)
             marco.grid_rowconfigure(index+1, weight=1)
             marco.grid_columnconfigure(0, weight=1)
 
-            elementoValue = tk.Label(marco, text=datos[key])
+            elementoValue = tk.Label(marco, text=datos[key],font=("fixedsys",10),bg="#FFD8EC")
             elementoValue.grid(row=index+1, column=1, padx=5, pady=5)
             marco.grid_rowconfigure(index+1, weight=1)
             marco.grid_columnconfigure(1, weight=1)
@@ -322,7 +322,7 @@ class MainMenu:
         nombre_aplicacion = tk.Label(frame_grande, text="Nombre aplicacion",fg="red")
         nombre_aplicacion.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
 
-        marco = tk.Frame(frame_grande, bg="#E0B4E7", borderwidth=1, relief="flat")
+        marco = tk.Frame(frame_grande, bg="#DAD8FF", borderwidth=1, relief="flat")
         marco.grid(row=1, column=0, sticky="nsew", padx=5, pady=10)
         frame_grande.grid_rowconfigure(1, weight=1)
         frame_grande.grid_columnconfigure(0, weight=1)
@@ -358,7 +358,7 @@ class MainMenu:
         zonaSuperior.grid_columnconfigure(2, weight=1)
         
         #Zona main --------------------
-        zonaProceso = tk.Frame(marco, bg="#DAD8FF", highlightbackground="#9656B6",highlightthickness=2)
+        zonaProceso = tk.Frame(marco, bg="#E0B4E7", relief="flat")
         zonaProceso.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         marco.grid_rowconfigure(1, weight=1)
         marco.grid_columnconfigure(0, weight=1)
@@ -421,7 +421,7 @@ class VentanaInicial:
         p2.grid_columnconfigure(0, weight=1)
         self.p5 = p5
 
-        p6 = tk.Frame(p2, bg="#FFD8EC", borderwidth=1, highlightbackground="#9656B6",highlightthickness=2)
+        p6 = tk.Frame(p2, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
         p6.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         #p2.grid_rowconfigure(1, weight=1)
         #p2.grid_columnconfigure(0, weight=1)
@@ -557,9 +557,9 @@ class VentanaBaseFuncionalidad(tk.Frame):
 
         separador = getSeparador(infoVuelos.marco, nextFreeRow, 2, 5)
         
-        labelVuelo = tk.Label(infoVuelos.marco, text = "Vuelo:")
+        labelVuelo = tk.Label(infoVuelos.marco, text = "Vuelo:",font=("fixedsys",12),bg="#E1BEFF")
         labelVuelo.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
-        dropDownVuelos = ttk.Combobox(infoVuelos.marco,state = "readonly", values = [f"Boleto #{i+1}" for i in range(len(historialBoletos))] )
+        dropDownVuelos = ttk.Combobox(infoVuelos.marco,state = "readonly", values = [f"Boleto #{i+1}" for i in range(len(historialBoletos))],font="fixedsys" )
         dropDownVuelos.grid(row=nextFreeRow+1, column=1, padx=15, pady=15)
         
         getBotonCancelar(infoVuelos.marco, lambda: self.cancel(), nextFreeRow+2, 0)
@@ -576,7 +576,7 @@ class VentanaBaseFuncionalidad(tk.Frame):
     
     def clearZone(self):    
         self.zonaForm.destroy()
-        self.zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
+        self.zonaForm = tk.Frame(self.zona, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
         self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         self.zona.grid_rowconfigure(1, weight=1)
         self.zona.grid_columnconfigure(0, weight=1)
@@ -616,20 +616,20 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
             separador = getSeparador(formElement.marco, nextFreeRow, 2, 5) # Separador generico
             
             # Seleccionar vuelo y asiento
-            labelVuelo = tk.Label(formElement.marco, text = "Vuelo:") 
+            labelVuelo = tk.Label(formElement.marco, text = "Vuelo:",bg="#FFD8EC",font=("fixedsys",10)) 
             labelVuelo.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)            
-            dropDownVuelos = ttk.Combobox(formElement.marco,state = "readonly", values = vuelos )
+            dropDownVuelos = ttk.Combobox(formElement.marco,state = "readonly", values = vuelos, font="fixedsys")
             dropDownVuelos.grid(row=nextFreeRow+1, column=1, padx=15, pady=15)
             dropDownVuelos.bind("<<ComboboxSelected>>", selecAsientos)
             
-            labelAsiento = tk.Label(formElement.marco, text = "Asiento:")
+            labelAsiento = tk.Label(formElement.marco, text = "Asiento:",bg="#FFD8EC",font=("fixedsys",10))
             labelAsiento.grid(row=nextFreeRow+2, column=0, padx=5, pady=5)
-            dropDownAsientos = ttk.Combobox(formElement.marco,state = "readonly",values = asientos )
+            dropDownAsientos = ttk.Combobox(formElement.marco,state = "readonly",values = asientos,font="fixedsys" )
             dropDownAsientos.grid(row=nextFreeRow+2, column=1, padx=15, pady=15)
             
-            labelMaletas = tk.Label(formElement.marco, text = "Cantidad de maletas:")
+            labelMaletas = tk.Label(formElement.marco, text = "Cantidad de maletas:",bg="#FFD8EC",font=("fixedsys",10))
             labelMaletas.grid(row=nextFreeRow+3, column=0, padx=5, pady=5)
-            dropDownMaletas = ttk.Combobox(formElement.marco,state = "readonly",values = [0, 1, 2, 3, 4])
+            dropDownMaletas = ttk.Combobox(formElement.marco,state = "readonly",values = [0, 1, 2, 3, 4],font="fixedsys")
             dropDownMaletas.grid(row=nextFreeRow+3, column=1, padx=15, pady=15)
 
             # Crea boton de siguiente y uno de cancelar  
@@ -785,18 +785,18 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
             pass
         
         # Seleccionar vuelo y asiento
-        labelVuelo = tk.Label(vuelosDisponibles.marco, text = "Vuelo:")
+        labelVuelo = tk.Label(vuelosDisponibles.marco, text = "Vuelo:",bg="#FFD8EC", font=("fixedsys",10))
         labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)
         dropDownVuelos = ttk.Combobox(vuelosDisponibles.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(vuelos))] )
         dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
         dropDownVuelos.bind("<<ComboboxSelected>>", selecAsientos)
         
-        labelAsiento = tk.Label(vuelosDisponibles.marco, text = "Asiento:")
+        labelAsiento = tk.Label(vuelosDisponibles.marco, text = "Asiento:",bg="#FFD8EC", font=("fixedsys",10))
         labelAsiento.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
         dropDownAsientos = ttk.Combobox(vuelosDisponibles.marco,state = "readonly",values = asientos )
         dropDownAsientos.grid(row=nextFreeRow + 1, column=1, padx=15, pady=15)
         
-        labelMaletas = tk.Label(vuelosDisponibles.marco, text = "Cantidad de maletas:")
+        labelMaletas = tk.Label(vuelosDisponibles.marco, text = "Cantidad de maletas:",bg="#FFD8EC", font=("fixedsys",10))
         labelMaletas.grid(row=nextFreeRow+2, column=0, padx=5, pady=5)
         dropDownMaletas = ttk.Combobox(vuelosDisponibles.marco,state = "readonly",values = [0, 1, 2, 3, 4])
         dropDownMaletas.grid(row=nextFreeRow+2, column=1, padx=15, pady=15)
@@ -988,7 +988,7 @@ class CheckIn(VentanaBaseFuncionalidad):
         nextFreeRow = infoServicios.nextFreeRow
         
         # Dropdown de la opcion
-        labelOpciones = tk.Label(infoServicios.marco, text = "Seleccionar opcion")
+        labelOpciones = tk.Label(infoServicios.marco, text = "Seleccionar opcion",font=("fixedsys",12),bg="#E1BEFF")
         labelOpciones.grid(row=nextFreeRow, column=0, padx=5, pady=5)            
         dropDownOpciones = ttk.Combobox(infoServicios.marco, state = "readonly", values = [
             "Mejorar asiento", "Comprar servicios especiales"
@@ -1000,14 +1000,14 @@ class CheckIn(VentanaBaseFuncionalidad):
         
         separador = getSeparador(infoServicios.marco, nextFreeRow + 1, 2)
 
-        self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+        self.zonaResult = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
         self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
 
         def mejoraSilla(nextRow, boleto):
             
             self.zonaResult.destroy()
-            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
             
             def confirmar(asiento):
@@ -1027,12 +1027,12 @@ class CheckIn(VentanaBaseFuncionalidad):
         
         
         def comprarServicios(nextRow, boleto):
-            self.zona3 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zona3 = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
             self.zona3.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
              
             def tempHandler(key, row, boleto):
                 self.zona3.destroy()
-                self.zona3 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+                self.zona3 = tk.Frame(self.zonaForm,bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
                 self.zona3.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
                 handlersServicios[key](0, boleto)
                 
@@ -1131,7 +1131,7 @@ class CheckIn(VentanaBaseFuncionalidad):
             }
             
             self.zonaResult.destroy()
-            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
             
             def confirmar():
@@ -1174,7 +1174,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         )
         nextFreeRow = resultFrame.nextFreeRow
         
-        boton = tk.Button(resultFrame.marco, text="Volver", bg="white", borderwidth=0, command = lambda: self.ventana1())
+        boton = tk.Button(resultFrame.marco, text="Volver",bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#7768D2", command = lambda: self.ventana1())
         boton.grid(row=nextFreeRow, column=0, padx=5, pady=5)
         pass
     
@@ -1199,25 +1199,25 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         
         #..........................................
         # Seccion depositar dinero
-        labelDepositar = tk.Label(infoCuenta.marco, text="Depositar")
+        labelDepositar = tk.Label(infoCuenta.marco, text="Depositar",font=("fixedsys",12),bg="#E1BEFF")
         labelDepositar.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
         
         inputDepositar = tk.Entry(infoCuenta.marco)
         inputDepositar.grid(row=nextFreeRow+1, column=1, padx=5, pady=5)
         
         # Depositar dinero
-        botonDespositar = tk.Button(infoCuenta.marco, text="Depositar dinero", bg="white", borderwidth=0, command = lambda: self.ventanaDepositar(int(inputDepositar.get())))
+        botonDespositar = tk.Button(infoCuenta.marco, text="Depositar dinero",bg="#EBD3FF",font=("fixedsys",12),relief="groove",fg="#7A37B3", command = lambda: self.ventanaDepositar(int(inputDepositar.get())))
         botonDespositar.grid(row=nextFreeRow+2, column=1, padx=5, pady=5) 
         #..........................................
         
         sep2 = getSeparador(infoCuenta.marco, nextFreeRow+3, 2, 5)
         
         # Ver historial de vuelos
-        botonHistorial = tk.Button(infoCuenta.marco, text="Ver historial de vuelos", bg="white", borderwidth=0, command = self.ventanaHistorial)
+        botonHistorial = tk.Button(infoCuenta.marco, text="Ver historial de vuelos",bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#7768D2", command = self.ventanaHistorial)
         botonHistorial.grid(row=nextFreeRow+4, column=0, padx=5, pady=5)
         
         # Canjear Millas
-        botonCanjearMillas = tk.Button(infoCuenta.marco, text="Canjear millas", bg="white", borderwidth=0, command = self.ventanaCanjearMillas)
+        botonCanjearMillas = tk.Button(infoCuenta.marco, text="Canjear millas",bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#7768D2",command = self.ventanaCanjearMillas)
         botonCanjearMillas.grid(row=nextFreeRow+4, column=1, padx=5, pady=5)    
         pass
     
@@ -1246,7 +1246,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         
         separador = getSeparador(infoMillas.marco, nextFreeRow + 1, 2)
         
-        self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+        self.zonaResult = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
         self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
         # . . . Menu . . .
@@ -1259,7 +1259,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         def mejoraSilla(nextRow):
             
             self.zonaResult.destroy()
-            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
             def selecAsientos():
@@ -1304,7 +1304,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         def descuentoVueloVentana(nextRow):
                 
             self.zonaResult.destroy()
-            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
             def confirmar(boleto):
@@ -1333,7 +1333,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
 
         def descuentoMaletaVentana(nextRow):
             self.zonaResult.destroy()
-            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
             
             def confirmar(boleto):
@@ -1362,7 +1362,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
 
         def showDescuento(nextRow):
             self.zonaResult.destroy()
-            self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zonaResult = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
             
             resultFrame = ResultFrame(

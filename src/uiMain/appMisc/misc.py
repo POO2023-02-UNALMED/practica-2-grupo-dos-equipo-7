@@ -19,7 +19,7 @@ def cancelarHandler(callback):
     
 
 def getBotonContinuar(parent, callback, row, col):
-    boton = tk.Button(parent, text="Continuar", bg="white", borderwidth=0, command = callback)
+    boton = tk.Button(parent, text="Continuar", bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#7768D2", command = callback)
     boton.grid(row=row, column=col, padx=5, pady=5)
     parent.grid_rowconfigure(row, weight=1)
     parent.grid_columnconfigure(col, weight=1)
@@ -27,7 +27,7 @@ def getBotonContinuar(parent, callback, row, col):
     pass
 
 def getBotonCancelar(parent, callback, row, col):
-    boton = tk.Button(parent, text="Cancelar", bg="white", borderwidth=0, command = lambda: cancelarHandler(callback))
+    boton = tk.Button(parent, text="Cancelar", bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#7768D2", command = lambda: cancelarHandler(callback))
     boton.grid(row=row, column=col, padx=5, pady=5)
     parent.grid_rowconfigure(row, weight=1)
     parent.grid_columnconfigure(col, weight=1)
