@@ -143,12 +143,12 @@ class FieldFrame(tk.Frame):
 
         
         submitButton = tk.Button(marco, text="Enviar", bg="white", borderwidth=0, command = lambda: self.submitForm(callback))
-        submitButton.grid(row=index+2, column=0, padx=5, pady=5)
+        submitButton.grid(row=index+2, column=1, padx=5, pady=5)
         marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
         clearButton = tk.Button(marco, text="Clear", bg="white", borderwidth=0, command = lambda: self.clear())
-        clearButton.grid(row=index+2, column=1, padx=5, pady=5)
+        clearButton.grid(row=index+2, column=0, padx=5, pady=5)
         marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(1, weight=1)
 
@@ -970,12 +970,43 @@ class CheckIn(VentanaBaseFuncionalidad):
         
         
         def comprarServicios(nextRow, boleto):
-            
+            self.zona3 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+            self.zona3.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
+             
+            def tempHandler(key, row, boleto):
+                self.zona3.destroy()
+                self.zona3 = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
+                self.zona3.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
+                handlersServicios[key](0, boleto)
+                
             def servicioComida(nextRow, boleto):
+                def confirmar(boleto):
+                    pass
+                
+                labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
+                labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
+                
+                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...")
+                labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
+                
+                b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
+                b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
+                
                 pass
 
             def servicioMascota(nextRow, boleto):
-                separador = getSeparador(self.zonaResult, nextRow, 2)
+                
+                def callback(data):
+                    pass
+                
+            
+                formMascota = FieldFrame(
+                    "Datos mascota",
+                    ["Nombre", "Raza", "Peso", "Perro/Gato"],
+                    "Datos",
+                    None, None, self.zona3,
+                    callback=None
+                )
 
                 
                 # Perro/Gato, Nombre, Peso
@@ -983,15 +1014,53 @@ class CheckIn(VentanaBaseFuncionalidad):
                 pass
 
             def servicioMenor(nextRow, boleto):
+                def confirmar(boleto):
+                    pass
+                
+                labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
+                labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
+                
+                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...")
+                labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
+                
+                b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
+                b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
                 pass
 
             def servicioAsistencia(nextRow, boleto):
+                def confirmar(boleto):
+                    pass
+                
+                labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
+                labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
+                
+                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...")
+                labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
+                
+                b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
+                b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
                 pass
 
             def servicioTransporte(nextRow, boleto):
+                def confirmar(boleto):
+                    pass
+                
+                labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
+                labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
+                
+                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...")
+                labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
+                
+                b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
+                b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
                 pass
 
             def showServicios(nextRow, boleto):
+                formResult = ResultFrame(
+                    "Servicios contratados",
+                    boleto.serviciosContratados,
+                    self.zona3
+                )
                 pass
             
             # Servicios especiales:
@@ -1015,15 +1084,19 @@ class CheckIn(VentanaBaseFuncionalidad):
             
             labelOpciones = tk.Label(self.zonaResult, text = "Seleccionar servicio")
             labelOpciones.grid(row=nextRow, column=0, padx=5, pady=5)
+            self.zonaResult.grid_rowconfigure(nextRow, weight=1)
+            self.zonaResult.grid_columnconfigure(0, weight=1)
+            
             dropDownOpciones = ttk.Combobox(self.zonaResult, state = "readonly", values = [
                 "Comida a la carta", "Viaje con mascota", "Acompañante para menor de edad",
                 "Asistencia para pasajero con necesidades especiales", "Transporte terrestre",
                 "Ver servicios contratados"
             ])
+            
             dropDownOpciones.grid(row=nextRow, column=1, padx=15, pady=15)
-
-            b1 = getBotonCancelar(self.zonaResult, lambda: self.cancel(), nextRow+1, 0)
-            b2 = getBotonContinuar(self.zonaResult, lambda: handlersServicios[dropDownOpciones.get()](nextRow+2, boleto), nextRow+1, 1)            
+            dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: tempHandler(dropDownOpciones.get(), nextRow+1, boleto))
+            self.zonaResult.grid_rowconfigure(nextRow, weight=1)
+            self.zonaResult.grid_columnconfigure(1, weight=1)
             pass
         
         handlersCheckIn = {
