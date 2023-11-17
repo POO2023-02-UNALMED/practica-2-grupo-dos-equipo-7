@@ -21,7 +21,7 @@ def checkin(user):
         print(f"{i} . {boleto.getInfo()}")
 
     
-    prompt("Por favor, seleccione el número del vuelo deseado:")
+    print("Por favor, seleccione el número del vuelo deseado:")
     indexVuelo = inputI()
     # Obtener el boleto seleccionado por el usuario
     boleto = historial.get(indexVuelo)
@@ -30,7 +30,6 @@ def checkin(user):
     
     print(boleto.getInfo())
     
-    continuar()
     opcion
     
     # verifica si ya se realizo el checkin para el vuelo
@@ -48,13 +47,13 @@ def checkin(user):
             print("3. Comprar servicios especiales")
             print("4. Volver al menú anterior")
             
-            prompt("> Seleccione una opción (1-4): ")
+            print("> Seleccione una opción (1-4): ")
             opcion = inputI()
             match (opcion):
                 case 1:
                     # realizar el check in
                     
-                    prompt(
+                    print(
                         "Confirma el check-in? (Escriba 1 para Confirmar, 0 para Cancelar):")
                     confirmacion = inputI()
                     
@@ -65,7 +64,6 @@ def checkin(user):
                     else:
                         print(("Proceso cancelado.", "rojo"))
 
-                    continuar()
 
                 case 2:
                     mejorarAsiento(boleto)
@@ -88,11 +86,9 @@ def checkin(user):
             
             print((
                 "No es posible realizar el checkIn ya que el vuelo fue cancelado", "rojo"))
-            continuar()
         else:
             
             print(("Usted ya realizo el Check-in para este vuelo", "rojo"))
-            continuar()
 
 def mejorarAsiento(boleto):
     asiento = boleto.getAsiento()
@@ -100,7 +96,7 @@ def mejorarAsiento(boleto):
     # si es vip ya no se puede mejorar
     if (asiento.getTipo() == "Economico"):
         
-        prompt("Desea mejorar su asiento a VIP?, esto tiene un costo de $25 (1 Si, 0 No)")
+        print("Desea mejorar su asiento a VIP?, esto tiene un costo de $25 (1 Si, 0 No)")
         confirmacion = inputI()
         if (confirmacion == 1):
             # Mejorar asiento
@@ -111,14 +107,14 @@ def mejorarAsiento(boleto):
             
             # Hacer asiento vip
             asientos = (boleto.getVuelo()).getAsientos()
-            printNegrita(("Asientos disponibles", "morado"))
+            print(("Asientos disponibles", "morado"))
             
             for asientoTemp in asientos:
                 if (asientoTemp.getTipo() == ("Vip")):
                     print(asientoTemp.getInfo(), 2)
 
             
-            prompt("Por favor, seleccione el número del asiento deseado: ")
+            print("Por favor, seleccione el número del asiento deseado: ")
             indexAsiento = inputI()
             # ... Cambiar y reasignar todo
             newAsiento = asientos[indexAsiento - 1]
@@ -127,18 +123,16 @@ def mejorarAsiento(boleto):
                 boleto.upgradeAsiento(asiento, newAsiento)
                 boleto.getUser().realizarPago(25)
                 
-                printNegrita((
+                print((
                     "Mejora de asiento realizado con exitOpo", "verde"))
                 
             else:
                 print(("Dinero insuficiente, mejora cancelada", "rojo"))
 
-            continuar()
     else:
         
         print(("Su asiento ya es VIP", "verde"))
         
-        continuar()
 
 
 def comprarServiciosEspeciales(boleto, user):
@@ -156,7 +150,7 @@ def comprarServiciosEspeciales(boleto, user):
         print("6. Ver servicios contratados")
         print("7. Volver al menú anterior")
         
-        prompt("> Seleccione una opción (1-7): ")
+        print("> Seleccione una opción (1-7): ")
         opcion = inputI()
         
         match (opcion):
@@ -170,18 +164,18 @@ def comprarServiciosEspeciales(boleto, user):
                 contratarAcompanante(boleto, user)
 
             case 4:
-                prompt(
+                print(
                     "Desea contratar un asistencia para pasajero con necesidades especiales?")
-                prompt("Este servicio no tiene ningun costo (1/0)")
+                print("Este servicio no tiene ningun costo (1/0)")
                 respuesta = inputI()
                 if (respuesta == 1):
                     boleto.anadirServiciosEspeciales(
                         ServiciosEspeciales.ASISTENCIA_NECESIDADES_ESPECIALES)
                     
-                    printNegrita((
+                    print((
                         "Compra realizada con exitOpo!", "verde"))
                 else:
-                    prompt("Cancelado")
+                    print("Cancelado")
 
             case 5:
                 contratarTrasporteTerrestre(boleto, user)
@@ -198,11 +192,10 @@ def comprarServiciosEspeciales(boleto, user):
             case _:
                 pass
                 aviso(("Opción incorrecta", "rojo"))
-                continuar()
 
 
 def comprarComidaCarta(boleto, user):
-    prompt("Desea comprar el servicio de comida a la acarta durante el vuelo? Esto tiene un costo de $40")
+    print("Desea comprar el servicio de comida a la acarta durante el vuelo? Esto tiene un costo de $40")
     match (confirmarTransaccion(user, ServiciosEspeciales.COMIDA_A_LA_CARTA.getPrecio())):
         case 1:
             # anade a el servicio a la lista del boleto
@@ -210,17 +203,14 @@ def comprarComidaCarta(boleto, user):
                 ServiciosEspeciales.COMIDA_A_LA_CARTA)
             # realiza el pago del servicio
             boleto.getUser().realizarPago(ServiciosEspeciales.COMIDA_A_LA_CARTA.getPrecio())
-            printNegrita(("Compra realizada con exitOpo!", "verde"))
+            print(("Compra realizada con exitOpo!", "verde"))
             
-            continuar()
 
         case -1:
-            prompt("Dinero insuficiente, compra cancelada")
-            continuar()
+            print("Dinero insuficiente, compra cancelada")
 
         case 0:
-            prompt("Cancelado")
-            continuar()
+            print("Cancelado")
 
         case _:
             pass
@@ -229,20 +219,20 @@ def comprarComidaCarta(boleto, user):
 def viajarConMascota(boleto, user):
     mascota = None
     # Se pregunta si la mascota es perro o gato
-    prompt("Desea viajar con un perro o un gato? ( 1. Perro 2. Gato)")
+    print("Desea viajar con un perro o un gato? ( 1. Perro 2. Gato)")
     op = inputI()
     
     # Se obtienen los datos de la mascota
-    prompt("Por favor ingrese el nombre de la mascota")
+    print("Por favor ingrese el nombre de la mascota")
     nombre = inputS()
     
-    prompt("Por favor ingrese la raza de la mascota")
+    print("Por favor ingrese la raza de la mascota")
     raza = inputS()
     
-    prompt("Por favor ingrese el tamano de la mascota")
+    print("Por favor ingrese el tamano de la mascota")
     tamano = inputD()
     
-    prompt("Por favor ingrese el peso de la mascota")
+    print("Por favor ingrese el peso de la mascota")
     peso = inputD()
     
     if (op == 1):
@@ -256,7 +246,7 @@ def viajarConMascota(boleto, user):
     # el limite de 1 en cabina y 2 en bodega
     if ((mascota.puedeViajarEnCabina() and boleto.getMascotasEnCabina() < 1) or (mascota.puedeViajarEnBodega() and boleto.getMascotasEnBodega() < 2)):
         # Pregunta si desea llevarla en cabina
-        prompt(
+        print(
             "Desea llevar la mascota en cabina? (1 Si, 0 No) Esto tiene un costo de $40")
         opcion = inputI()
         
@@ -274,27 +264,24 @@ def viajarConMascota(boleto, user):
                         boleto.anadirServiciosMascota(mascota)
                         # realiza el pago del servicio
                         boleto.getUser().realizarPago(ServiciosEspeciales.MASCOTA_EN_CABINA.getPrecio())
-                        printNegrita((
+                        print((
                             "Compra realizada con exitOpo!", "verde"))
                         
-                        continuar()
 
                     case 0:
-                        prompt("Cancelado")
-                        continuar()
+                        print("Cancelado")
 
                     case -1:
-                        prompt("Dinero insuficiente, compra cancelada")
-                        continuar()
+                        print("Dinero insuficiente, compra cancelada")
 
                     case _:
                         pass
 
             elif (boleto.getMascotasEnBodega() < 2):
                 # Si no puede viajar en cabina se indica que va a aviajar en bodega
-                prompt(
+                print(
                     "La mascota no cumple las restricciones de la aerolinea para viajar en cabina o ya se cumplio el limite permitido.")
-                prompt(" Puede viajar en bodega. Esto tiene un costo de $30")
+                print(" Puede viajar en bodega. Esto tiene un costo de $30")
                 # Se confirma la transaccion
                 match (confirmarTransaccion(user, ServiciosEspeciales.MASCOTA_EN_BODEGA.getPrecio())):
                     case 1:
@@ -305,18 +292,15 @@ def viajarConMascota(boleto, user):
                         boleto.anadirServiciosMascota(mascota)
                         # realiza el pago del servicio
                         boleto.getUser().realizarPago(ServiciosEspeciales.MASCOTA_EN_BODEGA.getPrecio())
-                        printNegrita((
+                        print((
                             "Compra realizada con exitOpo!", "verde"))
                         
-                        continuar()
 
                     case 0:
-                        prompt("Cancelado")
-                        continuar()
+                        print("Cancelado")
 
                     case -1:
-                        prompt("Dinero insuficiente, compra cancelada")
-                        continuar()
+                        print("Dinero insuficiente, compra cancelada")
 
                     case _:
                         pass
@@ -324,11 +308,10 @@ def viajarConMascota(boleto, user):
             else:
                 aviso(("No es posible viajar con la mascota en bodega ya se alcanzo el limite permitido",
                                  "rojo"))
-                continuar()
 
             # Si desea viajar en bodega
         elif (boleto.getMascotasEnBodega() < 2):
-            prompt("El viaje en bodega tiene un costo de $30")
+            print("El viaje en bodega tiene un costo de $30")
             # Se confirma la transaccion
             match (confirmarTransaccion(user, ServiciosEspeciales.MASCOTA_EN_BODEGA.getPrecio())):
                 case 1:
@@ -339,18 +322,15 @@ def viajarConMascota(boleto, user):
                     boleto.anadirServiciosMascota(mascota)
                     # realiza el pago del servicio
                     boleto.getUser().realizarPago(ServiciosEspeciales.MASCOTA_EN_BODEGA.getPrecio())
-                    printNegrita((
+                    print((
                         "Compra realizada con exitOpo!", "verde"))
                     
-                    continuar()
 
                 case 0:
-                    prompt("Cancelado")
-                    continuar()
+                    print("Cancelado")
 
                 case -1:
-                    prompt("Dinero insuficiente, compra cancelada")
-                    continuar()
+                    print("Dinero insuficiente, compra cancelada")
 
                 case _:
                     pass
@@ -358,7 +338,6 @@ def viajarConMascota(boleto, user):
         else:
             aviso(("No es posible viajar con la mascota en bodega ya se alcanzo el limite permitido",
                              "rojo"))
-            continuar()
 
         # Si no se puede viajar de ninguna forma
     else:
@@ -366,11 +345,10 @@ def viajarConMascota(boleto, user):
             "La mascota no cumple con las restricciones de la aerolinea ", "rojo"))
         aviso((
             "o ya se cumplio el limite permitido por lo tanto no puede viajar", "rojo"))
-        continuar()
 
 
 def contratarAcompanante(boleto, user):
-    prompt("Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de $15")
+    print("Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de $15")
     match (confirmarTransaccion(user, ServiciosEspeciales.ACOMPANANTE_PARA_MENOR.getPrecio())):
         case 1:
             # anade a el servicio a la lista del boleto
@@ -379,24 +357,21 @@ def contratarAcompanante(boleto, user):
             # realiza el pago del servicio
             boleto.getUser().realizarPago(ServiciosEspeciales.ACOMPANANTE_PARA_MENOR.getPrecio())
             
-            printNegrita(("Asignado con exitOpo ✔", "verde"))
+            print(("Asignado con exitOpo ✔", "verde"))
             
-            continuar()
 
         case -1:
-            prompt("Dinero insuficiente, compra cancelada")
-            continuar()
+            print("Dinero insuficiente, compra cancelada")
 
         case 0:
-            prompt("Cancelado")
-            continuar()
+            print("Cancelado")
 
         case _:
             pass
 
 
 def contratarTrasporteTerrestre(boleto, user):
-    prompt("Desea contratar el servicio de transporte terrestre? Esto tiene un costo de $70")
+    print("Desea contratar el servicio de transporte terrestre? Esto tiene un costo de $70")
     match (confirmarTransaccion(user, ServiciosEspeciales.TRANSPORTE_TERRESTRE.getPrecio())):
         case 1:
             # anade a el servicio a la lista del boleto
@@ -405,335 +380,14 @@ def contratarTrasporteTerrestre(boleto, user):
             # realiza el pago del servicio
             boleto.getUser().realizarPago(ServiciosEspeciales.TRANSPORTE_TERRESTRE.getPrecio())
             
-            printNegrita(("Compra realizada con exitOpo!", "verde"))
+            print(("Compra realizada con exitOpo!", "verde"))
             
-            continuar()
 
         case -1:
-            prompt("Dinero insuficiente, compra cancelada")
-            continuar()
+            print("Dinero insuficiente, compra cancelada")
 
         case 0:
-            prompt("Cancelado")
-            continuar()
+            print("Cancelado")
 
         case _:
             pass
-
-
-def verServiciosContratados(boleto):
-    if (len(boleto.getServiciosContratados()) != 0):
-        print((("Usted tiene los siguientes servicios contratados"), "morado"))
-        
-        index = 0
-        for servicio in boleto.getServiciosContratados():
-            print(
-                f"Servicio: {servicio.getServicio()} por un valor de: ${servicio.getPrecio()}")
-            if (servicio == ServiciosEspeciales.MASCOTA_EN_CABINA or servicio == ServiciosEspeciales.MASCOTA_EN_BODEGA):
-                print("	-" + boleto.getMascotas()[index])
-                index += 1
-        continuar()
-
-    else:
-        print(("No tiene servicios contratados", "morado"))
-        continuar()
-
-
-def confirmarTransaccion(user, valor):
-    prompt("Confirmar Transaccion (Escriba 1 para Confirmar, 0 para Cancelar)")
-    confirmacion = inputI()
-    
-    if (confirmacion == 1):
-        if (user.getDinero() >= valor):
-            return 1
-        else:
-            return -1
-    else:
-        return 0
-
-
-def canjearMillas(user):
-    seleccionado("Canjear millas")
-    separadorGrande()
-    print(f"Hola {user.getNombre()}", 3)
-    
-    opcion = None
-
-    while (opcion != 6):
-        print(f"En este momento usted posee {user.getMillas()} millas")
-        
-        prompt("Escoja en que desea canjear sus millas")
-        
-        # print("Menu")
-        print("1. Mejora de silla" +
-                   " (" + upgradeAsiento.costoMillas + ")")
-        print("2. Descuento vuelo" +
-                   " (" + descuentoVuelo.costoMillas + ")")
-        print("3. Descuento maleta" +
-                   " (" + descuentoMaleta.costoMillas + ")")
-        print("4. Aplicar descuentos")
-        print("5. Ver descuentos del usuario")
-        print("6. Volver al menú anterior")
-        
-        prompt("> Seleccione una opción (1-6): ")
-        opcion = inputI()
-        
-        # Imprimir las opciones
-        match (opcion):
-            case 1:
-                match 
-            
-                        printNegrita(
-                            
-                        
-                        prompt(
-                            "Desea aplicar el descuendo de una vez? (1 si / 0 no)")
-                        aplicar = inputI()
-                        if (aplicar == 1):
-                        else:
-                            descuento = upgradeAsiento(user)
-                            descuento.guardar()
-                            
-                            printNegrita((
-                                "Se guardo el descuento en su cuenta, puedes aplicarlo cuando desees",
-                                "verde"))
-                            
-                            continuar()
-                            
-                    case -1:
-                        prompt("Millas insuficientes!")
-
-                    case 0:
-                        prompt("Operacion cancelada")
-
-                    case _:
-                        pass
-
-            case 2:
-                match (verificarMillas(user, descuentoVuelo.costoMillas)):
-                    case 1:
-                        user.descontarMillas(descuentoVuelo.costoMillas)
-                        printNegrita(
-                            f"Canjeado con éxito, millas restantes: {user.getMillas()}")
-                        
-                        prompt(
-                            "Desea aplicar el descuendo de una vez? (1 si / 0 no)")
-                        aplicar = inputI()
-                        if (aplicar == 1):
-                            descuento = descuentoVuelo(user)
-                            millasVuelo(user, descuento)
-                        else:
-                            descuento = descuentoVuelo(user)
-                            descuento.guardar()
-                            
-                            printNegrita((
-                                "Se guardo el descuento en su cuenta, puedes aplicarlo cuando desees",
-                                "verde"))
-                            
-                            continuar()
-                            
-                    case -1:
-                        prompt("Millas insuficientes!")
-
-                    case 0:
-                        prompt("Operacion cancelada")
-
-                    case _:
-                        pass
-
-            case 3:
-                match (verificarMillas(user, descuentoMaleta.costoMillas)):
-                    case 1:
-                        user.descontarMillas(descuentoMaleta.costoMillas)
-                        printNegrita(
-                            f"Canjeado con éxito, millas restantes: {user.getMillas()}")
-                        
-                        prompt(
-                            "Desea aplicar el descuendo de una vez? (1 si / 0 no)")
-                        aplicar = inputI()
-                        if (aplicar == 1):
-                            descuento = descuentoMaleta(user)
-                            millasMaleta(user, descuento)
-                        else:
-                            descuento = descuentoMaleta(user)
-                            descuento.guardar()
-                            
-                            printNegrita((
-                                "Se guardo el descuento en su cuenta, puedes aplicarlo cuando desees",
-                                "verde"))
-                            
-                            continuar()
-                            
-                    case -1:
-                        prompt("Millas insuficientes!")
-
-                    case 0:
-                        prompt("Operacion cancelada")
-
-                    case _:
-                        pass
-
-            case 4:
-                # Aplicar descuento
-                descuentos = verDescuentos(user, 1)
-                
-                # Solicitar al usuario que seleccione un vuelo y se selecciona.
-                prompt("Por favor, seleccione el número del descuento deseado: ")
-                index = inputI()
-                descuento = descuentos.get(index)
-                match (descuento.getTipo()):
-                    case "Mejora de asiento":
-                        millasAsiento(user, descuento)
-
-                    case "Descuento Vuelo":
-                        millasVuelo(user, descuento)
-
-                    case "Descuento de maleta":
-                        millasMaleta(user, descuento)
-
-                    case _:
-                        pass
-
-            case 5:
-                # Ver descuento
-                prompt(
-                    "Desea ver solo los descuentos disponibles/canjeados o los aplicados tambien (1 / 0)")
-                op = inputI()
-                verDescuentos(user, op)
-                
-                continuar()
-
-            case 6:
-                aviso(("Volviendo al menu", "rojo"))
-                
-
-            case _:
-                pass
-                aviso(("Opción incorrecta", "rojo"))
-        separadorGrande()
-
-
-def millasAsiento(user, descuento):
-    boleto = selecBoleto(user)
-    asiento = boleto.getAsiento()
-    # se verifica que el asiento sea economico
-    # si es vip ya no se puede mejorar
-
-    if (asiento.getTipo() == "Economico"):
-        # Hacer asiento vip
-        asientos = (boleto.getVuelo()).getAsientos()
-        printNegrita(("Asientos disponibles", "morado"))
-        
-        for asientoTemp in asientos:
-            if (asientoTemp.getTipo() == ("Vip")):
-                print(asientoTemp.getInfo(), 2)
-
-        
-        prompt("Por favor, seleccione el número del asiento deseado: ")
-        indexAsiento = inputI()
-        # ... Cambiar y reasignar todo
-        newAsiento = asientos[indexAsiento - 1]
-        boleto.upgradeAsientoMillas(asiento, newAsiento)
-        descuento.aplicarDescuento(boleto)
-        
-        printNegrita((
-            "Mejora de asiento realizado con exitOpo", "verde"))
-        
-        printNegrita(("Detalles del nuevo asiento:", "morado"))
-        
-        print((boleto.getAsiento()).getInfo())
-        
-        continuar()
-    else:
-        descuento.guardar()
-        
-        printNegrita((
-            "Su asiento ya es VIP, se guardo el descuento en su cuenta", "verde"))
-        
-        continuar()
-        
-
-
-def millasVuelo(user, descuento):
-    boleto = selecBoleto(user)
-    descuento.aplicarDescuento(boleto)
-    # Listo, su costo de maleta ha sdo reducido en un % y se ha regresado el dinero
-    printNegrita(
-        f"Se ha aplicado un {descuentoVuelo.descuento} % de descuento en el valor de su vuelo, ahorro de: $ {boleto.getValorInicial() * (0.2)}")
-    
-    continuar()
-
-
-def verDescuentos(user, op):
-    
-    descuentos = user.getDescuentos()
-    print(print(("Descuentos disponibles:", "morado")), 4)
-    
-    if (op == 1):
-        # Iterar a través del historial de boletos
-        for i in range(len(descuentos)):
-            descuento = descuentos.get(i)
-            if (descuento.isUsado() == False):
-                # Mostrar información de cada boleto en la lista
-                print(i + ". " + descuento.getInfo())
-    else:
-        # Iterar a través del historial de boletos
-        for i in range(len(descuentos)):
-            descuento = descuentos.get(i)
-            # Mostrar información de cada boleto en la lista
-            print(i + ". " + descuento.getInfo())
-    return descuentos
-
-
-def selecBoleto(user):
-    # Obtener el historial de boletos del usuario
-    historial = user.getHistorial()
-    
-    printNegrita(("Información de los vuelos:", "morado"))
-    
-    # Iterar a través del historial de boletos
-    for i in range(len(historial)):
-        boleto = historial[i]
-        # Mostrar información de cada boleto en la lista
-        print(f"{i} . {boleto.getInfo()}")
-
-    
-    prompt("Por favor, seleccione el número del vuelo deseado:")
-    indexVuelo = inputI()
-    # Obtener el boleto seleccionado por el usuario
-    boleto = historial.get(indexVuelo)
-    
-    print(("Vuelo seleccionado, información detallada:", "morado"))
-    
-    print(boleto.getInfo())
-    
-    continuar()
-    
-    return boleto
-
-
-def verificarMillas(user, valor):
-    prompt("Confirmar canjeo de millas (1 si / 0 no)")
-    confirmacion = inputI()
-    
-    if (confirmacion == 1):
-        if (user.getMillas() >= valor):
-            return 1
-        else:
-            return -1
-
-    else:
-        return 0
-
-
-def millasMaleta(user, descuento):
-    boleto = selecBoleto(user)
-    descuento.aplicarDescuento(boleto)
-    # Listo, su costo de maleta ha sdo reducido en un % y se ha regresado el dinero
-    printNegrita(
-        f"Se ha aplicado un {descuentoMaleta.descuento}% de descuento en el costo de su equipaje, ahorro de: ${boleto.getValorInicial() * 0.2}")
-    
-    continuar()
-
-
-main()

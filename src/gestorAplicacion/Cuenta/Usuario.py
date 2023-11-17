@@ -30,10 +30,10 @@ class Usuario:
         return True if self.millas >= valor else False
     
     def canjearMillas(self, boleto, descuento):
-        #descontar millas
-        descuento.init(self, boleto)
-        descuento.aplicarDescuento()
-        pass
+        descuento.generar(self, boleto)
+        self.descontarMillas(descuento.getCostoMillas())
+        ahorrado = descuento.aplicarDescuento()
+        return ahorrado
     
     def comprarBoletoReasig(self, boleto):
         self.dinero -= boleto.valor

@@ -86,13 +86,10 @@ class Boleto:
     # con la funcionalidad canjear millas
     def upgradeAsientoMillas(self, prevAsiento, newAsiento):
         self.asiento = newAsiento
-        self.valorInicial = prevAsiento.getValor()
-        self.valor = self.valorInicial
-        self.tipo = newAsiento.getTipo()
-        self.valor = self.valorInicial + self.valorEquipaje
-        prevAsiento.desasignarBoleto()
-        newAsiento.asignarBoleto(self)
-
+        self.tipo = newAsiento.tipo
+        ahorrado = round(self.valorInicial - newAsiento.valorBase, 2)
+        return ahorrado
+    
     def reasignarAsiento(self, asiento):
         self.asiento = asiento
         self.valorInicial = asiento.getValor() * (float)(1.1)

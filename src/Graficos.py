@@ -1268,15 +1268,21 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             def confirmar(boleto, asiento):
                 descuento = upgradeAsiento(asiento)
                 ok = alertConfirmacion(f"Acepta para canjear {descuento.getCostoMillas()} millas por una mejora de asiento?.")
-                if (user.verificarMillas(descuento.getCostoMillas())):
-                    descontado = user.canjearMillas(boleto, descuento)
-                    alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta, y se ha realizado una mejora de asiento a su vuelo! Felicidades!")
-                    pass
-                else:
-                    alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
+                
+                if ok:
+                    if (boleto.tipo == "Vip"):
+                        alertWarn("Error", "Error, el boleto ya es de tipo VIP, no se puede mejorar mas")
+                    else:
+                        if (user.verificarMillas(descuento.getCostoMillas())):
+                            ahorrado = user.canjearMillas(boleto, descuento)
+                            alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta, y se ha realizado una mejora de asiento a su boleto! Felicidades!")
+                            self.cancel()
+                            pass
+                        else:
+                            alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
                 pass
             
-            labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo")
+            labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar boleto")
             labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)
             dropDownBoleto = ttk.Combobox(self.zonaResult, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
@@ -1292,7 +1298,6 @@ class GestionUsuario(VentanaBaseFuncionalidad):
                 (user.getHistorial())[dropDownBoleto.current()],
                 ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos[dropDownAsiento.current()]
             ), nextRow+2, 1)
-            
             pass
 
         def descuentoVuelo(nextRow):
@@ -1304,12 +1309,15 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             def confirmar(boleto):
                 descuento = upgradeAsiento()
                 ok = alertConfirmacion(f"Acepta canjear {descuento.getCostoMillas()} millas por un descuento de vuelo?.")
-                if (user.verificarMillas(descuento.getCostoMillas())):
-                    descontado = user.canjearMillas(boleto, descuento)
-                    alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta por un descuento en el vuelo, y se ha reembolazado ${descontado} a su cuenta, felicidades!")
-                    pass
-                else:
-                    alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
+                if ok:
+                    if (user.verificarMillas(descuento.getCostoMillas())):
+                        ahorrado = user.canjearMillas(boleto, descuento)
+                        alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta por un descuento en el vuelo, y se ha reembolazado ${ahorrado} a su cuenta, felicidades!")
+                        self.cancel()
+                        pass
+                    else:
+                        alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
+                
                 pass
 
             labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo")
@@ -1330,12 +1338,15 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             def confirmar(boleto):
                 descuento = upgradeAsiento()
                 ok = alertConfirmacion(f"Acepta canjear {descuento.getCostoMillas()} millas por un descuento en el costo total de las maletas?.")
-                if (user.verificarMillas(descuento.getCostoMillas())):
-                    descontado = user.canjearMillas(boleto, descuento)
-                    alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta, y se ha realizado un descuento de ${descontado} a su vuelo, dinero reembolsado a su cuenta.")
-                    pass
-                else:
-                    alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
+            
+                if ok:
+                    if (user.verificarMillas(descuento.getCostoMillas())):
+                        ahorrado = user.canjearMillas(boleto, descuento)
+                        alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta, y se ha realizado un descuento de ${ahorrado} a su vuelo, dinero reembolsado a su cuenta.")
+                        self.cancel()
+                        pass
+                    else:
+                        alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
                 pass
 
             

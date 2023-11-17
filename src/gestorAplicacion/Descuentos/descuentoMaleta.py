@@ -2,20 +2,24 @@ from .Descuento import Descuento
 
 class descuentoMaleta(Descuento):
     
-    costoMillas = 20   
-    descuento = 20
     
-    def __init__(self, user):
-        self.init(user)
+    def __init__(self):
+        self.costoMillas = 80
+        self.descuento = 60
         self.tipo = "Descuento de maleta"
-    
-    def aplicarDescuento(self, boleto):
-        self.boleto = boleto
-        retorno = 0.2 # Porcentaje de retorno del costo del equipaje al usuario
-        valorEquipaje = self.boleto.getValorEquipaje()
-        boleto.setValorEquipaje((valorEquipaje * 0.8)) # Aplicar el descuento al costo del equipaje
-        self.user.depositarDinero((valorEquipaje * retorno)) # Depositar un porcentaje del valor original en la cuenta del usuario
-        boleto.updateValorBase() # Actualizar el valor base del boleto
-        self.usar() # Marcar el descuento como usado
-    
 
+    def generar(self, user, boleto):
+        super().__init__(user, boleto)
+        
+    def aplicarDescuento(self):        
+        valorEquipaje = self.boleto.valorEquipaje  # Obtener el valor base del vuelo
+    
+        # Aplicar el descuento al costo del equipaje
+        self.boleto.valorEquipaje = (valorEquipaje * 0.6)
+        self.ahorrado = valorEquipaje * 0.4
+        
+        # Depositar un porcentaje del valor original en la cuenta del usuario
+        self.user.depositarDinero(self.ahorrado)
+        
+        self.guardar()
+        return self.ahorrado
