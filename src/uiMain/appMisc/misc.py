@@ -65,6 +65,7 @@ def makePopUp():
 
 
 
+
 TEXT_DATA = {
     "descripcionComprarVuelo": "Aqui puedes buscar y comprar vuelos a el destino que desees!",
     "descripcionReasignarVuelo": "Si cambiaste de opinion con respecto a algun detalle de tu vuelo, puedes reasignar tu ticket a otro vuelo!",
