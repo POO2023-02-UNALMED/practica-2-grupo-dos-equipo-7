@@ -41,7 +41,7 @@ def createMainUser():
 
 App = tk.Tk()
 App.title("Ventana de Inicio")
-App.geometry("800x600")
+App.geometry("1400x1200")
 
 #serializarUsuario(createMainUser())
 global user
@@ -397,8 +397,8 @@ class VentanaInicial:
 
         p3 = tk.Frame(p1, bg="#FFD8EC", borderwidth=1, highlightbackground="#9656B6",highlightthickness=2)
         p3.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        p1.grid_rowconfigure(0, weight=1)
-        p1.grid_columnconfigure(0, weight=1)
+        #p1.grid_rowconfigure(0, weight=1)
+        #p1.grid_columnconfigure(0, weight=1)
         self.p3 = p1
         
         p4 = tk.Frame(p1, bg="#FFD8EC", borderwidth=1,highlightbackground="#9656B6",highlightthickness=2)
@@ -424,6 +424,8 @@ class VentanaInicial:
         #monospace = tk.font.Font(family="monospace", size=12,file="src\imagenes\JetBrainsMono-Regular.ttf")
         p3Label = tk.Label(p3, text = TEXT_DATA["textoBienvenida"], anchor="w", justify="center", bg="#FFD8EC",fg="#5B2A73",font=("fixedsys",9))
         p3Label.grid(row=0,column=0,padx=5, pady=5, sticky="nsew")
+        p3.grid_rowconfigure(0, weight=0)
+        p3.grid_columnconfigure(0, weight=0)
 
         # Ingreso al sistema  y seccion de imagenes (P4)
         marcoImagenes = tk.Frame(p4, bg="green", borderwidth=1, relief="solid")
