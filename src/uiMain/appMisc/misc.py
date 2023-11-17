@@ -51,6 +51,8 @@ def getSeparador(parent, row, col, pad = 5):
     return seps
 
 #Pop up functions
+def confirmarTransaccion(user, valor):
+    return messagebox.askokcancel(f"Confirmar transaccion $({valor})", f"Por favor confirme la transaccion de ${valor}, saldo actual: {user.dinero}")
 def alertWarn(errMsg, msg):
     return messagebox.showerror(errMsg, msg)
 

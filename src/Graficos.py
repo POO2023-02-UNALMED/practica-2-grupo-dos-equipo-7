@@ -738,6 +738,8 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         
         def confirmarReasignacion(boleto, indexBoleto):
             ok = alertConfirmacion("Esta seguro de reasignar el vuelo? se cobrara un 10% adicional por el proceso")
+            
+            # Verificar si no es un boleto cancelado o reasignado
             if ok:
                 self.ventana3(boleto, indexBoleto)
                 
@@ -889,7 +891,7 @@ class CancelarVuelo(VentanaBaseFuncionalidad):
         boleto = user.getHistorial()[indexBoleto]
         
         def confirmarCancelar(boleto):
-            ok = alertConfirmacion(f"Esta seguro de cancelar el vuelo? se regresara solo un 50% de su valor original ({boleto.valor})")
+            ok = alertConfirmacion(f"Esta seguro de cancelar el vuelo? se regresara solo un 50% de su valor original (${boleto.valor})")
             
             if ok:
                 if boleto.status == "Cancelado":
@@ -1276,6 +1278,13 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             pass
 
         def descuentoVuelo(nextRow):
+            
+            #verificarMillas(user, upgradeAsiento.costoMillas) 
+            #user.descontarMillas(upgradeAsiento.costoMillas)
+            #f"Canjeado con éxito, millas restantes: {user.getMillas()}"
+            #descuento = upgradeAsiento(user)
+            #millasAsiento(user, descuento)
+                
             self.zonaResult.destroy()
             self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
