@@ -19,7 +19,7 @@ class Vuelo:
             origen,
             destino,
             Vuelo.generarHora(),
-            i
+            i + 1
         ) for i in range(cantidad) ]
 
     @staticmethod
@@ -52,11 +52,10 @@ class Vuelo:
         return f"{self.ORIGEN} - {self.DESTINO}"
 
     def getInfo(self):
-        return f"Id: {self.ID}, Origen: {self.ORIGEN} , Destino: {self.DESTINO} , Hora salida: {self.horaSalida}"
+        return f"{self.ID}. Origen: {self.ORIGEN}, Destino: {self.DESTINO}, Hora salida: {self.horaSalida}"
 
     def getStr(self):
-        return f"Id: {self.ID}, Origen: {self.ORIGEN} , Destino: {self.DESTINO} , Hora salida: {self.horaSalida}"
-
+        return f"{self.ID}. Origen: {self.ORIGEN}, Destino: {self.DESTINO}, Hora salida: {self.horaSalida}"
     
     def __str__(self):
         return self.getInfo()

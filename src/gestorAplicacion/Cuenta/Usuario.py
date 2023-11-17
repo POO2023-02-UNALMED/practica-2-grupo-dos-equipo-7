@@ -13,30 +13,31 @@ class Usuario:
         
     def comprarBoleto(self, boleto):
         self.dinero -= boleto.valor
-        self.millas += boleto.valor * 0.1
+        self.millas += int(boleto.valor * 0.1)
         self.historial.append(boleto)
         boleto.status = "Comprado"
         boleto.asignarAsiento(boleto.asiento)
 
+    def reasignarBoleto(self, newBoleto, indexBoleto):
+        costo = newBoleto.calcularReasignacion(self.historial[indexBoleto])
+        self.dinero -= costo
+        self.millas -= int(self.historial[indexBoleto] * 0.1)
+        newBoleto.status = "Reasignado"
+        self.historial[indexBoleto] = newBoleto
+
     def comprarBoletoReasig(self, boleto):
         self.dinero -= boleto.valor
-        self.millas += boleto.valor * 0.1
+        self.millas += int(boleto.valor * 0.1)
         boleto.status = "Comprado"
 
-    def reasignarBoleto(self, boleto, indexBoleto):
-        self.dinero += (boleto.valor * 0.9)
-        self.millas -= boleto.valor * 0.1
-        boleto.status = "Reasignado"
-        self.historial[indexBoleto] = boleto
 
     def cancelarBoleto(self, boleto):
-        self.dinero += (boleto.valor * 0.5)
-        self.millas -= (boleto.valor * 0.1)
+        self.dinero += int(boleto.valor * 0.5)
+        self.millas -= int(boleto.valor * 0.1)
         
-        boleto.staus = "Cancelado"
+        boleto.status = "Cancelado"
         boleto.asiento.desasignarBoleto()
-        
-        return boleto.valor * 0.5
+        return int(boleto.valor * 0.5)
 
     def getInfo(self):
         return {

@@ -14,21 +14,34 @@ class Boleto:
         
         self.id = Boleto.cont
         
+        # Inicializar
         self.mascotas = []
         self.equipaje = []
         self.descuentos = []
         self.serviciosContratados = []
-        
-        self.valorEquipaje = 0
 
+        self.valorEquipaje = 0
+        
         self.cantidadMascotasCabina = 0
         self.cantidadMascotasBodega = 0
+        
         self.status = "Pendiente"
         self.checkInRealizado = False
         
         # Set asiento
         self.setAsiento(asiento)
 
+
+    def setAsiento(self, asiento):
+        self.asiento = asiento
+        self.valorInicial = asiento.valorBase
+        self.valor = self.valorInicial
+        self.tipo = asiento.tipo
+
+    def addEquipaje(self, maleta):
+        self.equipaje.append(maleta)
+        self.updateValor()
+    
     def updateValor(self):
         temp = 0
         for maleta in self.equipaje:
@@ -36,6 +49,12 @@ class Boleto:
 
         self.valorEquipaje = temp
         self.valor = self.valorInicial + temp
+        
+    def calcularReasignacion(self, boletoAnterior):
+        restante = self.valor - boletoAnterior.valor
+        if restante >= 0:
+            return round(self.valor * 1.10, 2)
+        return restante + round(self.valor * 1.10, 2)
 
     # Actualiza el valor, va en relacion con la funcionalidad reasignar asiento
 
@@ -45,15 +64,8 @@ class Boleto:
     def asignarAsiento(self, asiento):
         asiento.asignarBoleto(self)
 
-    def setAsiento(self, asiento):
-        self.asiento = asiento
-        self.valorInicial = asiento.valorBase
-        self.valor = self.valorInicial
-        self.tipo = asiento.tipo
-
     # Actualiza un asiento asignado a un boleto a otro asiento, va de la mano con
     # la funcionalidad reasignar asiento
-
     def upgradeAsiento(self, prevAsiento, newAsiento):
         self.asiento = newAsiento
         self.valorInicial = newAsiento.valorBase
@@ -103,14 +115,11 @@ class Boleto:
     def getOrigenDestino(self):
         return self.origen + " - " + self.destino
 
-    def addEquipaje(self, maleta):
-        self.equipaje.append(maleta)
-        self.updateValor()
 
     def getInfo(self):
         return {
             "Origen-Destino" : self.getOrigenDestino(),
-            "Precio:" : self.valor,
+            "Valor" : self.valor,
             "Tipo asiento" : self.tipo,
             "Numero de asiento" : self.asiento.n_silla,
             "Cantidad maletas" : len(self.equipaje),
@@ -119,4 +128,4 @@ class Boleto:
         }
         
     def getStr(self):
-        return f"Origen-Destino: {self.getOrigenDestino()}, Precio: {self.valor}, Tipo asiento: {self.tipo}, Cantidad maletas: {len(self.equipaje)}, Estado: {self.status,}, Servicios: {len(self.serviciosContratados)}"
+        return f"Origen-Destino: {self.getOrigenDestino()}, Valor: {self.valor}, Tipo asiento: {self.tipo}, Cantidad maletas: {len(self.equipaje)}, Estado: {self.status}, Servicios: {len(self.serviciosContratados)}"

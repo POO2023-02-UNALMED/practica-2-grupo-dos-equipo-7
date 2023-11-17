@@ -4,13 +4,11 @@ class Asiento:
         self.tipo = tipo
         self.n_silla = n_silla
         self.valorBase = valorBase
-        
-        self.disponible = True  # Indica si el asiento está disponible o no
+        self.disponible = True
+        self.vip = True if tipo == "Vip" else False
         
         # Estado del asiento (ejemplo: "Disponible", "Asignado")
         self.status = "Disponible"
-
-        self.vip = True if tipo == "Vip" else False # Indica si es un asiento VIP o no
         self.boleto = None  # asociado al asiento
 
     def asignarBoleto(self, boleto):

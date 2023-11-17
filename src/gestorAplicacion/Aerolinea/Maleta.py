@@ -13,4 +13,4 @@ class Maleta(RestriccionesMaleta):
         
     def calcularPrecio(self):
         # Valor fijo de $5
-        return ((self.peso * 0.5)) + 3  # Convertimos el resultado final a int
+        return round((((self.peso * 0.5)) + 3), 2)  # Convertimos el resultado final a int
