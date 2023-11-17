@@ -590,7 +590,7 @@ class InitMainMenu(VentanaBaseFuncionalidad):
             "Texto de que se puede hacer"
         ]
         labels = [
-            tk.Label(self.zonaForm, text = texto, anchor="w", justify="left")
+            tk.Label(self.zonaForm, text = texto, font=("fixedsys",12),anchor="w", justify="left")
             .grid(row=row, column=0, padx=5, pady=5)
             for row, texto in enumerate(info)
         ]

@@ -2,11 +2,14 @@ from .Descuento import Descuento
 
 class descuentoVuelo(Descuento):    
 
-    def init(self, user, boleto):
-        super().__init__(user, boleto)
-        self.tipo = "Descuento Vuelo"
+
+    def __init__(self):
         self.costoMillas = 20
         self.descuento = 20
+        
+    def generar(self, user, boleto):
+        super().__init__(user, boleto)
+        self.tipo = "Descuento Vuelo"
 
     def aplicarDescuento(self, boleto):
         self.boleto = boleto
