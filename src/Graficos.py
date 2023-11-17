@@ -111,7 +111,7 @@ class FieldFrame(tk.Frame):
         self.criterios = criterios
 
         #Crea el marco donde van a estar los elementos
-        marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
+        marco = tk.Frame(parent, bg="#FFD8EC", highlightbackground="#9656B6",highlightthickness=2)
         marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         parent.grid_rowconfigure(0, weight=1)
         parent.grid_columnconfigure(0, weight=1)
@@ -328,8 +328,8 @@ class MainMenu:
 
         zonaSuperior = tk.Frame(marco, bg="#FFD8EC", highlightbackground="#9656B6",highlightthickness=2)
         zonaSuperior.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        marco.grid_rowconfigure(0, weight=1)
-        marco.grid_columnconfigure(0, weight=1)
+        #marco.grid_rowconfigure(0, weight=1)
+        #marco.grid_columnconfigure(0, weight=1)
         
         # ----------------------------------------------
         archivoSelec = tk.StringVar(zonaSuperior) 
@@ -357,7 +357,7 @@ class MainMenu:
         zonaSuperior.grid_columnconfigure(2, weight=1)
         
         #Zona main --------------------
-        zonaProceso = tk.Frame(marco, bg="orange", highlightbackground="#9656B6",highlightthickness=2)
+        zonaProceso = tk.Frame(marco, bg="#DAD8FF", highlightbackground="#9656B6",highlightthickness=2)
         zonaProceso.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         marco.grid_rowconfigure(1, weight=1)
         marco.grid_columnconfigure(0, weight=1)
@@ -521,22 +521,22 @@ class VentanaBaseFuncionalidad(tk.Frame):
         self.nombre = nombre
         self.descripcion = descripcion
         
-        self.zonaInfo = tk.Frame(self.zona, bg="yellow", borderwidth=1, relief="solid")
+        self.zonaInfo = tk.Frame(self.zona, bg="#FFD8EC", highlightbackground="#9656B6",highlightthickness=2)
         self.zonaInfo.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         self.zona.grid_rowconfigure(0, weight=1)
         self.zona.grid_columnconfigure(0, weight=1)
         
-        self.nombreProceso = tk.Label(self.zonaInfo, text= self.nombre)
+        self.nombreProceso = tk.Label(self.zonaInfo, text= self.nombre, bg="#FFD8EC",font=("fixedsys",20,"bold"),fg="#5B2A73")
         self.nombreProceso.grid(row=0, column=0, padx=5, pady=5)
         self.zonaInfo.grid_rowconfigure(0, weight=1)
         self.zonaInfo.grid_columnconfigure(0, weight=1)
         
-        self.descripcionProceso = tk.Label(self.zonaInfo, text= self.descripcion)
+        self.descripcionProceso = tk.Label(self.zonaInfo, text= self.descripcion,bg="#FFD8EC",font=("fixedsys",12),fg="#5B2A73")
         self.descripcionProceso.grid(row=1, column=0, padx=5, pady=5)
         self.zonaInfo.grid_rowconfigure(1, weight=1)
         self.zonaInfo.grid_columnconfigure(0, weight=1)
         
-        self.zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
+        self.zonaForm = tk.Frame(self.zona, bg="#FFD8EC", highlightbackground="#9656B6",highlightthickness=2)
         self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         self.zona.grid_rowconfigure(1, weight=1)
         self.zona.grid_columnconfigure(0, weight=1)
