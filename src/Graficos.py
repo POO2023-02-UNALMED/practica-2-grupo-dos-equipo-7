@@ -41,7 +41,7 @@ def createMainUser():
 
 App = tk.Tk()
 App.title("Ventana de Inicio")
-App.geometry("1400x1200")
+App.geometry("1400x800")
 
 #serializarUsuario(createMainUser())
 global user
@@ -415,8 +415,8 @@ class VentanaInicial:
 
         p6 = tk.Frame(p2, bg="#FFD8EC", borderwidth=1, highlightbackground="#9656B6",highlightthickness=2)
         p6.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
-        p2.grid_rowconfigure(1, weight=1)
-        p2.grid_columnconfigure(0, weight=1)
+        #p2.grid_rowconfigure(1, weight=1)
+        #p2.grid_columnconfigure(0, weight=1)
         self.p6 = p6
         #.............................
 
@@ -428,10 +428,10 @@ class VentanaInicial:
         p3.grid_columnconfigure(0, weight=0)
 
         # Ingreso al sistema  y seccion de imagenes (P4)
-        marcoImagenes = tk.Frame(p4, bg="green", borderwidth=1, relief="solid")
-        marcoImagenes.grid(row=0,column=0,padx=5,pady=5)
-        p4.grid_rowconfigure(0,weight=0)
-        p4.grid_columnconfigure(0,weight=0)
+        marcoImagenes = tk.Frame(p4)
+        marcoImagenes.grid(row=0,column=0,padx=10,pady=10)
+        p4.grid_rowconfigure(0,weight=1)
+        p4.grid_columnconfigure(0,weight=1)
         
         # Lista de nombres de archivos de imágenes
         
@@ -439,15 +439,15 @@ class VentanaInicial:
         indexImg = 0
         
         #sistemaPaths = [f"src\imagenes\ImagenesSistema\{i}.png" for i in range(1, maximo+1)]
-        sistemaPaths = [ "src/imagenes/imagen2-1.jpeg", "src/imagenes/imagen1-1.png" ]
+        sistemaPaths = [ "src/imagenes/imagenS1.png", "src/imagenes/imagen1-1.png"]
         
         fotos = [
-            ImageTk.PhotoImage(Image.open(path).resize((300, 300)))
+            ImageTk.PhotoImage(Image.open(path).resize((700, 550)))
             for path in sistemaPaths
         ]
         
-        etiqueta = tk.Label(marcoImagenes, image=fotos[0])
-        etiqueta.grid(row=0, column=0, columnspan=5)    
+        etiqueta = tk.Label(marcoImagenes, image=fotos[0],highlightbackground="#DAD8FF",highlightthickness=4)
+        etiqueta.grid(row=0, column=0)    
         etiqueta.bind("<Enter>", lambda event: changeImage())
     
         def changeImage():
@@ -455,10 +455,10 @@ class VentanaInicial:
             indexImg = 0 if indexImg == (len(fotos)-1) else indexImg + 1
             etiqueta.configure(image=fotos[indexImg])
         
-        botonIngreso = tk.Button(p4,text="Ingreso al sistema")
-        botonIngreso.grid(row=1,column=0,padx=5,pady=5)
-        p4.grid_rowconfigure(1,weight=0)
-        p4.grid_columnconfigure(0,weight=0)
+        botonIngreso = tk.Button(p4,text="Ingreso al sistema",bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#7768D2",height="2",width="25")
+        botonIngreso.grid(row=1,column=0,padx=10,pady=10,sticky="ws")
+        #p4.grid_rowconfigure(0,weight=0)
+        #p4.grid_columnconfigure(0,weight=0)
         botonIngreso.bind("<Button-1>", lambda e : MainMenu().generar())
         
         # - - - Seccion informacion y hojas de vida - - -
@@ -483,8 +483,8 @@ class VentanaInicial:
         #Funcion para mostrar imagenes segun la persona
         def showImages(index):
             for i, path in enumerate(imagenes.get(index, [])):
-                img = getImage(p6, path, (200, 200))
-                img.grid(row= (i//2), column=(i%2), padx=10, pady=10)
+                img = getImage(p6, path, (220, 220),highlightbackground="#FFA7EE",highlightthickness=3)
+                img.grid(row= (i//2), column=(i%2), padx=10, pady=10,sticky="nsew")
                 
         #Definir funcion hojas vida
         def cambioHojaVida(index):
@@ -499,7 +499,7 @@ class VentanaInicial:
             showImages(str(hojasVida["Indice"]))
             pass
         
-        hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10),bg="#FFD8EC")
+        hojaVidaLabel = tk.Label(p5, text="", font=("fixedsys",12),bg="#FFD8EC",fg="#5B2A73")
         hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
         cambioHojaVida(hojasVida["Indice"])
