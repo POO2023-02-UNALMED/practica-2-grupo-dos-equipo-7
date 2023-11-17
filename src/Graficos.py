@@ -214,6 +214,7 @@ class ResultFrame(tk.Frame):
         marco.grid_rowconfigure(0, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
+        index = 0
         #Por cada criterio agregarlos y sus respectivas entradas
         for index, key in enumerate(datos.keys()):
         
@@ -1300,14 +1301,14 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             ), nextRow+2, 1)
             pass
 
-        def descuentoVuelo(nextRow):
+        def descuentoVueloVentana(nextRow):
                 
             self.zonaResult.destroy()
             self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
             def confirmar(boleto):
-                descuento = upgradeAsiento()
+                descuento = descuentoVuelo()
                 ok = alertConfirmacion(f"Acepta canjear {descuento.getCostoMillas()} millas por un descuento de vuelo?.")
                 if ok:
                     if (user.verificarMillas(descuento.getCostoMillas())):
@@ -1330,13 +1331,13 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             
             pass
 
-        def descuentoMaleta(nextRow):
+        def descuentoMaletaVentana(nextRow):
             self.zonaResult.destroy()
             self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
             
             def confirmar(boleto):
-                descuento = upgradeAsiento()
+                descuento = descuentoMaleta()
                 ok = alertConfirmacion(f"Acepta canjear {descuento.getCostoMillas()} millas por un descuento en el costo total de las maletas?.")
             
                 if ok:
@@ -1366,15 +1367,15 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             
             resultFrame = ResultFrame(
                 "Descuentos del usuario",
-                {f"Descuento #{i}" : descuento for i, descuento in enumerate(user.descuentos)},
+                {f"Descuento #{i+1}" : descuento for i, descuento in enumerate(user.descuentos)},
                 self.zonaResult
             )
             pass
 
         handlersMillas = {
             "Mejora de silla": mejoraSilla,
-            "Descuento vuelo": descuentoVuelo,
-            "Descuento maleta": descuentoMaleta,
+            "Descuento vuelo": descuentoVueloVentana,
+            "Descuento maleta": descuentoMaletaVentana,
             "Ver descuentos del usuario": showDescuento
         }
         

@@ -64,6 +64,18 @@ class Boleto:
     def asignarAsiento(self, asiento):
         asiento.asignarBoleto(self)
 
+
+    # Actualiza el asiento a vip segun lo que seleccione el usuario, va de la mano
+    # con la funcionalidad canjear millas
+    def upgradeAsientoMillas(self, prevAsiento, newAsiento):
+        self.asiento = newAsiento
+        self.tipo = newAsiento.tipo
+        
+        ahorrado = round(newAsiento.valorBase - prevAsiento.valorBase, 2)
+        return ahorrado
+    
+    
+    
     # Actualiza un asiento asignado a un boleto a otro asiento, va de la mano con
     # la funcionalidad reasignar asiento
     def upgradeAsiento(self, prevAsiento, newAsiento):
@@ -82,14 +94,6 @@ class Boleto:
         prevAsiento.desasignarBoleto()
         newAsiento.asignarBoleto(self)
 
-    # Actualiza el asiento a vip segun lo que seleccione el usuario, va de la mano
-    # con la funcionalidad canjear millas
-    def upgradeAsientoMillas(self, prevAsiento, newAsiento):
-        self.asiento = newAsiento
-        self.tipo = newAsiento.tipo
-        ahorrado = round(self.valorInicial - newAsiento.valorBase, 2)
-        return ahorrado
-    
     def reasignarAsiento(self, asiento):
         self.asiento = asiento
         self.valorInicial = asiento.getValor() * (float)(1.1)
