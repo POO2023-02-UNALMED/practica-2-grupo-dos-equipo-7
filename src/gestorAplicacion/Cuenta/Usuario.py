@@ -25,6 +25,16 @@ class Usuario:
         newBoleto.status = "Reasignado"
         self.historial[indexBoleto] = newBoleto
 
+
+    def verificarMillas(self, valor):
+        return True if self.millas >= valor else False
+    
+    def canjearMillas(self, boleto, descuento):
+        #descontar millas
+        descuento.init(self, boleto)
+        descuento.aplicarDescuento()
+        pass
+    
     def comprarBoletoReasig(self, boleto):
         self.dinero -= boleto.valor
         self.millas += int(boleto.valor * 0.1)

@@ -13,6 +13,13 @@ from gestorAplicacion.Aerolinea.Vuelo import Vuelo
 from gestorAplicacion.Cuenta.Usuario import Usuario
 from baseDatos.Serializador import *
 
+
+from gestorAplicacion.Descuentos.Descuento import Descuento
+from gestorAplicacion.Descuentos.descuentoMaleta import descuentoMaleta
+from gestorAplicacion.Descuentos.descuentoVuelo import descuentoVuelo
+from gestorAplicacion.Descuentos.upgradeAsiento import upgradeAsiento
+
+
 # ------------------------------------
 
 def createMainUser():
@@ -1257,7 +1264,15 @@ class GestionUsuario(VentanaBaseFuncionalidad):
                 dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos
                 pass
             
-            def confirmar(boleto, newAsiento):
+            def confirmar(boleto, asiento):
+                descuento = upgradeAsiento(asiento)
+                ok = alertConfirmacion(f"Acepta para canjear {descuento.getCostoMillas()} millas por una mejora de asiento?.")
+                if (user.verificarMillas(descuento.getCostoMillas())):
+                    descontado = user.canjearMillas(boleto, descuento)
+                    alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta, y se ha realizado una mejora de asiento a su vuelo! Felicidades!")
+                    pass
+                else:
+                    alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
                 pass
             
             labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo")
@@ -1280,18 +1295,20 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             pass
 
         def descuentoVuelo(nextRow):
-            
-            #verificarMillas(user, upgradeAsiento.costoMillas) 
-            #user.descontarMillas(upgradeAsiento.costoMillas)
-            #f"Canjeado con éxito, millas restantes: {user.getMillas()}"
-            #descuento = upgradeAsiento(user)
-            #millasAsiento(user, descuento)
                 
             self.zonaResult.destroy()
             self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
             def confirmar(boleto):
+                descuento = upgradeAsiento()
+                ok = alertConfirmacion(f"Acepta canjear {descuento.getCostoMillas()} millas por un descuento de vuelo?.")
+                if (user.verificarMillas(descuento.getCostoMillas())):
+                    descontado = user.canjearMillas(boleto, descuento)
+                    alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta por un descuento en el vuelo, y se ha reembolazado ${descontado} a su cuenta, felicidades!")
+                    pass
+                else:
+                    alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
                 pass
 
             labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo")
@@ -1308,9 +1325,18 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             self.zonaResult.destroy()
             self.zonaResult = tk.Frame(self.zonaForm, bg="orange", borderwidth=1, relief="solid")
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
-
+            
             def confirmar(boleto):
+                descuento = upgradeAsiento()
+                ok = alertConfirmacion(f"Acepta canjear {descuento.getCostoMillas()} millas por un descuento en el costo total de las maletas?.")
+                if (user.verificarMillas(descuento.getCostoMillas())):
+                    descontado = user.canjearMillas(boleto, descuento)
+                    alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta, y se ha realizado un descuento de ${descontado} a su vuelo, dinero reembolsado a su cuenta.")
+                    pass
+                else:
+                    alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
                 pass
+
             
             labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo")
             labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)

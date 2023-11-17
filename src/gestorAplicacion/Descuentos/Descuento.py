@@ -1,12 +1,9 @@
 class Descuento:  # Abstracta
 
-    def __init__(self):
-        self.guardado = False  # Indica si el descuento ha sido guardado en la cuenta del usuario
-        self.usado = False  # Indica si el descuento ha sido usado
-        self.boleto = None  # El boleto al que se aplica el descuento
-        self.user = None  # El usuario al que se asigna el descuento
+    def __init__(self, user, boleto):
+        self.user = user  # El usuario al que se asigna el descuento
+        self.boleto = boleto  # El boleto al que se aplica el descuento
         self.tipo = None  # El tipo de descuento
-        self.estado = None  # El estado del descuento (Disponible o Usado)
 
     def usar(self):
         self.estado = "Usado"
@@ -24,9 +21,6 @@ class Descuento:  # Abstracta
             self.user.addDescuento(self)
             self.guardado = True
 
-    def init(self, user):
-        self.user = user
-        self.estado = "Disponible"
 
     def aplicarDescuento(self, boleto):
         pass

@@ -1,13 +1,12 @@
 from .Descuento import Descuento
 
-class descuentoVuelo(Descuento):
+class descuentoVuelo(Descuento):    
 
-    costoMillas = 20
-    descuento = 20
-
-    def __init__(self, user):
-        self.init(user)
+    def init(self, user, boleto):
+        super().__init__(user, boleto)
         self.tipo = "Descuento Vuelo"
+        self.costoMillas = 20
+        self.descuento = 20
 
     def aplicarDescuento(self, boleto):
         self.boleto = boleto
@@ -19,3 +18,6 @@ class descuentoVuelo(Descuento):
         self.user.depositarDinero((valorVuelo * retorno))
         self.boleto.updateValorBase()  # Actualizar el valor base del boleto
         self.usar()  # Marcar el descuento como usado
+
+    def getCostoMillas(self):
+        return self.costoMillas
