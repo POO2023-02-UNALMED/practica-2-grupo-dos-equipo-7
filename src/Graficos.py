@@ -418,16 +418,42 @@ class VentanaInicial:
         #.............................
 
         # Corto saludo de bienvenida (P3)
-        p3Label = tk.Label(p3, text = TEXT_DATA["textoBienvenida"])
-        p3Label.grid(row=0,column=0,padx=5, pady=5)
+        p3Label = tk.Label(p3, text = TEXT_DATA["textoBienvenida"], anchor="w", justify="left")
+        p3Label.grid(row=0,column=0,padx=5, pady=5, sticky="nsew")
 
-        # Ingreso al sistema (P4)
-        button_VentanaP = tk.Button(p4,text="Ingreso al sistema")
-        button_VentanaP.grid(row=2,column=2,padx=5,pady=5)
-        p4.grid_rowconfigure(1,weight=0)
-        p4.grid_columnconfigure(1,weight=0)
-        button_VentanaP.bind("<Button-1>", lambda e : MainMenu().generar())
+        # Ingreso al sistema  y seccion de imagenes (P4)
+        marcoImagenes = tk.Frame(p4, bg="green", borderwidth=1, relief="solid")
+        marcoImagenes.grid(row=0,column=0,padx=5,pady=5)
+        p4.grid_rowconfigure(0,weight=0)
+        p4.grid_columnconfigure(0,weight=0)
         
+        # Lista de nombres de archivos de imágenes
+        
+        global indexImg
+        indexImg = 0
+        
+        #sistemaPaths = [f"src\imagenes\ImagenesSistema\{i}.png" for i in range(1, maximo+1)]
+        sistemaPaths = [ "src/imagenes/imagen2-1.jpeg", "src/imagenes/imagen1-1.png" ]
+        
+        fotos = [
+            ImageTk.PhotoImage(Image.open(path).resize((300, 300)))
+            for path in sistemaPaths
+        ]
+        
+        etiqueta = tk.Label(marcoImagenes, image=fotos[0])
+        etiqueta.grid(row=0, column=0, columnspan=5)    
+        etiqueta.bind("<Enter>", lambda event: changeImage())
+    
+        def changeImage():
+            global indexImg
+            indexImg = 0 if indexImg == (len(fotos)-1) else indexImg + 1
+            etiqueta.configure(image=fotos[indexImg])
+        
+        botonIngreso = tk.Button(p4,text="Ingreso al sistema")
+        botonIngreso.grid(row=1,column=0,padx=5,pady=5)
+        p4.grid_rowconfigure(1,weight=0)
+        p4.grid_columnconfigure(0,weight=0)
+        botonIngreso.bind("<Button-1>", lambda e : MainMenu().generar())
         
         # - - - Seccion informacion y hojas de vida - - -
         
@@ -470,7 +496,7 @@ class VentanaInicial:
         hojaVidaLabel = tk.Label(p5, text="", font=("timesNewRoman",10) )
         hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5)
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
-        cambioHojaVida(hojasVida["Indice"])             
+        cambioHojaVida(hojasVida["Indice"])
         pass
 
 

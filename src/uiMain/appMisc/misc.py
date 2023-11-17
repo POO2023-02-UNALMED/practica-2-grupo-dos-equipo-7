@@ -73,6 +73,6 @@ TEXT_DATA = {
     "descripcionCheckIn": "Aqui puedes hacer check in y ademas de confirmar, agregar servicios adicionales para tu mayor comodidad en el vuelo!",
     "descripcionGestionUsuario": "Aqui puedes consultar informacion acerca de tu cuenta y hacer muchas cosas mas",
     
-    "textoBienvenida": "Bienvenid@ al sistema de venta de vuelos, Largo-fly :3",
+    "textoBienvenida": "Hola usuario, bienvenido al sistema de venta de vuelos, gracias por preferir nuestra aerolínea.\nEn esta ventana de inicio, tienes al lado derecho información acerca de los desarrolladores del sistema con sus respectivas fotos,\ny en la parte inferior, se muestran imágenes del sistema y el botón para ingresar al mismo.\nEspero que disfrutes de la experiencia de comprar con nosotros :)",
     "breveDescripcionApp": "Hola, esta aplicacion es un sistema de vuelos, aqui podras ... bla bla bla",
 }
