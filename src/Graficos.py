@@ -737,6 +737,7 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
 
 class ReasignarVuelo(VentanaBaseFuncionalidad):
     
+    
     def ventana1(self):
         self.showSelectHistorial(self.ventana2)
         pass
