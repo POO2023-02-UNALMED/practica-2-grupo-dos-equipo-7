@@ -1077,10 +1077,10 @@ class CheckIn(VentanaBaseFuncionalidad):
                             alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
                 
-                labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
+                labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $40",bg=color["pink"],font=("fixedsys",12))
                 labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
                 
-                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...")
+                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",12))
                 labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
                 
                 b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
@@ -1142,10 +1142,10 @@ class CheckIn(VentanaBaseFuncionalidad):
                     pass
                 
                 
-                labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
+                labelAviso = tk.Label(self.zona3, text = "El servicio de contratar un acompañante para el pasajero menor de edad tiene un costo de $15",bg=color["pink"],font=("fixedsys",10))
                 labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
                 
-                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...")
+                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",10))
                 labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
                 
                 b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
@@ -1156,7 +1156,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 
                 def confirmar(boleto):
                     servicio = ServiciosEspeciales.ASISTENCIA_NECESIDADES_ESPECIALES
-                    ok = alertConfirmacion(f"Desea contratar un asistencia para pasajero con necesidades especiales? este servicio no tiene ningun costo")
+                    ok = alertConfirmacion(f"Desea contratar asistencia para pasajero con necesidades especiales? este servicio no tiene ningun costo")
 
                     if ok:
                         if (user.dinero >= servicio.precio):                            
@@ -1166,10 +1166,10 @@ class CheckIn(VentanaBaseFuncionalidad):
                             alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
                 
-                labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
+                labelAviso = tk.Label(self.zona3, text = "El servicio de contratar asistencia para pasajero con necesidades especiales no tiene ningun costo",bg=color["pink"],font=("fixedsys",12))
                 labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
                 
-                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...")
+                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",12))
                 labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
                 
                 b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
@@ -1179,7 +1179,7 @@ class CheckIn(VentanaBaseFuncionalidad):
             def servicioTransporte(nextRow, boleto):
                 def confirmar(boleto):
                     servicio = ServiciosEspeciales.TRANSPORTE_TERRESTRE
-                    ok = alertConfirmacion(f"Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de ${servicio.precio}")
+                    ok = alertConfirmacion(f"¿Desea contratar el servicio de transporte terrestre? Esto tiene un costo de ${servicio.precio}")
 
                     if ok:
                         if (user.dinero >= servicio.precio):                            
@@ -1189,10 +1189,10 @@ class CheckIn(VentanaBaseFuncionalidad):
                             alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
                 
-                labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $1")
+                labelAviso = tk.Label(self.zona3, text = "El servicio de transporte terrestre tiene un costo de $70",bg=color["pink"],font=("fixedsys",10))
                 labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
                 
-                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...")
+                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",10))
                 labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
                 
                 b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
@@ -1223,7 +1223,7 @@ class CheckIn(VentanaBaseFuncionalidad):
             
             # Dropdown de la opcion
             
-            labelOpciones = tk.Label(self.zonaResult, text = "Seleccionar servicio")
+            labelOpciones = tk.Label(self.zonaResult, text = "Seleccionar servicio",bg=color["pink"],font=("fixedsys",12))
             labelOpciones.grid(row=nextRow, column=0, padx=5, pady=5)
             self.zonaResult.grid_rowconfigure(nextRow, weight=1)
             self.zonaResult.grid_columnconfigure(0, weight=1)
@@ -1232,7 +1232,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 "Comida a la carta", "Viaje con mascota", "Acompañante para menor de edad",
                 "Asistencia para pasajero con necesidades especiales", "Transporte terrestre",
                 "Ver servicios contratados"
-            ])
+            ],font="fixedsys")
             
             dropDownOpciones.grid(row=nextRow, column=1, padx=15, pady=15)
             dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: tempHandler(dropDownOpciones.get(), nextRow+1, boleto))
