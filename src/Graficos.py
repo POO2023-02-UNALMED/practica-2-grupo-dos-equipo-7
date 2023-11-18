@@ -794,18 +794,18 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         # Seleccionar vuelo y asiento
         labelVuelo = tk.Label(vuelosDisponibles.marco, text = "Vuelo:",bg="#FFD8EC", font=("fixedsys",10))
         labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)
-        dropDownVuelos = ttk.Combobox(vuelosDisponibles.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(vuelos))] )
+        dropDownVuelos = ttk.Combobox(vuelosDisponibles.marco,state = "readonly", values = [f"Vuelo #{i+1}" for i in range(len(vuelos))],font="fixedsys" )
         dropDownVuelos.grid(row=nextFreeRow, column=1, padx=15, pady=15)
         dropDownVuelos.bind("<<ComboboxSelected>>", selecAsientos)
         
         labelAsiento = tk.Label(vuelosDisponibles.marco, text = "Asiento:",bg="#FFD8EC", font=("fixedsys",10))
         labelAsiento.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
-        dropDownAsientos = ttk.Combobox(vuelosDisponibles.marco,state = "readonly",values = asientos )
+        dropDownAsientos = ttk.Combobox(vuelosDisponibles.marco,state = "readonly",values = asientos,font="fixedsys" )
         dropDownAsientos.grid(row=nextFreeRow + 1, column=1, padx=15, pady=15)
         
         labelMaletas = tk.Label(vuelosDisponibles.marco, text = "Cantidad de maletas:",bg="#FFD8EC", font=("fixedsys",10))
         labelMaletas.grid(row=nextFreeRow+2, column=0, padx=5, pady=5)
-        dropDownMaletas = ttk.Combobox(vuelosDisponibles.marco,state = "readonly",values = [0, 1, 2, 3, 4])
+        dropDownMaletas = ttk.Combobox(vuelosDisponibles.marco,state = "readonly",values = [0, 1, 2, 3, 4],font="fixedsys")
         dropDownMaletas.grid(row=nextFreeRow+2, column=1, padx=15, pady=15)
         
         # Crea boton de siguiente y uno de cancelar  
@@ -1001,7 +1001,7 @@ class CheckIn(VentanaBaseFuncionalidad):
         labelOpciones.grid(row=nextFreeRow, column=0, padx=5, pady=5)            
         dropDownOpciones = ttk.Combobox(infoServicios.marco, state = "readonly", values = [
             "Mejorar asiento", "Comprar servicios especiales"
-        ])
+        ],font="fixedsys")
         
         nextRow = nextFreeRow + 2
         dropDownOpciones.grid(row=nextFreeRow, column=1, padx=15, pady=15)
@@ -1036,9 +1036,9 @@ class CheckIn(VentanaBaseFuncionalidad):
                             alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                 pass
             
-            labelAsiento = tk.Label(self.zonaResult, text = "Seleccionar nuevo asiento")
+            labelAsiento = tk.Label(self.zonaResult, text = "Seleccionar nuevo asiento",font=("fixedsys",12),bg="#FFD8EC")
             labelAsiento.grid(row=nextRow, column=0, padx=5, pady=5)
-            dropDownAsiento = ttk.Combobox(self.zonaResult, state = "readonly", values = boleto.vuelo.asientos)
+            dropDownAsiento = ttk.Combobox(self.zonaResult, state = "readonly", values = boleto.vuelo.asientos,font="fixedsys")
             dropDownAsiento.grid(row=nextRow, column=1, padx=15, pady=15)
 
             b1 = getBotonCancelar(self.zonaResult, lambda: self.cancel(), nextRow+1, 0)
@@ -1315,12 +1315,12 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         nextFreeRow = infoMillas.nextFreeRow
         
         # Dropdown de la opcion
-        labelOpciones = tk.Label(infoMillas.marco, text = "Seleccionar opcion")
+        labelOpciones = tk.Label(infoMillas.marco, text = "Seleccionar opcion",bg="#FFD8EC",font=("fixedsys",12))
         labelOpciones.grid(row=nextFreeRow, column=0, padx=5, pady=5)            
         dropDownOpciones = ttk.Combobox(infoMillas.marco, state = "readonly", values = [
             "Mejora de silla", "Descuento vuelo",
             "Descuento maleta", "Ver descuentos del usuario"
-        ])
+        ],font="fixedsys")
         
         nextRow = nextFreeRow + 2
         dropDownOpciones.grid(row=nextFreeRow, column=1, padx=15, pady=15)
@@ -1365,15 +1365,15 @@ class GestionUsuario(VentanaBaseFuncionalidad):
                             alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
                 pass
             
-            labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar boleto")
+            labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar boleto",font=("fixedsys",12),bg="#FFD8EC")
             labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)
-            dropDownBoleto = ttk.Combobox(self.zonaResult, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
+            dropDownBoleto = ttk.Combobox(self.zonaResult, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()],font="fixedsys")
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
             dropDownBoleto.bind("<<ComboboxSelected>>", lambda e: selecAsientos())
         
-            labelAsiento = tk.Label(self.zonaResult, text = "Seleccionar asiento")
+            labelAsiento = tk.Label(self.zonaResult, text = "Seleccionar asiento",font=("fixedsys",12),bg="#FFD8EC")
             labelAsiento.grid(row=nextRow+1, column=0, padx=5, pady=5)
-            dropDownAsiento = ttk.Combobox(self.zonaResult, state = "readonly", values = ((user.getHistorial())[0]).vuelo.asientos)
+            dropDownAsiento = ttk.Combobox(self.zonaResult, state = "readonly", values = ((user.getHistorial())[0]).vuelo.asientos,font="fixedsys")
             dropDownAsiento.grid(row=nextRow+1, column=1, padx=15, pady=15)
 
             b1 = getBotonCancelar(self.zonaResult, lambda: self.cancel(), nextRow+2, 0)
