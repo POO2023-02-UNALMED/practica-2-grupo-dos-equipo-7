@@ -28,7 +28,7 @@ from gestorAplicacion.Mascotas.Gato import Gato
 
 
 # ------------------------------------
-color={"pink":"#FFD8EC","purple":"#E0B4E7","blue":"#DAD8FF","green":"#D3F5E8"}
+color={"pink":"#FFD8EC","purple":"#D0A2F7","blue":"#DAD8FF","green":"#D3F5E8"}
 
 def createMainUser():
     mainUser = Usuario("Largod </>", "largod@unal.edu.co", 5000)
