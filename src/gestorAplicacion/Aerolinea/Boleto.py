@@ -92,17 +92,13 @@ class Boleto:
         newAsiento.asignarBoleto(self)
 
 
-    def comprarServicio(self, servicio):
-        if (servicio == ServiciosEspeciales.MASCOTA_EN_CABINA):
-            self.cantidadMascotasCabina += 1
-        if (servicio == ServiciosEspeciales.MASCOTA_EN_BODEGA):
-            self.cantidadMascotasBodega += 1
-        
+    def comprarServicio(self, servicio):    
         self.serviciosContratados.append(servicio)
-        self.user.realizarPago(servicio.get_precio())
+        self.user.realizarPago(servicio.precio)
 
     def comprarServicioMascota(self, mascota):
         self.mascotas.append(mascota)
+        self.cantidadMascotasCabina += 1
         self.comprarServicio(ServiciosEspeciales.MASCOTA_EN_CABINA)
     
     def resetEquipaje(self):

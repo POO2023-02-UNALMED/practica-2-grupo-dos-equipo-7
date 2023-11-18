@@ -960,7 +960,7 @@ class CheckIn(VentanaBaseFuncionalidad):
             
             # SI el boleto ya tiene check in pasa a los servicios
             if (boleto.checkInRealizado):
-                alertInfo("El boleto seleccionado ya tiene check in, pasando al menu de servicios")
+                alertInfo("Check In", "El boleto seleccionado ya tiene check in, pasando al menu de servicios")
                 self.ventanaServicios(boleto)
 
             else:
@@ -978,6 +978,9 @@ class CheckIn(VentanaBaseFuncionalidad):
                         self.ventanaServicios(boleto)
 
     def ventanaServicios(self, boleto):
+        self.zona3 = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
+        self.zona3.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
+            
         self.clearZone()
         
         # Mostrar millas disponibles
@@ -1011,7 +1014,10 @@ class CheckIn(VentanaBaseFuncionalidad):
 
 
         def mejoraSilla(nextRow, boleto):
-            
+            self.zona3.destroy()
+            self.zona3 = tk.Frame(self.zonaForm,bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
+            self.zona3.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
+                
             self.zonaResult.destroy()
             self.zonaResult = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
@@ -1045,7 +1051,8 @@ class CheckIn(VentanaBaseFuncionalidad):
         
         
         def comprarServicios(nextRow, boleto):
-            self.zona3 = tk.Frame(self.zonaForm, bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
+            self.zona3.destroy()
+            self.zona3 = tk.Frame(self.zonaForm,bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
             self.zona3.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
              
             def tempHandler(key, row, boleto):
@@ -1059,10 +1066,10 @@ class CheckIn(VentanaBaseFuncionalidad):
                 def confirmar(boleto):
                     servicio = ServiciosEspeciales.COMIDA_A_LA_CARTA
 
-                    ok = alertConfirmacion(f"Desea comprar el servicio de comida a la acarta durante el vuelo? Esto tiene un costo de ${servicio.getPrecio()}")
+                    ok = alertConfirmacion(f"Desea comprar el servicio de comida a la acarta durante el vuelo? Esto tiene un costo de ${servicio.precio}")
                 
                     if ok:
-                        if (user.dinero >= servicio.getPrecio()):                            
+                        if (user.dinero >= servicio.precio):                            
                             boleto.comprarServicio(servicio)
                             alertInfo("Transaccion exitosa", "Mejora de asiento realizada con exito!")
                         else:
@@ -1084,24 +1091,29 @@ class CheckIn(VentanaBaseFuncionalidad):
                 
                 def confirmar(formData):
                     servicio = ServiciosEspeciales.MASCOTA_EN_CABINA
-                    ok = alertConfirmacion(f"Desea contratar el servicio de transporte de mascota? tiene un costo de {servicio.getPrecio()}")
+                    ok = alertConfirmacion(f"Desea contratar el servicio de transporte de mascota? tiene un costo de {servicio.precio}")
                 
                     if ok:
                         mascota = None
                         if (formData["Perro/Gato"].lower() == "perro"):
-                            mascota = Perro(formData["Nombre"], formData["Raza"], formData["Peso"])
+                            mascota = Perro(formData["Nombre"], formData["Raza"], float(formData["Peso"]))
                         elif (formData["Perro/Gato"].lower() == "gato"):
-                            mascota = Gato(formData["Nombre"], formData["Raza"], formData["Peso"])            
+                            mascota = Gato(formData["Nombre"], formData["Raza"], float(formData["Peso"]))            
                         else:
                             alertWarn("Error", "Error, tipo de mascota no valido, solo se admite Perro o Gato")
                             pass
                             
                         if mascota != None:
-                            if (user.dinero >= servicio.getPrecio()):                        
+                            if (user.dinero >= servicio.precio):          
                                 boleto.comprarServicioMascota(mascota)
                                 alertInfo("Transaccion exitosa", f"Servicio agregado con exito, ahora {mascota.nombre} podra viajar contigo!")
+                                
                             else:
                                 alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
+                                
+                        self.zona3.destroy()
+                        self.zona3 = tk.Frame(self.zonaForm,bg="#FFD8EC",highlightbackground="#9656B6",highlightthickness=2)
+                        self.zona3.grid(row=2, column=0, sticky="ew", padx=5, pady=5)
                     pass
             
                 formMascota = FieldFrame(
@@ -1118,10 +1130,10 @@ class CheckIn(VentanaBaseFuncionalidad):
                 
                 def confirmar(boleto):
                     servicio = ServiciosEspeciales.ACOMPANANTE_PARA_MENOR
-                    ok = alertConfirmacion(f"Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de ${servicio.getPrecio()}")
+                    ok = alertConfirmacion(f"Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de ${servicio.precio}")
 
                     if ok:
-                        if (user.dinero >= servicio.getPrecio()):                            
+                        if (user.dinero >= servicio.precio):                            
                             boleto.comprarServicio(servicio)
                             alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
                         else:
@@ -1146,7 +1158,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                     ok = alertConfirmacion(f"Desea contratar un asistencia para pasajero con necesidades especiales? este servicio no tiene ningun costo")
 
                     if ok:
-                        if (user.dinero >= servicio.getPrecio()):                            
+                        if (user.dinero >= servicio.precio):                            
                             boleto.comprarServicio(servicio)
                             alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
                         else:
@@ -1166,10 +1178,10 @@ class CheckIn(VentanaBaseFuncionalidad):
             def servicioTransporte(nextRow, boleto):
                 def confirmar(boleto):
                     servicio = ServiciosEspeciales.TRANSPORTE_TERRESTRE
-                    ok = alertConfirmacion(f"Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de ${servicio.getPrecio()}")
+                    ok = alertConfirmacion(f"Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de ${servicio.precio}")
 
                     if ok:
-                        if (user.dinero >= servicio.getPrecio()):                            
+                        if (user.dinero >= servicio.precio):                            
                             boleto.comprarServicio(servicio)
                             alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
                         else:

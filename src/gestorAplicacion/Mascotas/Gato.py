@@ -6,7 +6,7 @@ class Gato(Animal):
     PESO_MAXIMO_CABINA = 6.0
 
     def __init__(self, nombre, raza, peso):
-        super(nombre, raza)
+        super().__init__(nombre, raza)
         self.peso = peso
 
     def puedeViajarEnCabina(self):
