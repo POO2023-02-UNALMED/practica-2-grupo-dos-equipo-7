@@ -1091,7 +1091,7 @@ class CheckIn(VentanaBaseFuncionalidad):
             dropDownAsiento = ttk.Combobox(self.zonaResult, state = "readonly", values = boleto.vuelo.asientos,font="fixedsys")
             dropDownAsiento.grid(row=nextRow, column=1, padx=15, pady=15)
 
-            b1 = getBotonCancelar(self.zonaResult, lambda: self.cancel(), nextRow+1, 0)
+            b1 = getBotonTemp(self.zonaResult, lambda: self.cancel(), nextRow+1, 0)
             b2 = getBotonContinuar(self.zonaResult, lambda: confirmar(
                 boleto,
                 boleto.vuelo.asientos[dropDownAsiento.current()]
@@ -1132,7 +1132,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",12))
                 labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
                 
-                b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
+                b1 = getBotonTemp(self.zona3, lambda: self.cancel(), nextRow+1, 0)
                 b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
                 
                 pass
@@ -1197,7 +1197,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",10))
                 labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
                 
-                b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
+                b1 = getBotonTemp(self.zona3, lambda: self.cancel(), nextRow+1, 0)
                 b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
                 pass
 
@@ -1221,7 +1221,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",12))
                 labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
                 
-                b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
+                b1 = getBotonTemp(self.zona3, lambda: self.cancel(), nextRow+1, 0)
                 b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
                 pass
 
@@ -1244,7 +1244,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",10))
                 labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
                 
-                b1 = getBotonCancelar(self.zona3, lambda: self.cancel(), nextRow+1, 0)
+                b1 = getBotonTemp(self.zona3, lambda: self.cancel(), nextRow+1, 0)
                 b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
                 pass
 
@@ -1287,6 +1287,8 @@ class CheckIn(VentanaBaseFuncionalidad):
             dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: tempHandler(dropDownOpciones.get(), nextRow+1, boleto))
             self.zonaResult.grid_rowconfigure(nextRow, weight=1)
             self.zonaResult.grid_columnconfigure(1, weight=1)
+            
+            b1 = getBotonTemp(self.zonaResult, lambda: self.cancel(), nextRow+1, 1)
             pass
         
         handlersCheckIn = {

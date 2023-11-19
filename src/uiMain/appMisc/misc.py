@@ -35,6 +35,15 @@ def getBotonCancelar(parent, callback, row, col):
     return boton
     pass
 
+
+def getBotonTemp(parent, callback, row, col):
+    boton = tk.Button(parent, text="Volver al menu", bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#4a4699", command = lambda: cancelarHandler(callback))
+    boton.grid(row=row, column=col, padx=5, pady=5)
+    parent.grid_rowconfigure(row, weight=1)
+    parent.grid_columnconfigure(col, weight=1)
+    return boton
+    pass
+
 def getImage(parent, path, size, **kwargs):
     original = Image.open(path)
     resize = original.resize(size)
