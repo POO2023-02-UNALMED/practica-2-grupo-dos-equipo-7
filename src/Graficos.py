@@ -28,7 +28,7 @@ from gestorAplicacion.Mascotas.Gato import Gato
 
 
 # ------------------------------------
-color={"pink":"#FFD8EC","purple":"#D0A2F7","blue":"#DAD8FF","green":"#D3F5E8"}
+color={"pink":"#FFD8EC","purple":"#D0A2F7","blue":"#DAD8FF","pinkpurple":"#FFD3FB","darkblue":"#4E3D6F"}
 
 def createMainUser():
     mainUser = Usuario("Largod </>", "largod@unal.edu.co", 5000)
@@ -94,7 +94,8 @@ handlersProcesoConsulta = {
         TEXT_DATA["descripcionGestionUsuario"]
     ),
     
-    "Salir" : lambda: exitHandler(user)
+    "Salir" : lambda: VentanaInicial().generar(),
+
 }
 
 
@@ -138,6 +139,7 @@ class FieldFrame(tk.Frame):
         marco.grid_columnconfigure(1, weight=1)
 
         #Por cada criterio agregarlos y sus respectivas entradas
+        index = 0
         for index, criterio in enumerate(criterios):
         
             #Crea el criterio y su valor y lo guarda
@@ -157,12 +159,12 @@ class FieldFrame(tk.Frame):
             }
 
         
-        submitButton = tk.Button(marco, text="Enviar", bg=color["blue"],font=("fixedsys",12),relief="groove",fg="#7768D2", command = lambda: self.submitForm(callback))
+        submitButton = tk.Button(marco, text="Enviar", bg=color["blue"],font=("fixedsys",12),relief="groove",fg=color["darkblue"], command = lambda: self.submitForm(callback))
         submitButton.grid(row=index+2, column=1, padx=5, pady=5)
         marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
-        clearButton = tk.Button(marco, text="Clear",bg=color["blue"],font=("fixedsys",12),relief="groove",fg="#7768D2",command = lambda: self.clear())
+        clearButton = tk.Button(marco, text="Clear",bg=color["blue"],font=("fixedsys",12),relief="groove",fg=color["darkblue"],command = lambda: self.clear())
         clearButton.grid(row=index+2, column=0, padx=5, pady=5)
         marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(1, weight=1)
@@ -255,7 +257,7 @@ class ResultFrameSimple(tk.Frame):
         self.resultados = resultados
         self.resultadosElements = []
         #Crea el marco donde van a estar los elementos
-        marco = tk.Frame(parent, bg="green", borderwidth=1, relief="solid")
+        marco = tk.Frame(parent, bg="pinkpurple", borderwidth=1, relief="solid")
         marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         parent.grid_rowconfigure(0, weight=1)
         parent.grid_columnconfigure(0, weight=1)
@@ -327,43 +329,64 @@ class MainMenu:
         App.grid_rowconfigure(0, weight=1)
         App.grid_columnconfigure(0, weight=1)
 
-        nombre_aplicacion = tk.Label(frame_grande, text="Sistema de venta de vuelos",bg=color["blue"],font=("fixedsys",16))
-        nombre_aplicacion.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
+        #nombre_aplicacion = tk.Label(frame_grande, text="Sistema de venta de vuelos",bg=color["blue"],font=("fixedsys",16))
+        #nombre_aplicacion.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
 
         marco = tk.Frame(frame_grande, bg=color["blue"], borderwidth=1, relief="flat")
         marco.grid(row=1, column=0, sticky="nsew", padx=5, pady=10)
         frame_grande.grid_rowconfigure(1, weight=1)
         frame_grande.grid_columnconfigure(0, weight=1)
 
-        zonaSuperior = tk.Frame(marco, bg=color["pink"], highlightbackground="#9656B6",highlightthickness=2)
-        zonaSuperior.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
+        #zonaSuperior = tk.Frame(marco, bg=color["pink"], highlightbackground="#9656B6",highlightthickness=2)
+        #zonaSuperior.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         #marco.grid_rowconfigure(0, weight=1)
         #marco.grid_columnconfigure(0, weight=1)
         
         # ----------------------------------------------
-        archivoSelec = tk.StringVar(zonaSuperior) 
-        archivoSelec.set("Archivo") 
-
-        archivoButton = tk.OptionMenu(zonaSuperior, archivoSelec, *["Aplicacion", "Salir"], command = lambda e : handlersProcesoConsulta[archivoSelec.get()]())
-        archivoButton.grid(row=0, column=0, padx=5, pady=5)
-        zonaSuperior.grid_rowconfigure(0, weight=1)
-        zonaSuperior.grid_columnconfigure(0, weight=1)
-
-        opciones = ["Comprar vuelo", "Reasignar Vuelo", "Cancelar Vuelo", "Check In", "Gestion usuario"]
+        menuBar = tk.Menu(App)
+        App.config(menu=menuBar)
+        App.title("Sistema de venta de vuelos")
         
-        procesoSelec = tk.StringVar(zonaSuperior) 
-        procesoSelec.set("Procesos y consultas") 
+        menuArchivo = tk.Menu(menuBar, tearoff=False,bg=color["blue"])
+        menuBar.add_cascade(menu=menuArchivo, label="Archivo")
+        menuArchivo.add_command(label="Aplicacion")
+        menuArchivo.add_command(label="Salir", command = lambda : handlersProcesoConsulta["Salir"]())
 
-        listaProcesoConsulta = tk.OptionMenu(zonaSuperior, procesoSelec, *opciones, command = lambda e : handlersProcesoConsulta[procesoSelec.get()](self))
-        listaProcesoConsulta.grid(row=0, column=1, padx=5, pady=5)
-        zonaSuperior.grid_rowconfigure(0, weight=1)
-        zonaSuperior.grid_columnconfigure(1, weight=1)
+        menuConsultas = tk.Menu(menuBar, tearoff=False,bg=color["blue"])
+        menuBar.add_cascade(menu=menuConsultas, label="Procesos y Consultas")
+        menuConsultas.add_command(label="Comprar vuelo", command = lambda : handlersProcesoConsulta["Comprar vuelo"](self))
+        menuConsultas.add_command(label="Reasignar vuelo",command = lambda : handlersProcesoConsulta["Reasignar Vuelo"](self))
+        menuConsultas.add_command(label="Cancelar vuelo",command = lambda : handlersProcesoConsulta["Cancelar Vuelo"](self))
+        menuConsultas.add_command(label="Check In",command = lambda : handlersProcesoConsulta["Check In"](self))
+        menuConsultas.add_command(label="Gestion usuario",command = lambda : handlersProcesoConsulta["Gestion usuario"](self))
+
+        menuAyuda = tk.Menu(menuBar, tearoff=False,bg=color["blue"])
+        menuBar.add_cascade(menu=menuAyuda, label="Ayuda")
+        
+
+        #archivoSelec = tk.StringVar(zonaSuperior) 
+        #archivoSelec.set("Archivo") 
+
+        #archivoButton = tk.OptionMenu(zonaSuperior, archivoSelec, *["Aplicacion", "Salir"], command = lambda e : handlersProcesoConsulta[archivoSelec.get()]())
+        #archivoButton.grid(row=0, column=0, padx=5, pady=5)
+        #zonaSuperior.grid_rowconfigure(0, weight=1)
+        #zonaSuperior.grid_columnconfigure(0, weight=1)
+
+        #opciones = ["Comprar vuelo", "Reasignar Vuelo", "Cancelar Vuelo", "Check In", "Gestion usuario"]
+        
+        #procesoSelec = tk.StringVar(zonaSuperior) 
+        #procesoSelec.set("Procesos y consultas") 
+
+        #listaProcesoConsulta = tk.OptionMenu(zonaSuperior, procesoSelec, *opciones, command = lambda e : handlersProcesoConsulta[procesoSelec.get()](self))
+        #listaProcesoConsulta.grid(row=0, column=1, padx=5, pady=5)
+        #zonaSuperior.grid_rowconfigure(0, weight=1)
+        #zonaSuperior.grid_columnconfigure(1, weight=1)
 
                 
-        ayudaButton = tk.Button(zonaSuperior, text="Ayuda")
-        ayudaButton.grid(row=0, column=2, padx=5, pady=5)
-        zonaSuperior.grid_rowconfigure(0, weight=1)
-        zonaSuperior.grid_columnconfigure(2, weight=1)
+        #ayudaButton = tk.Button(zonaSuperior, text="Ayuda")
+        #ayudaButton.grid(row=0, column=2, padx=5, pady=5)
+        #zonaSuperior.grid_rowconfigure(0, weight=1)
+        #zonaSuperior.grid_columnconfigure(2, weight=1)
         
         #Zona main --------------------
         zonaProceso = tk.Frame(marco, bg=color["purple"], relief="flat")
@@ -438,10 +461,10 @@ class VentanaInicial:
 
         # Corto saludo de bienvenida (P3)
         #monospace = tk.font.Font(family="monospace", size=12,file="src\imagenes\JetBrainsMono-Regular.ttf")
-        p3Label = tk.Label(p3, text = TEXT_DATA["textoBienvenida"], anchor="w", justify="center", bg=color["pink"],fg="#5B2A73",font=("fixedsys",9))
+        p3Label = tk.Label(p3, text = TEXT_DATA["textoBienvenida"], anchor="w", justify="center", bg=color["pink"],fg="#5B2A73",font=("fixedsys",12))
         p3Label.grid(row=0,column=0,padx=5, pady=5, sticky="nsew")
-        p3.grid_rowconfigure(0, weight=0)
-        p3.grid_columnconfigure(0, weight=0)
+        p3.grid_rowconfigure(0, weight=1)
+        p3.grid_columnconfigure(0, weight=1)
 
         # Ingreso al sistema  y seccion de imagenes (P4)
         marcoImagenes = tk.Frame(p4)
@@ -471,7 +494,7 @@ class VentanaInicial:
             indexImg = 0 if indexImg == (len(fotos)-1) else indexImg + 1
             etiqueta.configure(image=fotos[indexImg])
         
-        botonIngreso = tk.Button(p4,text="Ingreso al sistema",bg=color["blue"],font=("fixedsys",12),relief="groove",fg="#7768D2",height="2",width="25")
+        botonIngreso = tk.Button(p4,text="Ingreso al sistema",bg=color["blue"],font=("fixedsys",12),relief="groove",fg=color["darkblue"],height="2",width="25")
         botonIngreso.grid(row=1,column=0,padx=10,pady=10,sticky="ws")
         #p4.grid_rowconfigure(0,weight=0)
         #p4.grid_columnconfigure(0,weight=0)
@@ -498,9 +521,13 @@ class VentanaInicial:
                     
         #Funcion para mostrar imagenes segun la persona
         def showImages(index):
+            i=1
             for i, path in enumerate(imagenes.get(index, [])):
                 img = getImage(p6, path, (220, 220),highlightbackground="#FFA7EE",highlightthickness=3)
                 img.grid(row= (i//2), column=(i%2), padx=10, pady=10,sticky="nsew")
+        p6.grid_rowconfigure(0,weight=0)
+        p6.grid_columnconfigure(0,weight=0)
+
                 
         #Definir funcion hojas vida
         def cambioHojaVida(index):
@@ -517,6 +544,8 @@ class VentanaInicial:
         
         hojaVidaLabel = tk.Label(p5, text="", font=("fixedsys",14),bg=color["pink"],fg="#5B2A73",justify="center")
         hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5,sticky="nsew")
+        p5.grid_rowconfigure(0,weight=1)
+        p5.grid_columnconfigure(0,weight=1)
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
         cambioHojaVida(hojasVida["Indice"])
         pass
@@ -530,22 +559,22 @@ class VentanaBaseFuncionalidad(tk.Frame):
         self.nombre = nombre
         self.descripcion = descripcion
         
-        self.zonaInfo = tk.Frame(self.zona, bg=color["green"], highlightbackground="#9656B6",highlightthickness=2)
+        self.zonaInfo = tk.Frame(self.zona, bg=color["pinkpurple"], highlightbackground="#9656B6",highlightthickness=2)
         self.zonaInfo.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         self.zona.grid_rowconfigure(0, weight=1)
         self.zona.grid_columnconfigure(0, weight=1)
         
-        self.nombreProceso = tk.Label(self.zonaInfo, text= self.nombre, bg=color["green"],font=("fixedsys",20,"bold"),fg="#5B2A73")
+        self.nombreProceso = tk.Label(self.zonaInfo, text= self.nombre, bg=color["pinkpurple"],font=("fixedsys",20,"bold"),fg="#5B2A73")
         self.nombreProceso.grid(row=0, column=0, padx=5, pady=5)
         self.zonaInfo.grid_rowconfigure(0, weight=1)
         self.zonaInfo.grid_columnconfigure(0, weight=1)
         
-        self.descripcionProceso = tk.Label(self.zonaInfo, text= self.descripcion,bg=color["green"],font=("fixedsys",12),fg="#5B2A73")
+        self.descripcionProceso = tk.Label(self.zonaInfo, text= self.descripcion,bg=color["pinkpurple"],font=("fixedsys",12),fg="#5B2A73")
         self.descripcionProceso.grid(row=1, column=0, padx=5, pady=5)
         self.zonaInfo.grid_rowconfigure(1, weight=1)
         self.zonaInfo.grid_columnconfigure(0, weight=1)
         
-        self.zonaForm = tk.Frame(self.zona, bg=color["green"], highlightbackground="#9656B6",highlightthickness=2)
+        self.zonaForm = tk.Frame(self.zona, bg=color["pinkpurple"], highlightbackground="#9656B6",highlightthickness=2)
         self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         self.zona.grid_rowconfigure(1, weight=1)
         self.zona.grid_columnconfigure(0, weight=1)
@@ -1258,7 +1287,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         )
         nextFreeRow = resultFrame.nextFreeRow
         
-        boton = tk.Button(resultFrame.marco, text="Volver",bg=color["blue"],font=("fixedsys",12),relief="groove",fg="#7768D2", command = lambda: self.ventana1())
+        boton = tk.Button(resultFrame.marco, text="Volver",bg=color["blue"],font=("fixedsys",12),relief="groove",fg=color["darkblue"], command = lambda: self.ventana1())
         boton.grid(row=nextFreeRow, column=0, padx=5, pady=5)
         pass
     
@@ -1296,11 +1325,11 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         sep2 = getSeparador(infoCuenta.marco, nextFreeRow+3, 2, 5)
         
         # Ver historial de vuelos
-        botonHistorial = tk.Button(infoCuenta.marco, text="Ver historial de vuelos",bg=color["blue"],font=("fixedsys",12),relief="groove",fg="#7768D2", command = self.ventanaHistorial)
+        botonHistorial = tk.Button(infoCuenta.marco, text="Ver historial de vuelos",bg=color["blue"],font=("fixedsys",12),relief="groove",fg=color["darkblue"], command = self.ventanaHistorial)
         botonHistorial.grid(row=nextFreeRow+4, column=0, padx=5, pady=5)
         
         # Canjear Millas
-        botonCanjearMillas = tk.Button(infoCuenta.marco, text="Canjear millas",bg=color["blue"],font=("fixedsys",12),relief="groove",fg="#7768D2",command = self.ventanaCanjearMillas)
+        botonCanjearMillas = tk.Button(infoCuenta.marco, text="Canjear millas",bg=color["blue"],font=("fixedsys",12),relief="groove",fg=color["darkblue"],command = self.ventanaCanjearMillas)
         botonCanjearMillas.grid(row=nextFreeRow+4, column=1, padx=5, pady=5)    
         pass
     
