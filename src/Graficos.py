@@ -1254,6 +1254,8 @@ class CheckIn(VentanaBaseFuncionalidad):
                     {f"Servicio #{i+1}": servicio for i, servicio in enumerate(boleto.serviciosContratados)},
                     self.zona3
                 )
+                
+                b1 = getBotonTemp(self.zona3, lambda: self.cancel(), nextRow+1, 1)
                 pass
             
             # Servicios especiales:
@@ -1287,8 +1289,6 @@ class CheckIn(VentanaBaseFuncionalidad):
             dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: tempHandler(dropDownOpciones.get(), nextRow+1, boleto))
             self.zonaResult.grid_rowconfigure(nextRow, weight=1)
             self.zonaResult.grid_columnconfigure(1, weight=1)
-            
-            b1 = getBotonTemp(self.zonaResult, lambda: self.cancel(), nextRow+1, 1)
             pass
         
         handlersCheckIn = {
