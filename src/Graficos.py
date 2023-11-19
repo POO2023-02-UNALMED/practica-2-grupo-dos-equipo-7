@@ -362,7 +362,7 @@ class MainMenu:
 
         menuAyuda = tk.Menu(menuBar, tearoff=False,bg=color["blue"])
         menuBar.add_cascade(menu=menuAyuda, label="Ayuda")
-        
+        menuAyuda.add_command(label="Acerca de:",command= lambda : alertInfo("Información de los desarrolladores","Juan Carlos Largo B. - jlargob@unal.edu.co\n\nMaría Alejandra Muñoz G. - mamunozgo@unal.edu.co\n\nHarrison Zuleta M. - hzuletam@unal.edu.co"))
 
         #archivoSelec = tk.StringVar(zonaSuperior) 
         #archivoSelec.set("Archivo") 
@@ -397,7 +397,7 @@ class MainMenu:
         self.zona = zonaProceso
         
         # Ventana inicial del main menu
-        InitMainMenu().generar(self, "Bievenido al sistema de venta de vuelos", TEXT_DATA["breveDescripcionMenu"])
+        InitMainMenu().generar(self, "Bienvenido al sistema de venta de vuelos", TEXT_DATA["breveDescripcionMenu"])
         
         pass
 
@@ -479,7 +479,7 @@ class VentanaInicial:
         indexImg = 0
         
         #sistemaPaths = [f"src\imagenes\ImagenesSistema\{i}.png" for i in range(1, maximo+1)]
-        sistemaPaths = [ "src/imagenes/imagenS1.png", "src/imagenes/imagen1-1.jpg"]
+        sistemaPaths = [ "src/data/imagenS1.png", "src/data/desarrolladores/imagen1-1.jpg"]
         
         fotos = [
             ImageTk.PhotoImage(Image.open(path).resize((700, 550)))
@@ -507,7 +507,7 @@ class VentanaInicial:
         # Guardar datos de hojas de vida
         hojasVida = {}
         for i in range(1, 6):
-            hojasVida[str(i)] = open(f"src/imagenes/hojaVida{i}.txt","r").read()
+            hojasVida[str(i)] = open(f"src/data/desarrolladores/hojaVida{i}.txt","r").read()
         hojasVida["Indice"] = 1
         
         imagenes = {}
@@ -515,10 +515,7 @@ class VentanaInicial:
             imagenes[str(i)] = []
             for j in range(1, 5):
                 # Falta unificar formato !!!!
-                if i != 1:
-                    imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.jpeg")
-                else:
-                    imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.jpg")
+                imagenes[str(i)].append(f"src/data/desarrolladores/imagen{i}-{j}.jpg")
                     
         #Funcion para mostrar imagenes segun la persona
         def showImages(index):
@@ -552,7 +549,7 @@ class VentanaInicial:
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
         cambioHojaVida(hojasVida["Indice"])
 
-        tituloBios = tk.Label(p5,text="Biografía de los desarroladores",font=("fixedsys",15,"bold"),bg=color["pink"],fg="#431b57",justify="center")
+        tituloBios = tk.Label(p5,text="Biografía de los desarrolladores",font=("fixedsys",15,"bold"),bg=color["pink"],fg="#431b57",justify="center")
         tituloBios.grid(row=0,column=0,padx=5, pady=5,sticky="nsew")
         p5.grid_rowconfigure(1,weight=1)
 
@@ -572,18 +569,21 @@ class VentanaBaseFuncionalidad(tk.Frame):
         
         self.zonaInfo = tk.Frame(self.zona, bg=color["pinkpurple"], highlightbackground="#9656B6",highlightthickness=2)
         self.zonaInfo.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        self.zona.grid_rowconfigure(0, weight=1)
-        self.zona.grid_columnconfigure(0, weight=1)
+        self.zona.grid_rowconfigure(0, weight=0)
+        self.zona.grid_columnconfigure(0, weight=0)
         
-        self.nombreProceso = tk.Label(self.zonaInfo, text= self.nombre, bg=color["pinkpurple"],font=("fixedsys",20,"bold"),fg="#5B2A73")
-        self.nombreProceso.grid(row=0, column=0, padx=5, pady=5)
+        self.nombreProceso = tk.Label(self.zonaInfo, text= self.nombre, bg=color["pinkpurple"],font=("fixedsys",22,"bold"),fg="#5B2A73")
+        self.nombreProceso.grid(row=0, column=0, padx=10, pady=10)
         self.zonaInfo.grid_rowconfigure(0, weight=1)
         self.zonaInfo.grid_columnconfigure(0, weight=1)
         
-        self.descripcionProceso = tk.Label(self.zonaInfo, text= self.descripcion,bg=color["pinkpurple"],font=("fixedsys",12),fg="#5B2A73")
-        self.descripcionProceso.grid(row=1, column=0, padx=5, pady=5)
-        self.zonaInfo.grid_rowconfigure(1, weight=1)
+        self.descripcionProceso = tk.Label(self.zonaInfo, text= self.descripcion,bg=color["pinkpurple"],font=("fixedsys",15),fg="#5B2A73")
+        self.descripcionProceso.grid(row=1, column=0, padx=15, pady=15)
+        self.zonaInfo.grid_rowconfigure(0, weight=1)
         self.zonaInfo.grid_columnconfigure(0, weight=1)
+
+        avion = getImage(self.zonaInfo, "src/data/iconoAvion.png",(80,80))
+        avion.grid(row=0, column=0, padx=5, pady=5,sticky="e")
         
         self.zonaForm = tk.Frame(self.zona, bg=color["pinkpurple"], highlightbackground="#9656B6",highlightthickness=2)
         self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
@@ -633,13 +633,13 @@ class VentanaBaseFuncionalidad(tk.Frame):
 class InitMainMenu(VentanaBaseFuncionalidad):
     def ventana1(self):
         info = [
-            "Como usar la aplicacion?",
+            "¿Cómo usar la aplicación?\n",
             "Texto de como usar la aplicacion",
-            "Que se puede hacer?",
+            "¿Qué se puede hacer?",
             "Texto de que se puede hacer"
         ]
         labels = [
-            tk.Label(self.zonaForm, text = texto, font=("fixedsys",12),anchor="w", justify="left")
+            tk.Label(self.zonaForm, text = texto, font=("fixedsys",10), anchor="w", justify="left",bg=color["pinkpurple"])
             .grid(row=row, column=0, padx=5, pady=5)
             for row, texto in enumerate(info)
         ]

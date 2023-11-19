@@ -73,11 +73,11 @@ def makePopUp():
 TEXT_DATA = {
     "descripcionComprarVuelo": "Aqui puedes buscar y comprar vuelos a el destino que desees!",
     "descripcionReasignarVuelo": "Si cambiaste de opinion con respecto a algun detalle de tu vuelo, puedes reasignar tu ticket a otro vuelo!",
-    "descripcionCancelarVuelo": "Si tuviste algun imprevisto o cambiaste de opinion, aqui puedes cancelar tu vuelo programado, nosotros entendemos y te regresamos el 10% de tu dinero!",
+    "descripcionCancelarVuelo": "Si tuviste algun imprevisto o cambiaste de opinion, aqui puedes cancelar tu vuelo programado,\nnosotros entendemos y te regresamos el 10% de tu dinero!",
     "descripcionCheckIn": "Aqui puedes hacer check in y ademas de confirmar, agregar servicios adicionales para tu mayor comodidad en el vuelo!",
     "descripcionGestionUsuario": "Aqui puedes consultar informacion acerca de tu cuenta y hacer muchas cosas mas",
     
     "textoBienvenida": "Hola usuario, bienvenido al sistema de venta de vuelos, gracias por preferir nuestra aerolínea.\nEn esta ventana de inicio, tienes al lado derecho información acerca de los desarrolladores \ndel sistema con sus respectivas fotos,y en la parte inferior, se muestran imágenes del sistema\n y el botón para ingresar al mismo. Espero que disfrutes de la experiencia de comprar con nosotros :)",
     "breveDescripcionApp": "En este sistema podrás interactuar con cinco funcionalidades, las cuales son comprar, \nreasignar y cancelar vuelos, hacer el check In y por último, consultar la información de tu\nusuario en gestión de usuario. Cada funcionalidad tiene sus respectivos formularios,\nlos cuales se hicieron de manera clara e intuitiva para que tu experiencia sea la mejor :)",
-    "breveDescripcionMenu": "SEXO GRATIS",
+    "breveDescripcionMenu": "Si estás buscando la mejor oferta de vuelos y una buena relación calidad-precio, este es el lugar para ti. Aquí encontrarás\nvuelos desde solo $100 dólares, podrás contratar servicios especiales durante y después del vuelo, tendrás flexibilidad para\nreasignar o cancelar tu vuelo y como incentivo por tu fidelización contarás con millas que se podrán cambiar por muchos beneficios\nmás. Gracias por preferirnos, esperamos que tengas una grata experiencia usando nuestro sistema. En la parte inferior encontrarás\nla explicación de cómo usar el sistema.",
 }
