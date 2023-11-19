@@ -1,4 +1,5 @@
-class Descuento:  # Abstracta
+from abc import ABC , abstractmethod
+class Descuento (ABC):  # Abstracta
 
 
     def __init__(self, user, boleto):
@@ -8,21 +9,23 @@ class Descuento:  # Abstracta
         self.estado = "Generado"
         self.usado = False
         
-    def guardar(self):
+    def guardar(self): # aquí se define si el descuento ya fue asignado a un boleto
         self.estado = "Usado"
         self.usado = True
         self.user.descuentos.append(self)
         
-    def getInfo(self):
+    def getInfo(self): # este metodo devuelve la informacion de los atributos principales del descuento
         return f"Tipo: {self.tipo}, Estado: {self.estado}, Ahorrado: ${self.ahorrado}, Millas canjeadas: {self.costoMillas}"
     
-    def generar(self, user, boleto):
+    @abstractmethod
+    def  generar(self, user, boleto):
         pass
     
+    @abstractmethod
     def aplicarDescuento(self):
         pass
     
-    def getCostoMillas(self):
+    def getCostoMillas(self):  # devuelve el costo en millas del descuento
         return self.costoMillas
     
     def __str__(self):

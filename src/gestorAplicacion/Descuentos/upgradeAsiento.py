@@ -7,11 +7,11 @@ class upgradeAsiento(Descuento):
         self.costoMillas = 20
         self.tipo = "Mejora de asiento"
 
-    def generar(self, user, boleto):
+    def generar(self, user, boleto):# este metodo genera un descuento de tipo upgradeasiento
         super().__init__(user, boleto)
         
-    def aplicarDescuento(self):
-        prevAsiento = self.boleto.asiento
+    def aplicarDescuento(self): # se añade al atributo descuentos del usuario 
+        prevAsiento = self.boleto.asiento #y mejora el tipo de asiento economico al vip
         newAsiento = self.asiento
         
         ahorrado = self.boleto.upgradeAsientoMillas(prevAsiento, newAsiento)

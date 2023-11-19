@@ -2,7 +2,7 @@ from .Descuento import Descuento
 
 class descuentoVuelo(Descuento):    
 
-    def __init__(self):
+    def __init__(self): # se crea la instancia de descuento vuelo
         self.costoMillas = 20
         self.descuento = 20
         self.tipo = "Descuento Vuelo"

@@ -11,17 +11,17 @@ class Asiento:
         self.status = "Disponible"
         self.boleto = None  # asociado al asiento
 
-    def asignarBoleto(self, boleto):
-        self.boleto = boleto
+    def asignarBoleto(self, boleto):#se le asigna el boleto  del usuario 
+        self.boleto = boleto        # que lo compró
         self.disponible = False
         self.status = "Asignado"
 
-    def desasignarBoleto(self):
+    def desasignarBoleto(self): #quita el boleto al que esté asignado
         self.boleto = None
         self.disponible = True
         self.status = "Disponible"
 
-    def getInfo(self):
+    def getInfo(self): # devuelve  la informacion de los atributos principales
         return f"{self.n_silla}. Tipo: {self.tipo}, Valor: ${self.valorBase}"
     
     def __str__(self):

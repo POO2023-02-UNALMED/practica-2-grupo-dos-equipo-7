@@ -1,5 +1,5 @@
 from .ServiciosEspeciales import ServiciosEspeciales
-
+from Descuentos.Descuento import Descuento
 class Boleto:
 
     cont = 0
@@ -15,34 +15,34 @@ class Boleto:
         self.id = Boleto.cont
         
         # Inicializar
-        self.mascotas = []
-        self.equipaje = []
-        self.descuentos = []
-        self.serviciosContratados = []
+        self.mascotas = [] # aquí se guardarn las mascotas que se quieran llevar en el vuelo
+        self.equipaje = [] # aquí se van a guardar las maletas que se quieran llevar en el vuelo
+        self.descuentos : Descuento = [] #aquí se van a guardar los descuentos que se quieran usar en el boleto
+        self.serviciosContratados = [] # aquí se meten los diferentes servicios que se hayan contratado para el vuelo
 
-        self.valorEquipaje = 0
+        self.valorEquipaje = 0 # este es el numero de equipajes
         
-        self.cantidadMascotasCabina = 0
-        self.cantidadMascotasBodega = 0
+        self.cantidadMascotasCabina = 0 # numero de mascotas en cabina
+        self.cantidadMascotasBodega = 0 #  numero de mascotas en la bodega
         
-        self.status = "Pendiente"
-        self.checkInRealizado = False
+        self.status = "Pendiente" # estado del chakin 
+        self.checkInRealizado = False # estado del check in
         
         # Set asiento
         self.setAsiento(asiento)
 
 
-    def setAsiento(self, asiento):
-        self.asiento = asiento
+    def setAsiento(self, asiento): # aquí se le va a asignar a los atributos 
+        self.asiento = asiento     #relacionados al asiento comprado su debido valor
         self.valorInicial = asiento.valorBase
         self.valor = self.valorInicial
         self.tipo = asiento.tipo
 
-    def addEquipaje(self, maleta):
+    def addEquipaje(self, maleta): # se adiciona la maleta al atributo equipaje
         self.equipaje.append(maleta)
         self.updateValor()
     
-    def updateValor(self):
+    def updateValor(self): # actualiza la cantidad de equipajes y su precio total
         temp = 0
         for maleta in self.equipaje:
             temp += maleta.calcularPrecio()
@@ -50,7 +50,7 @@ class Boleto:
         self.valorEquipaje = temp
         self.valor = self.valorInicial + temp
         
-    def calcularReasignacion(self, boletoAnterior):
+    def calcularReasignacion(self, boletoAnterior): #calcula el valor total del boleto despues de ser reasignado el asiento
         restante = self.valor - boletoAnterior.valor
         if restante >= 0:
             return round(self.valor * 1.10, 2)
@@ -73,7 +73,7 @@ class Boleto:
         ahorrado = round(newAsiento.valorBase - prevAsiento.valorBase, 2)
         return ahorrado
     
-    def makeCheckIn(self):
+    def makeCheckIn(self): # define el estado del check in como True
         self.status = "Confirmado"
         self.checkInRealizado = True
         pass
@@ -96,18 +96,18 @@ class Boleto:
         self.serviciosContratados.append(servicio)
         self.user.realizarPago(servicio.precio)
 
-    def comprarServicioMascota(self, mascota):
-        self.mascotas.append(mascota)
+    def comprarServicioMascota(self, mascota): # se compra el servicio para mascotas y se añade la mascota 
+        self.mascotas.append(mascota)           # al respectivo atributo
         self.cantidadMascotasCabina += 1
         self.comprarServicio(ServiciosEspeciales.MASCOTA_EN_CABINA)
     
-    def resetEquipaje(self):
+    def resetEquipaje(self): # vacia el atributo equipaje
         self.equipaje = []
 
-    def getOrigenDestino(self):
+    def getOrigenDestino(self): # devuelve el destino y origen del vuelo como un unico string
         return self.origen + " - " + self.destino
 
-    def getInfo(self):
+    def getInfo(self): # devuelve el estado actual del boleto en un diccionario
         return {
             "Origen-Destino" : self.getOrigenDestino(),
             "Valor" : self.valor,
@@ -118,5 +118,5 @@ class Boleto:
             "Servicios contratados": len(self.serviciosContratados)
         }
         
-    def getStr(self):
+    def getStr(self): # devuelve el estado de los atributos principales del boleto para su visualizacion
         return f"Origen-Destino: {self.getOrigenDestino()}, Valor: {self.valor}, Tipo asiento: {self.tipo}, Cantidad maletas: {len(self.equipaje)}, Estado: {self.status}, Servicios: {len(self.serviciosContratados)}"
