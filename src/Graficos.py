@@ -1255,7 +1255,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                     self.zona3
                 )
                 
-                b1 = getBotonTemp(self.zona3, lambda: self.cancel(), nextRow+1, 1)
+                b1 = getBotonTemp(resultFrame.marco, lambda: self.cancel(), resultFrame.nextFreeRow, 1)
                 pass
             
             # Servicios especiales:
