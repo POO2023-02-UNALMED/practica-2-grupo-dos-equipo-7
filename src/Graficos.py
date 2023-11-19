@@ -543,11 +543,18 @@ class VentanaInicial:
             pass
         
         hojaVidaLabel = tk.Label(p5, text="", font=("fixedsys",14),bg=color["pink"],fg="#5B2A73",justify="center")
-        hojaVidaLabel.grid(row=0,column=0, padx=5, pady=5,sticky="nsew")
+        hojaVidaLabel.grid(row=1,column=0, padx=5, pady=5,sticky="nsew")
         p5.grid_rowconfigure(0,weight=1)
         p5.grid_columnconfigure(0,weight=1)
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
         cambioHojaVida(hojasVida["Indice"])
+
+        tituloBios = tk.Label(p5,text="Biografía de los desarroladores",font=("fixedsys",15),bg=color["pink"],fg="#5B2A73",justify="center")
+        tituloBios.grid(row=0,column=0,padx=5, pady=5,sticky="nsew")
+        p5.grid_rowconfigure(1,weight=1)
+
+        clickLabel = tituloBios = tk.Label(p5,text="Click aquí",font=("fixedsys",10),bg=color["pink"],fg="#5B2A73",justify="center")
+        clickLabel.grid(row=2,column=0,padx=5, pady=5,sticky="nsew")
         pass
 
 

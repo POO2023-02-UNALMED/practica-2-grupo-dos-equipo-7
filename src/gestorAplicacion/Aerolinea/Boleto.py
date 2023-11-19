@@ -1,5 +1,5 @@
 from .ServiciosEspeciales import ServiciosEspeciales
-from Descuentos.Descuento import Descuento
+
 class Boleto:
 
     cont = 0
@@ -17,7 +17,7 @@ class Boleto:
         # Inicializar
         self.mascotas = [] # aquí se guardarn las mascotas que se quieran llevar en el vuelo
         self.equipaje = [] # aquí se van a guardar las maletas que se quieran llevar en el vuelo
-        self.descuentos : Descuento = [] #aquí se van a guardar los descuentos que se quieran usar en el boleto
+        self.descuentos = [] #aquí se van a guardar los descuentos que se quieran usar en el boleto
         self.serviciosContratados = [] # aquí se meten los diferentes servicios que se hayan contratado para el vuelo
 
         self.valorEquipaje = 0 # este es el numero de equipajes
