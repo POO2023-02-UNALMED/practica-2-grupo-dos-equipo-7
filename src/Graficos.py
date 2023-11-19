@@ -1249,9 +1249,14 @@ class CheckIn(VentanaBaseFuncionalidad):
                 pass
 
             def showServicios(nextRow, boleto):
+                if len(boleto.serviciosContratados) != 0:
+                    data = {f"Servicio #{i+1}": servicio for i, servicio in enumerate(boleto.serviciosContratados)}
+                else:
+                    data = {"Servicios": "No hay servicios contratados para el boleto de momento"}
+
                 resultFrame = ResultFrame(
                     "Servicios contratados",
-                    {f"Servicio #{i+1}": servicio for i, servicio in enumerate(boleto.serviciosContratados)},
+                    data,
                     self.zona3
                 )
                 
