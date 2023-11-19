@@ -661,6 +661,24 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
                 dropDownAsientos["values"] = asientos # Muestralos asientos del vuelo seleccionado
                 pass
             
+            def verify():
+                newData = {
+                    "vuelo": vuelos[dropDownVuelos.current()],
+                    "asiento": asientos[dropDownAsientos.current()],
+                    "maletas": int(dropDownMaletas.current()),
+                }
+                verificado = (
+                    dropDownVuelos.current() != -1 and
+                    dropDownAsientos.current() != -1 and
+                    dropDownMaletas.current() != -1
+                )
+                if verificado:
+                    self.ventana2(newData, formData) # Origen, destino
+                else:
+                    alertWarn("Campos sin llenar", "Error, por favor llene todos los campos antes de continuar:3")
+                    pass
+                pass
+            
             separador = getSeparador(formElement.marco, nextFreeRow, 2, 5) # Separador generico
             
             # Seleccionar vuelo y asiento
@@ -682,13 +700,7 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
 
             # Crea boton de siguiente y uno de cancelar  
             getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+4, 0)
-            getBotonContinuar(formElement.marco, lambda: self.ventana2(
-                {
-                    "vuelo": vuelos[dropDownVuelos.current()],
-                    "asiento": asientos[dropDownAsientos.current()],
-                    "maletas": int(dropDownMaletas.current()),
-                }, formData # Origen, destino
-            ),nextFreeRow+4, 1)
+            getBotonContinuar(formElement.marco, lambda: verify(), nextFreeRow+4, 1)
             
             pass
         
@@ -716,11 +728,8 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
             
             alertInfo("Previsualizacion del precio", f"Precio a pagar en total por {numMaletas} maletas: ${sum(maleta.calcularPrecio() for maleta in maletas)}, Total boleto: {boleto.valor}")
             
-            separador = getSeparador(formElement.marco, nextFreeRow, 2, 5)
-            
             # Crea boton de siguiente y uno de cancelar  
-            getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+1, 0)
-            getBotonContinuar(formElement.marco, lambda: self.ventana3(boleto), nextFreeRow+1, 1)
+            self.ventana3(boleto)
             pass
         
         
