@@ -78,5 +78,6 @@ TEXT_DATA = {
     "descripcionGestionUsuario": "Aqui puedes consultar informacion acerca de tu cuenta y hacer muchas cosas mas",
     
     "textoBienvenida": "Hola usuario, bienvenido al sistema de venta de vuelos, gracias por preferir nuestra aerolínea.\nEn esta ventana de inicio, tienes al lado derecho información acerca de los desarrolladores \ndel sistema con sus respectivas fotos,y en la parte inferior, se muestran imágenes del sistema\n y el botón para ingresar al mismo. Espero que disfrutes de la experiencia de comprar con nosotros :)",
-    "breveDescripcionApp": "Hola, esta aplicacion es un sistema de vuelos, aqui podras ... bla bla bla",
+    "breveDescripcionApp": "En este sistema podrás interactuar con cinco funcionalidades, las cuales son comprar, \nreasignar y cancelar vuelos, hacer el check In y por último, consultar la información de tu\nusuario en gestión de usuario. Cada funcionalidad tiene sus respectivos formularios,\nlos cuales se hicieron de manera clara e intuitiva para que tu experiencia sea la mejor :)",
+    "breveDescripcionMenu": "SEXO GRATIS",
 }

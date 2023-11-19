@@ -397,7 +397,8 @@ class MainMenu:
         self.zona = zonaProceso
         
         # Ventana inicial del main menu
-        InitMainMenu().generar(self, "Bievenido al sistema de vuelos, aqui podras ... bla bla bla", TEXT_DATA["breveDescripcionApp"])
+        InitMainMenu().generar(self, "Bievenido al sistema de venta de vuelos", TEXT_DATA["breveDescripcionMenu"])
+        
         pass
 
 
@@ -478,7 +479,7 @@ class VentanaInicial:
         indexImg = 0
         
         #sistemaPaths = [f"src\imagenes\ImagenesSistema\{i}.png" for i in range(1, maximo+1)]
-        sistemaPaths = [ "src/imagenes/imagenS1.png", "src/imagenes/imagen1-1.png"]
+        sistemaPaths = [ "src/imagenes/imagenS1.png", "src/imagenes/imagen1-1.jpg"]
         
         fotos = [
             ImageTk.PhotoImage(Image.open(path).resize((700, 550)))
@@ -495,7 +496,7 @@ class VentanaInicial:
             etiqueta.configure(image=fotos[indexImg])
         
         botonIngreso = tk.Button(p4,text="Ingreso al sistema",bg=color["blue"],font=("fixedsys",12),relief="groove",fg=color["darkblue"],height="2",width="25")
-        botonIngreso.grid(row=1,column=0,padx=10,pady=10,sticky="ws")
+        botonIngreso.grid(row=1,column=0,padx=15,pady=10,sticky="s")
         #p4.grid_rowconfigure(0,weight=0)
         #p4.grid_columnconfigure(0,weight=0)
         botonIngreso.bind("<Button-1>", lambda e : MainMenu().generar())
@@ -517,16 +518,18 @@ class VentanaInicial:
                 if i != 1:
                     imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.jpeg")
                 else:
-                    imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.png")
+                    imagenes[str(i)].append(f"src/imagenes/imagen{i}-{j}.jpg")
                     
         #Funcion para mostrar imagenes segun la persona
         def showImages(index):
             i=1
             for i, path in enumerate(imagenes.get(index, [])):
-                img = getImage(p6, path, (220, 220),highlightbackground="#FFA7EE",highlightthickness=3)
-                img.grid(row= (i//2), column=(i%2), padx=10, pady=10,sticky="nsew")
-        p6.grid_rowconfigure(0,weight=0)
-        p6.grid_columnconfigure(0,weight=0)
+                img = getImage(p6, path, (230, 230),highlightbackground="#FFA7EE",highlightthickness=3)
+                img.grid(row= (i//2), column=(i%2), padx=10, pady=10)
+        p6.grid_rowconfigure(0,weight=1)
+        p6.grid_columnconfigure(0,weight=1)
+        p6.grid_rowconfigure(1,weight=1)
+        p6.grid_columnconfigure(1,weight=1)
 
                 
         #Definir funcion hojas vida
@@ -549,12 +552,13 @@ class VentanaInicial:
         hojaVidaLabel.bind("<Button-1>", lambda e: cambioHojaVida(hojasVida["Indice"]))
         cambioHojaVida(hojasVida["Indice"])
 
-        tituloBios = tk.Label(p5,text="Biografía de los desarroladores",font=("fixedsys",15),bg=color["pink"],fg="#5B2A73",justify="center")
+        tituloBios = tk.Label(p5,text="Biografía de los desarroladores",font=("fixedsys",15,"bold"),bg=color["pink"],fg="#431b57",justify="center")
         tituloBios.grid(row=0,column=0,padx=5, pady=5,sticky="nsew")
         p5.grid_rowconfigure(1,weight=1)
 
-        clickLabel = tituloBios = tk.Label(p5,text="Click aquí",font=("fixedsys",10),bg=color["pink"],fg="#5B2A73",justify="center")
+        clickLabel = tituloBios = tk.Label(p5,text="Click sobre la biografía para cambiar de desarrollador",font=("fixedsys",10),bg=color["pink"],fg="#cf488d",justify="center")
         clickLabel.grid(row=2,column=0,padx=5, pady=5,sticky="nsew")
+        p5.grid_rowconfigure(2,weight=1)
         pass
 
 
