@@ -661,6 +661,24 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
                 dropDownAsientos["values"] = asientos # Muestralos asientos del vuelo seleccionado
                 pass
             
+            def verify():
+                newData = {
+                    "vuelo": vuelos[dropDownVuelos.current()],
+                    "asiento": asientos[dropDownAsientos.current()],
+                    "maletas": int(dropDownMaletas.current()),
+                }
+                verificado = (
+                    dropDownVuelos.current() != -1 and
+                    dropDownAsientos.current() != -1 and
+                    dropDownMaletas.current() != -1
+                )
+                if verificado:
+                    self.ventana2(newData, formData) # Origen, destino
+                else:
+                    alertWarn("Campos sin llenar", "Error, por favor llene todos los campos antes de continuar:3")
+                    pass
+                pass
+            
             separador = getSeparador(formElement.marco, nextFreeRow, 2, 5) # Separador generico
             
             # Seleccionar vuelo y asiento
@@ -682,13 +700,7 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
 
             # Crea boton de siguiente y uno de cancelar  
             getBotonCancelar(formElement.marco, lambda: self.cancel(), nextFreeRow+4, 0)
-            getBotonContinuar(formElement.marco, lambda: self.ventana2(
-                {
-                    "vuelo": vuelos[dropDownVuelos.current()],
-                    "asiento": asientos[dropDownAsientos.current()],
-                    "maletas": int(dropDownMaletas.current()),
-                }, formData # Origen, destino
-            ),nextFreeRow+4, 1)
+            getBotonContinuar(formElement.marco, lambda: verify(), nextFreeRow+4, 1)
             
             pass
         
