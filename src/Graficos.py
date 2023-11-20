@@ -1116,7 +1116,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 def confirmar(boleto):
                     servicio = ServiciosEspeciales.COMIDA_A_LA_CARTA
 
-                    ok = alertConfirmacion(f"Desea comprar el servicio de comida a la acarta durante el vuelo? Esto tiene un costo de ${servicio.precio}")
+                    ok = alertConfirmacion(f"¿Desea comprar el servicio de comida a la carta durante el vuelo? Este tiene un costo de ${servicio.precio}")
                 
                     if ok:
                         if (user.dinero >= servicio.precio):                            
@@ -1126,11 +1126,11 @@ class CheckIn(VentanaBaseFuncionalidad):
                             alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
                 
-                labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida tiene un costo de $40",bg=color["pink"],font=("fixedsys",12))
-                labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
+                labelAviso = tk.Label(self.zona3, text = "El servicio de comprar comida a la carta tiene un costo de $40,\npresione el botón de continuar si desea adquirirlo.",bg=color["pink"],font=("fixedsys",12))
+                labelAviso.grid(row=0, column=0, padx=10, pady=5)
                 
-                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",12))
-                labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
+                avion = getImage(self.zona3, "src\data\comidaCarta.png",(90,90))
+                avion.grid(row=0, column=1, padx=10, pady=5)
                 
                 b1 = getBotonTemp(self.zona3, lambda: self.cancel(), nextRow+1, 0)
                 b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
@@ -1141,7 +1141,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 
                 def confirmar(formData):
                     servicio = ServiciosEspeciales.MASCOTA_EN_CABINA
-                    ok = alertConfirmacion(f"Desea contratar el servicio de transporte de mascota? tiene un costo de {servicio.precio}")
+                    ok = alertConfirmacion(f"¿Desea contratar el servicio de transporte de mascota? Tiene un costo de {servicio.precio}")
                 
                     if ok:
                         mascota = None
@@ -1180,7 +1180,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 
                 def confirmar(boleto):
                     servicio = ServiciosEspeciales.ACOMPANANTE_PARA_MENOR
-                    ok = alertConfirmacion(f"Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de ${servicio.precio}")
+                    ok = alertConfirmacion(f"¿Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de ${servicio.precio}")
 
                     if ok:
                         if (user.dinero >= servicio.precio):                            
@@ -1194,8 +1194,8 @@ class CheckIn(VentanaBaseFuncionalidad):
                 labelAviso = tk.Label(self.zona3, text = "El servicio de contratar un acompañante para el pasajero menor de edad tiene un costo de $15",bg=color["pink"],font=("fixedsys",10))
                 labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
                 
-                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",10))
-                labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
+                menorEdad = getImage(self.zona3, "src\data\menorEdad.png",(90,90))
+                menorEdad.grid(row=0, column=1, padx=10, pady=5)
                 
                 b1 = getBotonTemp(self.zona3, lambda: self.cancel(), nextRow+1, 0)
                 b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
@@ -1205,7 +1205,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 
                 def confirmar(boleto):
                     servicio = ServiciosEspeciales.ASISTENCIA_NECESIDADES_ESPECIALES
-                    ok = alertConfirmacion(f"Desea contratar asistencia para pasajero con necesidades especiales? este servicio no tiene ningun costo")
+                    ok = alertConfirmacion(f"¿Desea contratar asistencia para pasajero con necesidades especiales? Este servicio no tiene ningun costo")
 
                     if ok:
                         if (user.dinero >= servicio.precio):                            
@@ -1218,8 +1218,8 @@ class CheckIn(VentanaBaseFuncionalidad):
                 labelAviso = tk.Label(self.zona3, text = "El servicio de contratar asistencia para pasajero con necesidades especiales no tiene ningun costo",bg=color["pink"],font=("fixedsys",12))
                 labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
                 
-                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",12))
-                labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
+                discapacidad = getImage(self.zona3, "src\data\discapacidad.png",(90,90))
+                discapacidad.grid(row=0, column=1, padx=10, pady=5)
                 
                 b1 = getBotonTemp(self.zona3, lambda: self.cancel(), nextRow+1, 0)
                 b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
@@ -1228,7 +1228,7 @@ class CheckIn(VentanaBaseFuncionalidad):
             def servicioTransporte(nextRow, boleto):
                 def confirmar(boleto):
                     servicio = ServiciosEspeciales.TRANSPORTE_TERRESTRE
-                    ok = alertConfirmacion(f"¿Desea contratar el servicio de transporte terrestre? Esto tiene un costo de ${servicio.precio}")
+                    ok = alertConfirmacion(f"¿Desea contratar el servicio de transporte terrestre? Este tiene un costo de ${servicio.precio}")
 
                     if ok:
                         if (user.dinero >= servicio.precio):                            
@@ -1238,11 +1238,11 @@ class CheckIn(VentanaBaseFuncionalidad):
                             alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
                 
-                labelAviso = tk.Label(self.zona3, text = "El servicio de transporte terrestre tiene un costo de $70",bg=color["pink"],font=("fixedsys",10))
+                labelAviso = tk.Label(self.zona3, text = "El servicio de transporte terrestre tiene un costo de $70.\nUna van te recogerá en el aeropuerto y te llevará a tu hotel o lugar de destino.",bg=color["pink"],font=("fixedsys",10))
                 labelAviso.grid(row=nextRow, column=0, padx=5, pady=5)
                 
-                labelDescripcion = tk.Label(self.zona3, text = "Descripcion del servicio...",bg=color["pink"],font=("fixedsys",10))
-                labelDescripcion.grid(row=nextRow, column=1, padx=5, pady=5)
+                transporte = getImage(self.zona3, "src\data\dvan.png",(90,90))
+                transporte.grid(row=0, column=1, padx=10, pady=5)
                 
                 b1 = getBotonTemp(self.zona3, lambda: self.cancel(), nextRow+1, 0)
                 b2 = getBotonContinuar(self.zona3, lambda: confirmar(boleto), nextRow+1, 1)
