@@ -31,7 +31,7 @@ from gestorAplicacion.Mascotas.Gato import Gato
 color={"pink":"#FFD8EC","purple":"#D0A2F7","blue":"#DAD8FF","pinkpurple":"#FFD3FB","darkblue":"#4E3D6F"}
 
 def createMainUser():
-    mainUser = Usuario("Largod </>", "largod@unal.edu.co", 5000)
+    mainUser = Usuario("Jaime Alberto Guzman", "jaguzman@unal.edu.co", 5000)
     
     baseData = [
         { "Origen": "Medellin", "Destino": "Nueva York",   "Maletas": 2, "Vuelo": 2, "Asiento": 3 },
@@ -213,7 +213,7 @@ class ResultFrame(tk.Frame):
         self.parent = parent
         
         #Crea el marco donde van a estar los elementos
-        marco = tk.Frame(parent, bg=color["pink"], highlightbackground="#9656B6",highlightthickness=2)
+        marco = tk.Frame(parent, bg=color["pink"], relief="flat")
         marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         parent.grid_rowconfigure(0, weight=1)
         parent.grid_columnconfigure(0, weight=1)
@@ -349,7 +349,7 @@ class MainMenu:
         
         menuArchivo = tk.Menu(menuBar, tearoff=False,bg=color["blue"])
         menuBar.add_cascade(menu=menuArchivo, label="Archivo")
-        menuArchivo.add_command(label="Aplicacion")
+        menuArchivo.add_command(label="Aplicacion",command= lambda : alertInfo("Información de la aplicación","En esta aplicación podrás realizar la compra, reasignación y cancelación de vuelos, así como su respectivo check in donde a su vez podrás contratar servicios especiales que mejoren tu bienestar en el vuelo. Por último, puedes consultar tus datos de usuario y canjear millas por muchos beneficios. Gracias por usar nuestra aplicación :)"))
         menuArchivo.add_command(label="Salir", command = lambda : handlersProcesoConsulta["Salir"]())
 
         menuConsultas = tk.Menu(menuBar, tearoff=False,bg=color["blue"])
@@ -574,12 +574,12 @@ class VentanaBaseFuncionalidad(tk.Frame):
         
         self.nombreProceso = tk.Label(self.zonaInfo, text= self.nombre, bg=color["pinkpurple"],font=("fixedsys",22,"bold"),fg="#5B2A73")
         self.nombreProceso.grid(row=0, column=0, padx=10, pady=10)
-        self.zonaInfo.grid_rowconfigure(0, weight=1)
+        self.zonaInfo.grid_rowconfigure(0, weight=0)
         self.zonaInfo.grid_columnconfigure(0, weight=1)
         
         self.descripcionProceso = tk.Label(self.zonaInfo, text= self.descripcion,bg=color["pinkpurple"],font=("fixedsys",15),fg="#5B2A73")
         self.descripcionProceso.grid(row=1, column=0, padx=15, pady=15)
-        self.zonaInfo.grid_rowconfigure(0, weight=1)
+        self.zonaInfo.grid_rowconfigure(0, weight=0)
         self.zonaInfo.grid_columnconfigure(0, weight=1)
 
         avion = getImage(self.zonaInfo, "src/data/iconoAvion.png",(80,80))
