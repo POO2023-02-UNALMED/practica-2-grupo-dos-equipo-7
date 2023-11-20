@@ -632,17 +632,19 @@ class VentanaBaseFuncionalidad(tk.Frame):
 
 class InitMainMenu(VentanaBaseFuncionalidad):
     def ventana1(self):
-        info = [
-            "¿Cómo usar la aplicación?\n",
-            "Texto de como usar la aplicacion",
-            "¿Qué se puede hacer?",
-            "Texto de que se puede hacer"
-        ]
-        labels = [
-            tk.Label(self.zonaForm, text = texto, font=("fixedsys",10), anchor="w", justify="left",bg=color["pinkpurple"])
-            .grid(row=row, column=0, padx=5, pady=5)
-            for row, texto in enumerate(info)
-        ]
+        texto = "Bienvenido a la aplicación de la aerolínea, en esta podrás hacer uso de los diferentes servicios\n que te proporcionamos como usuario. En la esquina superior izquierda encontrarás tres opciones de\n menú. En Archivo tienes las opciones de Aplicación y Salir, en las cuales encontrarás información\n de la aplicación y te redirigirá a la ventana de Inicio respectivamente. En el menú de Procesos y\n Consultas se desplegarán las funcionalidades de la aplicación, las cuales son: Comprar, reasignar\n y cancelar vuelo, hacer Check In y Gestión de Usuario; al elegir alguna de las opciones anteriores\n te redirigirá a la interfaz de dicha funcionalidad, en la cual se presentará una breve descripción\n de lo que se hace allí y los formularios necesarios para ello.\n\n Entre las acciones que podrás realizar se encuentran comprar y definir su boleto, reasignar el\nmismo junto con su asiento y maleta, cancelarlo con un 50% de reembolso, confirmar su asistencia\n haciendo check in, tener la disponibilidad de contratar servicios especiales durante y después\n del vuelo para mejorar tu comodidad, y por último, gestionar tu dinero, consultar historial\n de vuelos y canjear millas por nuevos beneficios. Finalmente, en la parte de Ayuda,\n aparecerá información sobre los desarrolladores del programa. "
+        
+        labelTexto = tk.Label(self.zonaForm, text = texto, font=("fixedsys",16),anchor="center" ,justify="center",bg=color["pinkpurple"],fg="#310944")
+        labelTexto.grid(row=0, column=0)
+
+        imgMenu = getImage(self.zonaForm,"src\data\imgMenu.png",(180,180))
+        imgMenu.grid(row=0, column=1, padx=10)
+        self.zonaForm.grid_columnconfigure(0,weight=1)
+        self.zonaForm.grid_rowconfigure(0,weight=1)
+        self.zonaForm.grid_columnconfigure(1,weight=1)
+        self.zonaForm.grid_rowconfigure(1,weight=1)
+            
+        
         pass
     pass
 
