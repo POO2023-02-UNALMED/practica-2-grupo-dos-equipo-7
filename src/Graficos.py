@@ -1462,7 +1462,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
                 
                 pass
 
-            labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo")
+            labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo",font=("fixedsys",12),bg=color["pink"])
             labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)
             dropDownBoleto = ttk.Combobox(self.zonaResult, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
@@ -1492,7 +1492,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
                 pass
 
             
-            labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo")
+            labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar vuelo",font=("fixedsys",12),bg=color["pink"])
             labelBoleto.grid(row=nextRow, column=0, padx=5, pady=5)
             dropDownBoleto = ttk.Combobox(self.zonaResult, state = "readonly", values = [boleto.getStr() for boleto in user.getHistorial()])
             dropDownBoleto.grid(row=nextRow, column=1, padx=15, pady=15)
