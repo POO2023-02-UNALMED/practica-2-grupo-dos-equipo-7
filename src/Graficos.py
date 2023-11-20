@@ -479,7 +479,7 @@ class VentanaInicial:
         indexImg = 0
         
         #sistemaPaths = [f"src\imagenes\ImagenesSistema\{i}.png" for i in range(1, maximo+1)]
-        sistemaPaths = [ "src/data/imagenS1.png", "src/data/desarrolladores/imagen1-1.jpg"]
+        sistemaPaths = [ "src/data/imagenS1.png", "src/data/imagenS2.png","src/data/imagenS3.png","src/data/imagenS4.png","src/data/imagenS5.png"]
         
         fotos = [
             ImageTk.PhotoImage(Image.open(path).resize((700, 550)))
@@ -1141,7 +1141,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 
                 def confirmar(formData):
                     servicio = ServiciosEspeciales.MASCOTA_EN_CABINA
-                    ok = alertConfirmacion(f"¿Desea contratar el servicio de transporte de mascota? Tiene un costo de {servicio.precio}")
+                    ok = alertConfirmacion(f"¿Desea contratar el servicio de transporte de mascota? Tiene un costo de ${servicio.precio}")
                 
                     if ok:
                         mascota = None
