@@ -1123,7 +1123,10 @@ class CheckIn(VentanaBaseFuncionalidad):
             
             labelAsiento = tk.Label(self.zonaResult, text = "Seleccionar nuevo asiento",font=("fixedsys",12),bg=color["pink"])
             labelAsiento.grid(row=nextRow, column=0, padx=5, pady=5)
-            dropDownAsiento = ttk.Combobox(self.zonaResult, state = "readonly", values = boleto.vuelo.asientos,font="fixedsys")
+            dropDownAsiento = ttk.Combobox(self.zonaResult, state = "readonly", values = [
+                asiento for asiento in boleto.vuelo.asientos
+                if asiento.tipo == "Vip"
+            ], font="fixedsys")
             dropDownAsiento.grid(row=nextRow, column=1, padx=15, pady=15)
 
             b1 = getBotonTemp(self.zonaResult, lambda: self.cancel(), nextRow+1, 0)
