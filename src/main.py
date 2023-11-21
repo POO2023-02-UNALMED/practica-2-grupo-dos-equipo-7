@@ -344,11 +344,6 @@ class MainMenu:
         marco.grid(row=1, column=0, sticky="nsew", padx=5, pady=10)
         frame_grande.grid_rowconfigure(1, weight=1)
         frame_grande.grid_columnconfigure(0, weight=1)
-
-        #zonaSuperior = tk.Frame(marco, bg=color["pink"], highlightbackground="#9656B6",highlightthickness=2)
-        #zonaSuperior.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        #marco.grid_rowconfigure(0, weight=1)
-        #marco.grid_columnconfigure(0, weight=1)
         
         # ----------------------------------------------
         menuBar = tk.Menu(App)
@@ -371,30 +366,6 @@ class MainMenu:
         menuAyuda = tk.Menu(menuBar, tearoff=False,bg=color["blue"])
         menuBar.add_cascade(menu=menuAyuda, label="Ayuda")
         menuAyuda.add_command(label="Acerca de:",command= lambda : alertInfo("Información de los desarrolladores","Juan Carlos Largo B. - jlargob@unal.edu.co\n\nMaría Alejandra Muñoz G. - mamunozgo@unal.edu.co\n\nHarrison Zuleta M. - hzuletam@unal.edu.co"))
-
-        #archivoSelec = tk.StringVar(zonaSuperior) 
-        #archivoSelec.set("Archivo") 
-
-        #archivoButton = tk.OptionMenu(zonaSuperior, archivoSelec, *["Aplicacion", "Salir"], command = lambda e : handlersProcesoConsulta[archivoSelec.get()]())
-        #archivoButton.grid(row=0, column=0, padx=5, pady=5)
-        #zonaSuperior.grid_rowconfigure(0, weight=1)
-        #zonaSuperior.grid_columnconfigure(0, weight=1)
-
-        #opciones = ["Comprar vuelo", "Reasignar Vuelo", "Cancelar Vuelo", "Check In", "Gestion usuario"]
-        
-        #procesoSelec = tk.StringVar(zonaSuperior) 
-        #procesoSelec.set("Procesos y consultas") 
-
-        #listaProcesoConsulta = tk.OptionMenu(zonaSuperior, procesoSelec, *opciones, command = lambda e : handlersProcesoConsulta[procesoSelec.get()](self))
-        #listaProcesoConsulta.grid(row=0, column=1, padx=5, pady=5)
-        #zonaSuperior.grid_rowconfigure(0, weight=1)
-        #zonaSuperior.grid_columnconfigure(1, weight=1)
-
-                
-        #ayudaButton = tk.Button(zonaSuperior, text="Ayuda")
-        #ayudaButton.grid(row=0, column=2, padx=5, pady=5)
-        #zonaSuperior.grid_rowconfigure(0, weight=1)
-        #zonaSuperior.grid_columnconfigure(2, weight=1)
         
         #Zona main --------------------
         zonaProceso = tk.Frame(marco, bg=color["purple"], relief="flat")
@@ -515,7 +486,10 @@ class VentanaInicial:
         # Guardar datos de hojas de vida
         hojasVida = {}
         for i in range(1, 3 + 1):
-            hojasVida[str(i)] = open(f"src/data/desarrolladores/hojaVida{i}.txt","r").read()
+            file = open(f"src/data/desarrolladores/hojaVida{i}.txt","r")
+            hojasVida[str(i)] = file.read()
+            file.close()
+            
         hojasVida["Indice"] = 1
         
         imagenes = {}
@@ -1650,3 +1624,4 @@ ventanaInicial.generar()
 
 App.mainloop()
 serializarUsuario(user)
+exit()
