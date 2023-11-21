@@ -7,18 +7,13 @@ class ErrorAplicacion(Exception):
         super().__init__(f"{self.mensajeBase}: {mensajeEspecifico}")
 
 
-# Subclases de ErrorAplicacion . . . 
+# Subclases de ErrorAplicacion (ErrorCuentaUsuario, ErrorAccionUsuario)
+
 # Errores de tipo A (Cuenta del usuario)
 class ErrorCuentaUsuario(ErrorAplicacion):
     def __init__(self, mensaje="Error al realizar una operación en la cuenta del usuario"):
         super().__init__(mensaje)
-
-# Errores de tipo B (Acciones del usuario)
-class ErrorAccionUsuario(ErrorAplicacion):
-    def __init__(self, mensaje="Error generado por una acción del usuario"):
-        super().__init__(mensaje)
-
-
+        
 # Errores de tipo A -----------------
 class ErrorDineroInsuficiente(ErrorCuentaUsuario):
     def __init__(self):
@@ -28,7 +23,18 @@ class ErrorMillasInsuficientes(ErrorCuentaUsuario):
     def __init__(self):
         super().__init__("El usuario no cuenta con las millas suficientes para canjear")
 
-# Error sugerido 1
+# Error sugerido 1 (Búsqueda sin resultados)
+class ErrorBusquedaInvalida(ErrorCuentaUsuario):
+    # Se dispara cuando el usuario realiza una búsqueda invalida y no se encuentran resultados
+    def __init__(self):
+        super().__init__("No se encontraron resultados para la búsqueda realizada")
+
+# . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+
+# Errores de tipo B (Acciones del usuario)
+class ErrorAccionUsuario(ErrorAplicacion):
+    def __init__(self, mensaje="Error generado por una acción del usuario"):
+        super().__init__(mensaje)
 
 
 # Errores de tipo B (Acciones del usuario) -----------------

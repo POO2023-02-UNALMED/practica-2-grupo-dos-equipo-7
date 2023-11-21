@@ -8,7 +8,7 @@ from baseDatos.Serializador import serializarUsuario, deserializarUsuario
 
 
 def exitHandler(USER):
-    ok = messagebox.askokcancel("Confirmacion", "Desea salir del programa?")
+    ok = messagebox.askokcancel("Confirmacion", "Desea salir del programa? (Se guardaran los cambios automaticamente)")
     if ok:
         serializarUsuario(USER)
         exit()

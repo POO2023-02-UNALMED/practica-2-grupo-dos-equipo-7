@@ -56,12 +56,12 @@ def createMainUser():
 
 
 App = tk.Tk()
-App.title("Ventana de Inicio")
+App.title("Ventana Inicio - Aplicacion")
 App.geometry("1400x800")
 
 #serializarUsuario(createMainUser())
 global user
-user = createMainUser() #deserializarUsuario()
+user = deserializarUsuario()
 
 
 handlersProcesoConsulta = {
@@ -96,7 +96,6 @@ handlersProcesoConsulta = {
     ),
     
     "Salir" : lambda: VentanaInicial().generar(),
-
 }
 
 
@@ -428,7 +427,7 @@ class VentanaInicial:
         menuInicio = tk.Menu(menuBar, tearoff=False,bg=color["blue"])
         menuBar.add_cascade(menu=menuInicio, label="Inicio")
     
-        menuInicio.add_command( label="Salir", command = lambda: exitHandler(user) )
+        menuInicio.add_command( label="Salir", command = lambda: exitHandler(user))
         menuInicio.add_command( label="Descripcion", command = lambda: p3Label.config(text = TEXT_DATA["breveDescripcionApp"]))
 
         # Diferentes paneles
@@ -1395,6 +1394,28 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         
         boton = tk.Button(resultFrame.marco, text="Volver",bg=color["blue"],font=("fixedsys",12),relief="groove",fg=color["darkblue"], command = lambda: self.ventana1())
         boton.grid(row=nextFreeRow, column=0, padx=5, pady=5)
+        
+        frame2 = tk.Frame(self.zonaForm, bg=color["pink"], highlightbackground="#9656B6",highlightthickness=2)
+        frame2.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
+        
+        def handleBuscarVuelo(formData):
+            try:
+                index = int(formData["Numero del vuelo"])
+                if (index-1 >= 0) and (index-1 <= len(user.historial)-1):
+                    self.clearZone()
+                    resultFrame = ResultFrame(
+                        "Detalles del boleto",
+                        user.historial[index-1].getInfo(),
+                        self.zonaForm
+                    )
+                    volver = getBotonTemp(resultFrame.marco, lambda: self.cancel(), resultFrame.nextFreeRow, 0)
+                else:
+                    raise ErrorBusquedaInvalida()
+            except:
+                alertWarn("Error", "Error, numero de vuelo invalido, no se encontraron resultados para la busqueda")
+            pass
+        
+        FieldFrame("Buscar vuelo", ["Numero del vuelo"], "Numero del vuelo", None, None, frame2, callback= handleBuscarVuelo)
         pass
     
     def ventanaDepositar(self, valor):
@@ -1628,3 +1649,4 @@ ventanaInicial = VentanaInicial()
 ventanaInicial.generar()
 
 App.mainloop()
+serializarUsuario(user)
