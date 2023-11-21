@@ -883,7 +883,7 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
             verificado = (
                 dropDownVuelos.current() != -1 and
                 dropDownAsientos.current() != -1 and
-                dropDownMaletas.current()
+                dropDownMaletas.current() != -1
             )
             try:
                 if verificado:
