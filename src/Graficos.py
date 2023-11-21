@@ -165,7 +165,7 @@ class FieldFrame(tk.Frame):
         marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(0, weight=1)
 
-        clearButton = tk.Button(marco, text="Clear",bg=color["blue"],font=("fixedsys",12),relief="groove",fg=color["darkblue"],command = lambda: self.clear())
+        clearButton = tk.Button(marco, text="Limpiar",bg=color["blue"],font=("fixedsys",12),relief="groove",fg=color["darkblue"],command = lambda: self.clear())
         clearButton.grid(row=index+2, column=0, padx=5, pady=5)
         marco.grid_rowconfigure(index+2, weight=1)
         marco.grid_columnconfigure(1, weight=1)
@@ -183,20 +183,25 @@ class FieldFrame(tk.Frame):
         return self.data[criterio]["value"]
 
     def submitForm(self, callback):
+        vacios = []
+        
+        for criterio in self.criterios:
+            value = (self.data[criterio]["elementos"][1]).get()
+            self.data[criterio]["value"] = value
+            self.formData[criterio] = value
+            
+            if value == "":
+                vacios.append(criterio)
+                
         try:
-            for criterio in self.criterios:
-                value = (self.data[criterio]["elementos"][1]).get()
-                self.data[criterio]["value"] = value
-                self.formData[criterio] = value
-
-                if value == "":
-                    raise ErrorSugeridoFieldFrame()
+            if len(vacios) > 0:
+                raise ErrorSugeridoFieldFrame(vacios)
             
             if callback != None:
                 callback(self.formData)
-                
+
         except ErrorSugeridoFieldFrame:
-            alertWarn("Campos sin llenar", "Error, por favor llene todos los campos antes de continuar :)")
+            alertWarn("Campos sin llenar", f"Error, por favor llene todos los campos antes de continuar (Campos faltantes: {', '.join(vacios)})")
             return False
 
     def clear(self):

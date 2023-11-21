@@ -26,8 +26,8 @@ class ErrorMillasInsuficientes(ErrorTipoA):
 
 # Error sugerido
 class ErrorSugeridoFieldFrame(ErrorTipoA):
-    def __init__(self):
-        super().__init__("Campos sin rellenar")
+    def __init__(self, campos):
+        super().__init__(f"Campos sin rellenar ({', '.join(campos)})")
 
 
 # Errores de tipo B -----------------
