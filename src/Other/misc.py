@@ -5,47 +5,57 @@ import tkinter.messagebox as messagebox
 from PIL import ImageTk, Image
 from baseDatos.Serializador import serializarUsuario, deserializarUsuario
 
-# Archivo temporal para tener cierta organizacion con handlers y funcionalidades extra?
-
-
 def exitHandler(USER):
+    """
+    Manejador de salida. Pregunta al usuario si desea salir y guarda los cambios automáticamente.
+    """
     ok = messagebox.askokcancel("Confirmacion", "Desea salir del programa? (Se guardaran los cambios automaticamente)")
     if ok:
         serializarUsuario(USER)
         exit()
 
 def cancelarHandler(callback):
+    """
+    Manejador de cancelación. Pregunta al usuario si desea cancelar el proceso.
+    """
     ok = messagebox.askokcancel("Cancelar", "Esta seguro de cancelar el proceso?")
     if ok:
         callback()
-    
 
 def getBotonContinuar(parent, callback, row, col):
+    """
+    Crea y devuelve un botón de "Continuar".
+    """
     boton = tk.Button(parent, text="Continuar", bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#4a4699", command = callback)
     boton.grid(row=row, column=col, padx=5, pady=5)
     parent.grid_rowconfigure(row, weight=1)
     parent.grid_columnconfigure(col, weight=1)
     return boton
-    pass
 
 def getBotonCancelar(parent, callback, row, col):
+    """
+    Crea y devuelve un botón de "Cancelar".
+    """
     boton = tk.Button(parent, text="Cancelar", bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#4a4699", command = lambda: cancelarHandler(callback))
     boton.grid(row=row, column=col, padx=5, pady=5)
     parent.grid_rowconfigure(row, weight=1)
     parent.grid_columnconfigure(col, weight=1)
     return boton
-    pass
-
 
 def getBotonTemp(parent, callback, row, col):
+    """
+    Crea y devuelve un botón temporal de "Volver al menu".
+    """
     boton = tk.Button(parent, text="Volver al menu", bg="#DAD8FF",font=("fixedsys",12),relief="groove",fg="#4a4699", command = lambda: cancelarHandler(callback))
     boton.grid(row=row, column=col, padx=5, pady=5)
     parent.grid_rowconfigure(row, weight=1)
     parent.grid_columnconfigure(col, weight=1)
     return boton
-    pass
 
 def getImage(parent, path, size, **kwargs):
+    """
+    Carga y devuelve una imagen.
+    """
     original = Image.open(path)
     resize = original.resize(size)
     imageTemp = ImageTk.PhotoImage(resize)

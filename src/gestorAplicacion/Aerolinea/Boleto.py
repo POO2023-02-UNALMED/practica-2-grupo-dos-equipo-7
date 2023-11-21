@@ -1,10 +1,41 @@
 from .ServiciosEspeciales import ServiciosEspeciales
 
 class Boleto:
+    """
+    Representa un boleto de vuelo.
 
+    Atributos:
+        origen (str): Ciudad de origen del vuelo.
+        destino (str): Ciudad de destino del vuelo.
+        vuelo (Vuelo): Objeto de la clase Vuelo asociado al boleto.
+        asiento (Asiento): Objeto de la clase Asiento asociado al boleto.
+        usuario (Usuario): Objeto de la clase Usuario que adquiere el boleto.
+        id (int): Identificador único del boleto.
+        mascotas (list): Lista de mascotas que el usuario quiere llevar en el vuelo.
+        equipaje (list): Lista de equipajes que el usuario quiere llevar en el vuelo.
+        descuentos (list): Lista de descuentos que el usuario quiere aplicar al boleto.
+        serviciosContratados (list): Lista de servicios contratados para el vuelo.
+        valorEquipaje (int): Número de equipajes.
+        cantidadMascotasCabina (int): Número de mascotas en cabina.
+        cantidadMascotasBodega (int): Número de mascotas en la bodega.
+
+    Métodos:
+        __init__(self, origen, destino, vuelo, asiento, usuario): Inicializa un objeto de la clase Boleto.
+    """
+    
     cont = 0
 
     def __init__(self, origen, destino, vuelo, asiento, usuario):
+        """
+        Inicializa un objeto de la clase Boleto.
+
+        Args:
+            origen (str): Ciudad de origen del vuelo.
+            destino (str): Ciudad de destino del vuelo.
+            vuelo (Vuelo): Objeto de la clase Vuelo asociado al boleto.
+            asiento (Asiento): Objeto de la clase Asiento asociado al boleto.
+            usuario (Usuario): Objeto de la clase Usuario que adquiere el boleto.
+        """
         Boleto.cont += 1
         
         self.origen = origen
@@ -31,45 +62,77 @@ class Boleto:
         # Set asiento
         self.setAsiento(asiento)
 
+    def setAsiento(self, asiento):
+        """
+        Asigna un asiento al boleto y establece el valor inicial y el valor total del boleto.
 
-    def setAsiento(self, asiento): # aquí se le va a asignar a los atributos 
-        self.asiento = asiento     #relacionados al asiento comprado su debido valor
+        Args:
+            asiento (Asiento): Objeto de la clase Asiento que se asignará al boleto.
+        """
+        self.asiento = asiento
         self.valorInicial = asiento.valorBase
         self.valor = self.valorInicial
         self.tipo = asiento.tipo
 
-    def addEquipaje(self, maleta): # se adiciona la maleta al atributo equipaje
+    def addEquipaje(self, maleta):
+        """
+        Añade una maleta al boleto y actualiza el valor total del boleto.
+
+        Args:
+            maleta (Equipaje): Objeto de la clase Equipaje que se añadirá al boleto.
+        """
         self.equipaje.append(maleta)
         self.updateValor()
-    
-    def updateValor(self): # actualiza la cantidad de equipajes y su precio total
+
+    def updateValor(self):
+        """
+        Actualiza el valor total del boleto sumando el valor inicial y el valor de todos los equipajes.
+        """
         temp = 0
         for maleta in self.equipaje:
             temp += maleta.calcularPrecio()
 
         self.valorEquipaje = temp
         self.valor = self.valorInicial + temp
-        
-    def calcularReasignacion(self, boletoAnterior): #calcula el valor total del boleto despues de ser reasignado el asiento
+
+    def calcularReasignacion(self, boletoAnterior):
+        """
+        Calcula el valor total del boleto después de reasignar el asiento.
+
+        Args:
+            boletoAnterior (Boleto): Objeto de la clase Boleto que representa el boleto antes de la reasignación.
+        """
         restante = self.valor - boletoAnterior.valor
         if restante >= 0:
             return round(self.valor * 1.10, 2)
         return restante + round(self.valor * 1.10, 2)
 
-    # Actualiza el valor, va en relacion con la funcionalidad reasignar asiento
-
     def updateValorBase(self):
+        """
+        Actualiza el valor total del boleto sumando el valor inicial y el valor del equipaje.
+        """
         self.valor = self.valorInicial + self.valorEquipaje
 
     def asignarAsiento(self, asiento):
+        """
+        Asigna un asiento al boleto.
+
+        Args:
+            asiento (Asiento): Objeto de la clase Asiento que se asignará al boleto.
+        """
         asiento.asignarBoleto(self)
 
-    # Actualiza el asiento a vip segun lo que seleccione el usuario, va de la mano
-    # con la funcionalidad canjear millas
     def upgradeAsientoMillas(self, prevAsiento, newAsiento):
+        """
+        Actualiza el asiento del boleto a un asiento VIP y calcula el valor ahorrado.
+
+        Args:
+            prevAsiento (Asiento): Objeto de la clase Asiento que representa el asiento anterior.
+            newAsiento (Asiento): Objeto de la clase Asiento que representa el nuevo asiento.
+        """
         self.asiento = newAsiento
         self.tipo = newAsiento.tipo
-        
+
         ahorrado = round(newAsiento.valorBase - prevAsiento.valorBase, 2)
         return ahorrado
     

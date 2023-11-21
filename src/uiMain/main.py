@@ -181,11 +181,28 @@ class FieldFrame(tk.Frame):
     @arg criterio el criterio cuyo valor se quiere obtener
     @return el valor del criterio cuyo nombre es 'criterio'
     """
-
     def getValue(self, criterio):
+        """
+        Obtiene el valor de un criterio específico.
+
+        Args:
+            criterio (str): El criterio del que se quiere obtener el valor.
+
+        Returns:
+            El valor del criterio.
+        """
         return self.data[criterio]["value"]
 
     def submitForm(self, callback):
+        """
+        Envía el formulario y llama a una función de devolución de llamada.
+
+        Args:
+            callback (function): La función de devolución de llamada a llamar después de enviar el formulario.
+
+        Raises:
+            ErrorSugeridoFieldFrame: Si hay campos vacíos en el formulario.
+        """
         vacios = []
         
         for criterio in self.criterios:
@@ -208,18 +225,39 @@ class FieldFrame(tk.Frame):
             return False
 
     def clear(self):
-        #Limpiar todos los datos
+        """
+        Limpia todos los campos del formulario.
+        """
         for criterio in self.criterios:
             (self.data[criterio]["elementos"][1]).delete(0 ,'end')
     
     
     def delete(self):
+        """
+        Destruye el marco del formulario.
+        """
         self.marco.destroy()
         pass
 
 class ResultFrame(tk.Frame):
+    """
+    Clase que representa un marco de resultados en la interfaz de usuario.
+
+    Atributos:
+        parent (tkinter.Tk): La ventana principal de la aplicación.
+        nextFreeRow (int): La próxima fila libre en el marco.
+        marco (tkinter.Frame): El marco que contiene los elementos de la interfaz de usuario.
+    """
 
     def __init__(self, tituloResultados, datos, parent):
+        """
+        Inicializa un objeto de la clase ResultFrame.
+
+        Args:
+            tituloResultados (str): El título de los resultados.
+            datos (dict): Los datos a mostrar en el marco.
+            parent (tkinter.Tk): La ventana principal de la aplicación.
+        """
         
         #Inicializar el diccionario que guardara los datos
         self.parent = parent
@@ -253,106 +291,106 @@ class ResultFrame(tk.Frame):
 
         self.nextFreeRow = index + 2
         self.marco = marco
-        pass
     
     def delete(self):
-        self.marco.destroy()
-        pass
-
-class ResultFrameSimple(tk.Frame):
-
-    def __init__(self, titulo, resultados, parent):
-        
-        #Inicializar el diccionario que guardara los datos
-        self.parent = parent
-        self.titulo = titulo
-        self.resultados = resultados
-        self.resultadosElements = []
-        #Crea el marco donde van a estar los elementos
-        marco = tk.Frame(parent, bg="pinkpurple", borderwidth=1, relief="solid")
-        marco.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
-        parent.grid_rowconfigure(0, weight=1)
-        parent.grid_columnconfigure(0, weight=1)
-
-        #Agregar el titulo de los criterios
-        elementoTituloResultados = tk.Label(marco, text=titulo)
-        elementoTituloResultados.grid(row=0, column=0, padx=5, pady=5)
-        marco.grid_rowconfigure(0, weight=1)
-        marco.grid_columnconfigure(0, weight=1)
-
-
-        """#Agregar el titulo de los valores
-        elementoTituloValores = tk.Label(marco, text=tituloValores)
-        elementoTituloValores.grid(row=0, column=1, padx=5, pady=5)
-        marco.grid_rowconfigure(0, weight=1)
-        marco.grid_columnconfigure(1, weight=1)
         """
-        
-        #Por cada criterio agregarlos y sus respectivas entradas
-        for index, resultado in enumerate(resultados):
-            #Crea el criterio y su valor y lo guarda
-            elementoResultado = tk.Label(marco, text=resultado)
-            elementoResultado.grid(row=index+1, column=0, padx=5, pady=5)
-            marco.grid_rowconfigure(index+1, weight=1)
-            marco.grid_columnconfigure(0, weight=1)
-            self.resultadosElements.append(elementoResultado)
-            
-        pass
+        Destruye el marco de resultados.
+        """
+        self.marco.destroy()
 
 class ProcesoConsulta:
+    """
+    Clase que representa un proceso de consulta en la interfaz de usuario.
+
+    Atributos:
+        zona (tkinter.Tk): La ventana principal de la aplicación.
+        nombre (str): El nombre del proceso de consulta.
+        descripcion (str): La descripción del proceso de consulta.
+        criterios (list): Los criterios del proceso de consulta.
+        zonaForm (tkinter.Frame): El marco que contiene los elementos del formulario.
+    """
+
     def __init__(self, zona, nombre, descripcion, criterios):
+        """
+        Inicializa un objeto de la clase ProcesoConsulta.
+
+        Args:
+            zona (tkinter.Tk): La ventana principal de la aplicación.
+            nombre (str): El nombre del proceso de consulta.
+            descripcion (str): La descripción del proceso de consulta.
+            criterios (list): Los criterios del proceso de consulta.
+        """
         self.zona = zona
         self.nombre = nombre
         self.descripcion = descripcion
-        
         self.criterios = criterios
-        pass
 
     def generar(self):
+        """
+        Genera la interfaz de usuario para el proceso de consulta.
+        """
+        # Crea un marco para la información de la zona
         zonaInfo = tk.Frame(self.zona, bg="yellow", borderwidth=1, relief="solid")
         zonaInfo.grid(row=0, column=0, sticky="nsew", padx=5, pady=5)
         self.zona.grid_rowconfigure(0, weight=1)
         self.zona.grid_columnconfigure(0, weight=1)
 
+        # Crea un marco para el formulario
         self.zonaForm = tk.Frame(self.zona, bg="orange", borderwidth=1, relief="solid")
         self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         self.zona.grid_rowconfigure(1, weight=1)
         self.zona.grid_columnconfigure(0, weight=1)
 
+        # Crea una etiqueta para el nombre del proceso
         nombreProceso = tk.Label(zonaInfo, text= self.nombre)
         nombreProceso.grid(row=0, column=0, padx=5, pady=5)
         zonaInfo.grid_rowconfigure(0, weight=1)
         zonaInfo.grid_columnconfigure(0, weight=1)
 
+        # Crea una etiqueta para la descripción del proceso
         descripcionProceso = tk.Label(zonaInfo, text= self.descripcion)
         descripcionProceso.grid(row=1, column=0, padx=5, pady=5)
         zonaInfo.grid_rowconfigure(1, weight=1)
         zonaInfo.grid_columnconfigure(0, weight=1)
 
+        # Crea un marco de campo para las preguntas
         formElement = FieldFrame("Preguntas", self.criterios, "Entradas", self.criterios, None, self.zonaForm)
 
 class MainMenu:
+    """
+    Clase que representa el menú principal de la aplicación.
+
+    Atributos:
+        zona (tkinter.Tk): La ventana principal de la aplicación.
+    """
+
     def __init__(self):
+        """
+        Inicializa un objeto de la clase MainMenu.
+        """
         pass
 
     def generar(self):
+        """
+        Genera la interfaz de usuario para el menú principal.
+        """
+        # Crea un marco grande para la aplicación
         frame_grande = tk.Frame(App, bg=color["blue"])
         frame_grande.grid(row=0, column=0, sticky="nsew")
         App.grid_rowconfigure(0, weight=1)
         App.grid_columnconfigure(0, weight=1)
 
-        #nombre_aplicacion = tk.Label(frame_grande, text="Sistema de venta de vuelos",bg=color["blue"],font=("fixedsys",16))
-        #nombre_aplicacion.grid(row=0,column=0,padx=5, pady=5,sticky="nw")
-
+        # Crea un marco para el menú principal
         marco = tk.Frame(frame_grande, bg=color["blue"], borderwidth=1, relief="flat")
         marco.grid(row=1, column=0, sticky="nsew", padx=5, pady=10)
         frame_grande.grid_rowconfigure(1, weight=1)
         frame_grande.grid_columnconfigure(0, weight=1)
         
-        # ----------------------------------------------
+        # Crea la barra de menú
         menuBar = tk.Menu(App)
         App.config(menu=menuBar)
         App.title("Sistema de venta de vuelos")
+        
         
         menuArchivo = tk.Menu(menuBar, tearoff=False,bg=color["blue"])
         menuBar.add_cascade(menu=menuArchivo, label="Archivo")
@@ -455,35 +493,36 @@ class VentanaInicial:
         marcoImagenes.grid(row=0,column=0,padx=10,pady=10)
         p4.grid_rowconfigure(0,weight=1)
         p4.grid_columnconfigure(0,weight=1)
-        
         # Lista de nombres de archivos de imágenes
-        
         global indexImg
         indexImg = 0
         
-        #sistemaPaths = [f"src\imagenes\ImagenesSistema\{i}.png" for i in range(1, maximo+1)]
+        # Lista de rutas a las imágenes del sistema
         sistemaPaths = [ "src/data/imagenS1.png", "src/data/imagenS2.png","src/data/imagenS3.png","src/data/imagenS4.png","src/data/imagenS5.png"]
         
+        # Crea una lista de objetos PhotoImage a partir de las rutas de las imágenes
         fotos = [
             ImageTk.PhotoImage(Image.open(path).resize((700, 550)))
             for path in sistemaPaths
         ]
         
+        # Crea una etiqueta con la primera imagen
         etiqueta = tk.Label(marcoImagenes, image=fotos[0],highlightbackground=color["blue"],highlightthickness=4)
         etiqueta.grid(row=0, column=0)    
         etiqueta.bind("<Enter>", lambda event: changeImage())
     
         def changeImage():
+            """
+            Cambia la imagen mostrada en la etiqueta.
+            """
             global indexImg
             indexImg = 0 if indexImg == (len(fotos)-1) else indexImg + 1
             etiqueta.configure(image=fotos[indexImg])
         
+        # Crea un botón para ingresar al sistema
         botonIngreso = tk.Button(p4,text="Ingreso al sistema",bg=color["blue"],font=("fixedsys",12),relief="groove",fg=color["darkblue"],height="2",width="25")
         botonIngreso.grid(row=1,column=0,padx=15,pady=10,sticky="s")
-        #p4.grid_rowconfigure(0,weight=0)
-        #p4.grid_columnconfigure(0,weight=0)
         botonIngreso.bind("<Button-1>", lambda e : MainMenu().generar())
-        
         # - - - Seccion informacion y hojas de vida - - -
         
         
@@ -546,6 +585,14 @@ class VentanaInicial:
 
 
 class VentanaBaseFuncionalidad(tk.Frame):
+    """
+    Clase base que representa una ventana de funcionalidad en la interfaz de usuario.
+
+    Atributos:
+        parent (tkinter.Tk): La ventana principal de la aplicación.
+        zona (tkinter.Frame): El marco que contiene los elementos de la interfaz de usuario.
+        zonaForm (tkinter.Frame): El marco que contiene los elementos del formulario.
+    """
     
     def generar(self, mainMenu, nombre, descripcion):
         self.mainMenu = mainMenu
@@ -580,8 +627,16 @@ class VentanaBaseFuncionalidad(tk.Frame):
         pass
     
     def showSelectHistorial(self, callback):
+        """
+        Muestra el historial de boletos del usuario y permite seleccionar uno.
+
+        Args:
+            callback (function): Función a llamar cuando se selecciona un boleto.
+        """
+        # Obtiene el historial de boletos del usuario
         historialBoletos = user.getHistorial()
         
+        # Crea un marco de resultados con el historial de boletos
         infoVuelos = ResultFrame(
             "Historial de vuelos",
             {f"Boleto #{i+1}" : boleto.getStr() for i, boleto in enumerate(historialBoletos) },
@@ -589,16 +644,22 @@ class VentanaBaseFuncionalidad(tk.Frame):
         )
         nextFreeRow = infoVuelos.nextFreeRow
 
+        # Crea un separador
         separador = getSeparador(infoVuelos.marco, nextFreeRow, 2, 5)
         
+        # Crea una etiqueta y un dropdown para seleccionar un vuelo
         labelVuelo = tk.Label(infoVuelos.marco, text = "Vuelo:",font=("fixedsys",12),bg="#E1BEFF")
         labelVuelo.grid(row=nextFreeRow+1, column=0, padx=5, pady=5)
         dropDownVuelos = ttk.Combobox(infoVuelos.marco,state = "readonly", values = [f"Boleto #{i+1}" for i in range(len(historialBoletos))],font="fixedsys" )
         dropDownVuelos.grid(row=nextFreeRow+1, column=1, padx=15, pady=15)
         
+        # Crea un botón para cancelar la operación
         getBotonCancelar(infoVuelos.marco, lambda: self.cancel(), nextFreeRow+2, 0)
         
         def verify():
+            """
+            Verifica que se haya seleccionado un boleto y llama a la función de callback.
+            """
             try:
                 if dropDownVuelos.current() != -1:
                     callback(dropDownVuelos.current())
@@ -609,18 +670,26 @@ class VentanaBaseFuncionalidad(tk.Frame):
                 alertWarn("Campos sin seleccionar", "Error, por favor seleccione todos los campos antes de continuar :3")
             pass
         
-        # Manda el index del boleto en el historial
+        # Crea un botón para continuar con la operación
         getBotonContinuar(infoVuelos.marco, lambda: verify(), nextFreeRow+2, 1)
         pass
-        
     
     def cancel(self):
+        """
+        Cancela la operación actual y vuelve a la ventana principal.
+        """
         self.clearZone()
         self.ventana1()
         pass
     
     def clearZone(self):    
+        """
+        Limpia la zona de formulario actual.
+        """
+        # Destruye el marco del formulario actual
         self.zonaForm.destroy()
+        
+        # Crea un nuevo marco de formulario vacío
         self.zonaForm = tk.Frame(self.zona, bg=color["pink"],highlightbackground="#9656B6",highlightthickness=2)
         self.zonaForm.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
         self.zona.grid_rowconfigure(1, weight=1)
@@ -628,19 +697,29 @@ class VentanaBaseFuncionalidad(tk.Frame):
         pass
 
 class InitMainMenu(VentanaBaseFuncionalidad):
+    """
+    Clase que representa el menú principal de la aplicación.
+
+    Hereda de VentanaBaseFuncionalidad.
+    """
+
     def ventana1(self):
+        """
+        Genera la interfaz de usuario para la ventana principal.
+        """
+        # Crea las etiquetas de título
         labelTitulo1 = tk.Label(self.zonaForm, text="¿Cómo usar la aplicación?",font=("fixedsys",16),anchor="center" ,justify="center",bg=color["purple"],fg="#310944")
         labelTitulo1.grid(row=0,column=0)
-
         labelTitulo2 = tk.Label(self.zonaForm, text="¿Qué se puede hacer?",font=("fixedsys",16),anchor="center" ,justify="center",bg=color["purple"],fg="#310944")
         labelTitulo2.grid(row=2,column=0)
 
+        # Texto de las etiquetas
         texto1 = "Bienvenido a la aplicación de la aerolínea, en esta podrás hacer uso de los diferentes servicios\n que te proporcionamos como usuario. En la esquina superior izquierda encontrarás tres opciones de\n menú. En Archivo tienes las opciones de Aplicación y Salir, en las cuales encontrarás información\n de la aplicación y te redirigirá a la ventana de Inicio respectivamente. En el menú de Procesos y\n Consultas se desplegarán las funcionalidades de la aplicación, las cuales son: Comprar, reasignar\n y cancelar vuelo, hacer Check In y Gestión de Usuario; al elegir alguna de las opciones anteriores\n te redirigirá a la interfaz de dicha funcionalidad, en la cual se presentará una breve descripción\n de lo que se hace allí y los formularios necesarios para ello."
         texto2="Entre las acciones que podrás realizar se encuentran comprar y definir su boleto, reasignar el\nmismo junto con su asiento y maleta, cancelarlo con un 50% de reembolso, confirmar su asistencia\n haciendo check in, tener la disponibilidad de contratar servicios especiales durante y después\n del vuelo para mejorar tu comodidad, y por último, gestionar tu dinero, consultar historial\n de vuelos y canjear millas por nuevos beneficios. Finalmente, en la parte de Ayuda,\n aparecerá información sobre los desarrolladores del programa."
 
+        # Crea las etiquetas de texto
         labelTexto1 = tk.Label(self.zonaForm, text = texto1, font=("fixedsys",16),anchor="center" ,justify="center",bg=color["pinkpurple"],fg="#310944")
         labelTexto1.grid(row=1, column=0)
-
         labelTexto2 = tk.Label(self.zonaForm, text = texto2, font=("fixedsys",16),anchor="center" ,justify="center",bg=color["pinkpurple"],fg="#310944")
         labelTexto2.grid(row=3, column=0)
 
@@ -652,13 +731,15 @@ class InitMainMenu(VentanaBaseFuncionalidad):
         self.zonaForm.grid_columnconfigure(1,weight=1)
         self.zonaForm.grid_rowconfigure(2,weight=1)
         self.zonaForm.grid_rowconfigure(3,weight=1)
-            
-        
         pass
     pass
 
 class ComprarVuelo(VentanaBaseFuncionalidad):
-    
+    """
+    Clase que representa la funcionalidad de compra de vuelos en la aplicación.
+
+    Hereda de VentanaBaseFuncionalidad.
+    """
     def ventana1(self):
         
         def callback(formData):

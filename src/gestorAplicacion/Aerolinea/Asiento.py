@@ -1,6 +1,34 @@
+
+
 class Asiento:
+    """
+    Representa un asiento en un avión o teatro.
+
+    Atributos:
+        tipo (str): Tipo de asiento (Ejemplo: "Vip", "Economico").
+        n_silla (int): Numero de silla.
+        valorBase (float): Valor base del asiento.
+        disponible (bool): Indica si el asiento esta disponible o no.
+        vip (bool): Indica si el asiento es vip o no.
+        status (str): Estado del asiento (ejemplo: "Disponible", "Asignado").
+        boleto (Boleto): Boleto asociado al asiento.
+
+    Metodos:
+        asignarBoleto(self, boleto): Asigna un boleto al asiento.
+        desasignarBoleto(self): Desasigna el boleto del asiento.
+        getInfo(self): Devuelve la informacion de los atributos principales.
+        __str__(self): Devuelve la informacion de los atributos principales.
+    """
 
     def __init__(self, tipo, n_silla,  valorBase):
+        """
+        Inicializa un objeto de la clase Asiento.
+
+        Args:
+            tipo (str): Tipo de asiento.
+            n_silla (int): Numero de silla.
+            valorBase (float): Valor base del asiento.
+        """
         self.tipo = tipo
         self.n_silla = n_silla
         self.valorBase = valorBase
