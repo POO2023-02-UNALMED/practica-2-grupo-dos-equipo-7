@@ -515,12 +515,12 @@ class VentanaInicial:
         
         # Guardar datos de hojas de vida
         hojasVida = {}
-        for i in range(1, 6):
+        for i in range(1, 3 + 1):
             hojasVida[str(i)] = open(f"src/data/desarrolladores/hojaVida{i}.txt","r").read()
         hojasVida["Indice"] = 1
         
         imagenes = {}
-        for i in range(1, 5 + 1):
+        for i in range(1, 3 + 1):
             imagenes[str(i)] = []
             for j in range(1, 5):
                 # Falta unificar formato !!!!
@@ -530,7 +530,7 @@ class VentanaInicial:
         def showImages(index):
             i=1
             for i, path in enumerate(imagenes.get(index, [])):
-                img = getImage(p6, path, (230, 230),highlightbackground="#FFA7EE",highlightthickness=3)
+                img = getImage(p6, path, (200, 200),highlightbackground="#FFA7EE",highlightthickness=3)
                 img.grid(row= (i//2), column=(i%2), padx=10, pady=10)
         p6.grid_rowconfigure(0,weight=1)
         p6.grid_columnconfigure(0,weight=1)
@@ -540,7 +540,7 @@ class VentanaInicial:
                 
         #Definir funcion hojas vida
         def cambioHojaVida(index):
-            if index == 5:
+            if index == 3:
                 hojasVida["Indice"] = 1
                 #imagenes["imagenIndex"]=1
             else:
@@ -1111,6 +1111,8 @@ class CheckIn(VentanaBaseFuncionalidad):
                             if (user.dinero >= 35):
                                 boleto.upgradeAsiento(asiento)
                                 alertInfo("Transaccion exitosa", "Mejora de asiento realizada con exito!")
+                                self.clearZone()
+                                self.ventanaServicios(boleto)
                             else:
                                 raise ErrorDineroInsuficiente()
                             
@@ -1156,6 +1158,8 @@ class CheckIn(VentanaBaseFuncionalidad):
                             if (user.dinero >= servicio.precio):                            
                                 boleto.comprarServicio(servicio)
                                 alertInfo("Transaccion exitosa", "Mejora de asiento realizada con exito!")
+                                self.clearZone()
+                                self.ventanaServicios(boleto)
                             else:
                                 raise ErrorDineroInsuficiente()
                             
@@ -1195,6 +1199,8 @@ class CheckIn(VentanaBaseFuncionalidad):
                                 if (user.dinero >= servicio.precio):          
                                     boleto.comprarServicioMascota(mascota)
                                     alertInfo("Transaccion exitosa", f"Servicio agregado con exito, ahora {mascota.nombre} podra viajar contigo!")
+                                    self.clearZone()
+                                    self.ventanaServicios(boleto)
                                 else:
                                     raise ErrorDineroInsuficiente()
                                 
@@ -1227,6 +1233,8 @@ class CheckIn(VentanaBaseFuncionalidad):
                             if (user.dinero >= servicio.precio):                            
                                 boleto.comprarServicio(servicio)
                                 alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
+                                self.clearZone()
+                                self.ventanaServicios(boleto)
                             else:
                                 raise ErrorDineroInsuficiente()
                         
@@ -1256,6 +1264,8 @@ class CheckIn(VentanaBaseFuncionalidad):
                             if (user.dinero >= servicio.precio):                            
                                 boleto.comprarServicio(servicio)
                                 alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
+                                self.clearZone()
+                                self.ventanaServicios(boleto)
                             else:
                                 raise ErrorDineroInsuficiente()
                             
@@ -1283,6 +1293,8 @@ class CheckIn(VentanaBaseFuncionalidad):
                             if (user.dinero >= servicio.precio):                            
                                 boleto.comprarServicio(servicio)
                                 alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
+                                self.clearZone()
+                                self.ventanaServicios(boleto)
                             else:
                                 raise ErrorDineroInsuficiente()
                         
@@ -1387,7 +1399,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         self.clearZone()
         
         infoCuenta = ResultFrame(
-            "Detalles del boleto",
+            "Informacion de la cuenta",
             user.getInfo(),
             self.zonaForm
         )
@@ -1461,7 +1473,11 @@ class GestionUsuario(VentanaBaseFuncionalidad):
             self.zonaResult.grid(row=1, column=0, sticky="ew", padx=5, pady=5)
 
             def selecAsientos():
-                dropDownAsiento["values"] = ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos
+                dropDownAsiento["values"] = [
+                    asiento
+                    for asiento in ((user.getHistorial())[dropDownBoleto.current()]).vuelo.asientos
+                    if asiento.tipo == "Vip"
+                ]
                 pass
             
             def confirmar(boleto, asiento):

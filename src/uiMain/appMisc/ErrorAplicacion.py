@@ -31,11 +31,11 @@ class ErrorSugeridoFieldFrame(ErrorTipoA):
 
 
 # Errores de tipo B -----------------
-class ErrorSeleccionarDropdown(ErrorTipoA):
+class ErrorSeleccionarDropdown(ErrorTipoB):
     def __init__(self):
         super().__init__("Campos sin seleccionar")
 
-class ErrorDepositoInvalido(ErrorTipoA):
+class ErrorDepositoInvalido(ErrorTipoB):
     def __init__(self):
         super().__init__("Valor a depositar en la cuenta es inválido")
 
