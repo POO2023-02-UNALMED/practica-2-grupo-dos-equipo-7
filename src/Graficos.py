@@ -823,7 +823,11 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
             
             # Verificar si no es un boleto cancelado o reasignado
             if ok:
-                self.ventana3(boleto, indexBoleto)
+                if boleto.status == "Cancelado":
+                    alertWarn("Boleto cancelado", "Error, el boleto ya fue cancelado, no se puede reasignar")
+                    self.cancel()
+                else:
+                    self.ventana3(boleto, indexBoleto)
                 
         resultFrame = ResultFrame(
             "Detalles del boleto",
