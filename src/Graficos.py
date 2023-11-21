@@ -6,6 +6,7 @@ from PIL import ImageTk, Image
 # ------------------------------------
 # Backend (TEMPORAL)
 from uiMain.appMisc.misc import *
+from uiMain.appMisc.ErrorAplicacion import *
 from baseDatos.Serializador import *
 
 from gestorAplicacion.Aerolinea.Asiento import Asiento
@@ -182,18 +183,21 @@ class FieldFrame(tk.Frame):
         return self.data[criterio]["value"]
 
     def submitForm(self, callback):
-        for criterio in self.criterios:
-            value = (self.data[criterio]["elementos"][1]).get()
-            self.data[criterio]["value"] = value
-            self.formData[criterio] = value
-            if value == "":
-                alertWarn("Campos sin llenar", "Error, por favor llene todos los campos antes de continuar:3")
-                return False
+        try:
+            for criterio in self.criterios:
+                value = (self.data[criterio]["elementos"][1]).get()
+                self.data[criterio]["value"] = value
+                self.formData[criterio] = value
+
+                if value == "":
+                    raise ErrorSugeridoFieldFrame()
             
-        if callback != None:
-            callback(self.formData)
-        
-        
+            if callback != None:
+                callback(self.formData)
+                
+        except ErrorSugeridoFieldFrame:
+            alertWarn("Campos sin llenar", "Error, por favor llene todos los campos antes de continuar :)")
+            return False
 
     def clear(self):
         #Limpiar todos los datos
@@ -674,11 +678,15 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
                     dropDownAsientos.current() != -1 and
                     dropDownMaletas.current() != -1
                 )
-                if verificado:
-                    self.ventana2(newData, formData) # Origen, destino
-                else:
-                    alertWarn("Campos sin llenar", "Error, por favor llene todos los campos antes de continuar:3")
-                    pass
+                
+                try:
+                    if verificado:
+                        self.ventana2(newData, formData) # Origen, destino
+                    else:
+                        raise ErrorSeleccionarDropdown()
+                    
+                except ErrorSeleccionarDropdown:
+                    alertWarn("Campos sin seleccionar", "Error, por favor seleccione todos los campos antes de continuar :3")
                 pass
             
             separador = getSeparador(formElement.marco, nextFreeRow, 2, 5) # Separador generico
@@ -772,14 +780,18 @@ class ComprarVuelo(VentanaBaseFuncionalidad):
         def confirmarCompra():
             ok = alertConfirmacion(f"Confirmacion de compra, valor final: ${boleto.valor}")
             
-            if (user.dinero >= boleto.valor):
-                user.comprarBoleto(boleto)
-                alertInfo("Compra exitosa", "Boleto comprado con exito!, gracias por usar nuestra aplicacion.")
-                self.cancel()
-            else:
-                alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
-                self.cancel()
-                pass
+            if ok:
+                try:
+                    if (user.dinero >= boleto.valor):
+                        user.comprarBoleto(boleto)
+                        alertInfo("Compra exitosa", "Boleto comprado con exito!, gracias por usar nuestra aplicacion.")
+                        self.cancel()
+                    else:
+                        raise ErrorDineroInsuficiente()    
+                
+                except ErrorDineroInsuficiente:
+                    alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
+                    self.cancel()
             pass
         
         resultFrame = ResultFrame(
@@ -926,15 +938,20 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
             
             ok = alertConfirmacion(f"Esta seguro de reasignar su vuelo?, se cobrara el restante del vuelo anterior + 10% del valor del boleto adicional. Total: {valorReasignacion}")
             
-            if (user.dinero >= valorReasignacion):
-                user.reasignarBoleto(newBoleto, indexBoleto)
-                
-                alertInfo("Compra exitosa", "Boleto reasginado con exito, gracias por su atencion")
-                self.cancel()
-            else:
-                alertWarn("Dinero Insuficiente", "Error, dinero en la cuenta insuficiente, compra cancelada")
-                self.cancel()
-                pass
+            if ok:
+                try:
+                    if (user.dinero >= valorReasignacion):
+                        user.reasignarBoleto(newBoleto, indexBoleto)
+                        alertInfo("Compra exitosa", "Boleto reasginado con exito, gracias por su atencion")
+                        self.cancel()
+                    else:
+                        raise ErrorDineroInsuficiente()
+            
+                except ErrorDineroInsuficiente:
+                    alertWarn("Dinero Insuficiente", "Error, dinero en la cuenta insuficiente, compra cancelada")
+                    self.cancel()
+                    pass
+                      
             pass
         
         resultFrame = ResultFrame(
@@ -1078,14 +1095,19 @@ class CheckIn(VentanaBaseFuncionalidad):
                 ok = alertConfirmacion(f"Desea hacer una mejora de su asiento por $35")
                 
                 if ok:
-                    if (boleto.tipo == "Vip"):
-                        alertWarn("Error", "Error, el boleto ya es de tipo VIP, no se puede mejorar mas")
-                    else:
-                        if (user.dinero >= 35):
-                            boleto.upgradeAsiento(asiento)
-                            alertInfo("Transaccion exitosa", "Mejora de asiento realizada con exito!")
+                    try:
+                        if (boleto.tipo == "Vip"):
+                            alertWarn("Error", "Error, el boleto ya es de tipo VIP, no se puede mejorar mas")
                         else:
-                            alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
+                            if (user.dinero >= 35):
+                                boleto.upgradeAsiento(asiento)
+                                alertInfo("Transaccion exitosa", "Mejora de asiento realizada con exito!")
+                            else:
+                                raise ErrorDineroInsuficiente()
+                            
+                    except ErrorDineroInsuficiente:
+                        alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
+                        
                 pass
             
             labelAsiento = tk.Label(self.zonaResult, text = "Seleccionar nuevo asiento",font=("fixedsys",12),bg=color["pink"])
@@ -1121,10 +1143,14 @@ class CheckIn(VentanaBaseFuncionalidad):
                     ok = alertConfirmacion(f"¿Desea comprar el servicio de comida a la carta durante el vuelo? Este tiene un costo de ${servicio.precio}")
                 
                     if ok:
-                        if (user.dinero >= servicio.precio):                            
-                            boleto.comprarServicio(servicio)
-                            alertInfo("Transaccion exitosa", "Mejora de asiento realizada con exito!")
-                        else:
+                        try:
+                            if (user.dinero >= servicio.precio):                            
+                                boleto.comprarServicio(servicio)
+                                alertInfo("Transaccion exitosa", "Mejora de asiento realizada con exito!")
+                            else:
+                                raise ErrorDineroInsuficiente()
+                            
+                        except ErrorDineroInsuficiente:
                             alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
                 
@@ -1156,11 +1182,14 @@ class CheckIn(VentanaBaseFuncionalidad):
                             pass
                             
                         if mascota != None:
-                            if (user.dinero >= servicio.precio):          
-                                boleto.comprarServicioMascota(mascota)
-                                alertInfo("Transaccion exitosa", f"Servicio agregado con exito, ahora {mascota.nombre} podra viajar contigo!")
+                            try:
+                                if (user.dinero >= servicio.precio):          
+                                    boleto.comprarServicioMascota(mascota)
+                                    alertInfo("Transaccion exitosa", f"Servicio agregado con exito, ahora {mascota.nombre} podra viajar contigo!")
+                                else:
+                                    raise ErrorDineroInsuficiente()
                                 
-                            else:
+                            except ErrorDineroInsuficiente:
                                 alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                                 
                         self.zona3.destroy()
@@ -1185,11 +1214,15 @@ class CheckIn(VentanaBaseFuncionalidad):
                     ok = alertConfirmacion(f"¿Desea contratar un acompañante para el pasajero menor de edad? Esto tiene un costo de ${servicio.precio}")
 
                     if ok:
-                        if (user.dinero >= servicio.precio):                            
-                            boleto.comprarServicio(servicio)
-                            alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
-                        else:
-                            alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
+                        try:
+                            if (user.dinero >= servicio.precio):                            
+                                boleto.comprarServicio(servicio)
+                                alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
+                            else:
+                                raise ErrorDineroInsuficiente()
+                        
+                        except ErrorDineroInsuficiente:
+                            alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")    
                     pass
                 
                 
@@ -1210,10 +1243,14 @@ class CheckIn(VentanaBaseFuncionalidad):
                     ok = alertConfirmacion(f"¿Desea contratar asistencia para pasajero con necesidades especiales? Este servicio no tiene ningun costo")
 
                     if ok:
-                        if (user.dinero >= servicio.precio):                            
-                            boleto.comprarServicio(servicio)
-                            alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
-                        else:
+                        try:
+                            if (user.dinero >= servicio.precio):                            
+                                boleto.comprarServicio(servicio)
+                                alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
+                            else:
+                                raise ErrorDineroInsuficiente()
+                            
+                        except ErrorDineroInsuficiente:
                             alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
                 
@@ -1233,10 +1270,14 @@ class CheckIn(VentanaBaseFuncionalidad):
                     ok = alertConfirmacion(f"¿Desea contratar el servicio de transporte terrestre? Este tiene un costo de ${servicio.precio}")
 
                     if ok:
-                        if (user.dinero >= servicio.precio):                            
-                            boleto.comprarServicio(servicio)
-                            alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
-                        else:
+                        try:
+                            if (user.dinero >= servicio.precio):                            
+                                boleto.comprarServicio(servicio)
+                                alertInfo("Transaccion exitosa", "Servicio contratado con exito!")
+                            else:
+                                raise ErrorDineroInsuficiente()
+                        
+                        except ErrorDineroInsuficiente:
                             alertWarn("Dinero Insuficiente", "Error, dinero insuficiente en la cuenta, compra cancelada")
                     pass
                 
@@ -1321,9 +1362,16 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         pass
     
     def ventanaDepositar(self, valor):
-        user.depositarDinero(valor)
-        alertInfo("Deposito realizado con exito", f"Se ha agregado ${valor} a tu cuenta, nuevo saldo: {user.dinero}")
-        self.cancel()
+        try:
+            valor = float(valor)
+            if valor >= 0:
+                user.depositarDinero(valor)
+                alertInfo("Deposito realizado con exito", f"Se ha agregado ${valor} a tu cuenta, nuevo saldo: {user.dinero}")    
+                self.cancel()
+            else:
+                raise ErrorDepositoInvalido()
+        except:
+            alertWarn("Error", "Error, valor de deposito invalido")
         pass
     
     def ventana1(self):
@@ -1347,7 +1395,7 @@ class GestionUsuario(VentanaBaseFuncionalidad):
         inputDepositar.grid(row=nextFreeRow+1, column=1, padx=5, pady=5)
         
         # Depositar dinero
-        botonDespositar = tk.Button(infoCuenta.marco, text="Depositar dinero",bg="#EBD3FF",font=("fixedsys",12),relief="groove",fg="#7A37B3", command = lambda: self.ventanaDepositar(int(inputDepositar.get())))
+        botonDespositar = tk.Button(infoCuenta.marco, text="Depositar dinero",bg="#EBD3FF",font=("fixedsys",12),relief="groove",fg="#7A37B3", command = lambda: self.ventanaDepositar((inputDepositar.get())))
         botonDespositar.grid(row=nextFreeRow+2, column=1, padx=5, pady=5) 
         #..........................................
         
@@ -1415,13 +1463,16 @@ class GestionUsuario(VentanaBaseFuncionalidad):
                     if (boleto.tipo == "Vip"):
                         alertWarn("Error", "Error, el boleto ya es de tipo VIP, no se puede mejorar mas")
                     else:
-                        if (user.verificarMillas(descuento.getCostoMillas())):
-                            ahorrado = user.canjearMillas(boleto, descuento)
-                            alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta, y se ha realizado una mejora de asiento a su boleto! Felicidades!")
-                            self.cancel()
-                            pass
-                        else:
-                            alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
+                        try:
+                            if (user.verificarMillas(descuento.getCostoMillas())):
+                                ahorrado = user.canjearMillas(boleto, descuento)
+                                alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta, y se ha realizado una mejora de asiento a su boleto! Felicidades!")
+                                self.cancel()
+                                pass
+                            else:
+                                raise ErrorMillasInsuficientes()
+                        except ErrorMillasInsuficientes:
+                            alertWarn("Error", "No tiene suficientes millas para canjear por una mejora de asiento")
                 pass
             
             labelBoleto = tk.Label(self.zonaResult, text = "Seleccionar boleto",font=("fixedsys",12),bg=color["pink"])
@@ -1452,12 +1503,16 @@ class GestionUsuario(VentanaBaseFuncionalidad):
                 descuento = descuentoVuelo()
                 ok = alertConfirmacion(f"Acepta canjear {descuento.getCostoMillas()} millas por un descuento de vuelo?.")
                 if ok:
-                    if (user.verificarMillas(descuento.getCostoMillas())):
-                        ahorrado = user.canjearMillas(boleto, descuento)
-                        alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta por un descuento en el vuelo, y se ha reembolazado ${ahorrado} a su cuenta, felicidades!")
-                        self.cancel()
-                        pass
-                    else:
+                    try:
+                        if (user.verificarMillas(descuento.getCostoMillas())):
+                            ahorrado = user.canjearMillas(boleto, descuento)
+                            alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta por un descuento en el vuelo, y se ha reembolazado ${ahorrado} a su cuenta, felicidades!")
+                            self.cancel()
+                            pass
+                        else: 
+                            raise ErrorMillasInsuficientes()
+                    
+                    except ErrorMillasInsuficientes:
                         alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
                 
                 pass
@@ -1482,13 +1537,16 @@ class GestionUsuario(VentanaBaseFuncionalidad):
                 ok = alertConfirmacion(f"Acepta canjear {descuento.getCostoMillas()} millas por un descuento en el costo total de las maletas?.")
             
                 if ok:
-                    if (user.verificarMillas(descuento.getCostoMillas())):
-                        ahorrado = user.canjearMillas(boleto, descuento)
-                        alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta, y se ha realizado un descuento de ${ahorrado} a su vuelo, dinero reembolsado a su cuenta.")
-                        self.cancel()
-                        pass
-                    else:
-                        alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de vuelo")
+                    try:
+                        if (user.verificarMillas(descuento.getCostoMillas())):
+                            ahorrado = user.canjearMillas(boleto, descuento)
+                            alertInfo("Millas canjeadas con exito", f"Se han descontado {descuento.getCostoMillas()} millas de su cuenta, y se ha realizado un descuento de ${ahorrado} a su boleto, dinero reembolsado a su cuenta.")
+                            self.cancel()
+                            pass
+                        else:
+                            raise ErrorMillasInsuficientes()
+                    except ErrorMillasInsuficientes:
+                        alertWarn("Error", "No tiene suficientes millas para canjear por un descuento de maleta")
                 pass
 
             
