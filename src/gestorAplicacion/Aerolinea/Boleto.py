@@ -110,7 +110,7 @@ class Boleto:
     def getInfo(self): # devuelve el estado actual del boleto en un diccionario
         return {
             "Origen-Destino" : self.getOrigenDestino(),
-            "Valor" : self.valor,
+            "Valor" : f"${self.valor}",
             "Tipo asiento" : self.tipo,
             "Numero de asiento" : self.asiento.n_silla,
             "Cantidad maletas" : len(self.equipaje),

@@ -60,7 +60,7 @@ App.geometry("1400x800")
 
 #serializarUsuario(createMainUser())
 global user
-user = deserializarUsuario()
+user = createMainUser() #deserializarUsuario()
 
 
 handlersProcesoConsulta = {

@@ -52,7 +52,7 @@ class Usuario:
     def getInfo(self):
         return {
             "Usuario": self.nombre,
-            "Balance": self.dinero,
+            "Balance": f"${round(self.dinero,2)}",
             "Millas": self.millas,
             "Vuelos comprados": len(self.historial),
             "Descuentos canjeados": len(self.descuentos)
