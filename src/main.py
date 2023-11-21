@@ -594,8 +594,19 @@ class VentanaBaseFuncionalidad(tk.Frame):
         
         getBotonCancelar(infoVuelos.marco, lambda: self.cancel(), nextFreeRow+2, 0)
         
+        def verify():
+            try:
+                if dropDownVuelos.current() != -1:
+                    callback(dropDownVuelos.current())
+                else:
+                    raise ErrorSeleccionarDropdown()
+                
+            except ErrorSeleccionarDropdown:
+                alertWarn("Campos sin seleccionar", "Error, por favor seleccione todos los campos antes de continuar :3")
+            pass
+        
         # Manda el index del boleto en el historial
-        getBotonContinuar(infoVuelos.marco, lambda: callback(dropDownVuelos.current()), nextFreeRow+2, 1)
+        getBotonContinuar(infoVuelos.marco, lambda: verify(), nextFreeRow+2, 1)
         pass
         
     
@@ -849,6 +860,7 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
             dropDownAsientos["values"] = asientos
             pass
         
+        
         # Seleccionar vuelo y asiento
         labelVuelo = tk.Label(vuelosDisponibles.marco, text = "Vuelo:",bg=color["pink"], font=("fixedsys",10))
         labelVuelo.grid(row=nextFreeRow, column=0, padx=5, pady=5)
@@ -866,16 +878,32 @@ class ReasignarVuelo(VentanaBaseFuncionalidad):
         dropDownMaletas = ttk.Combobox(vuelosDisponibles.marco,state = "readonly",values = [0, 1, 2, 3, 4],font="fixedsys")
         dropDownMaletas.grid(row=nextFreeRow+2, column=1, padx=15, pady=15)
         
+        def verify():
+            verificado = (
+                dropDownVuelos.current() != -1 and
+                dropDownAsientos.current() != -1 and
+                dropDownMaletas.current()
+            )
+            try:
+                if verificado:
+                    self.ventana4(
+                        {
+                            "vuelo": vuelos[dropDownVuelos.current()],
+                            "asiento": asientos[dropDownAsientos.current()],
+                            "maletas": int(dropDownMaletas.current()),
+                            "indexBoleto": indexBoleto,
+                        }, {"Origen": boleto.origen, "Destino": boleto.destino} # Origen, destino, cantidad maletas
+                    )
+                else:
+                    raise ErrorSeleccionarDropdown()
+                
+            except ErrorSeleccionarDropdown:
+                alertWarn("Campos sin seleccionar", "Error, por favor seleccione todos los campos antes de continuar :3")
+            pass
+        
         # Crea boton de siguiente y uno de cancelar  
         getBotonCancelar(vuelosDisponibles.marco, lambda: self.cancel(), nextFreeRow+3, 0)
-        getBotonContinuar(vuelosDisponibles.marco, lambda: self.ventana4(
-            {
-                "vuelo": vuelos[dropDownVuelos.current()],
-                "asiento": asientos[dropDownAsientos.current()],
-                "maletas": int(dropDownMaletas.current()),
-                "indexBoleto": indexBoleto,
-            }, {"Origen": boleto.origen, "Destino": boleto.destino} # Origen, destino, cantidad maletas
-        ),nextFreeRow+3, 1)
+        getBotonContinuar(vuelosDisponibles.marco, lambda: verify(),nextFreeRow+3, 1)
         pass
 
         
@@ -1088,6 +1116,13 @@ class CheckIn(VentanaBaseFuncionalidad):
             def confirmar(boleto, asiento):
                 ok = alertConfirmacion(f"Desea hacer una mejora de su asiento por $35")
                 
+                try:
+                    if dropDownAsiento.current() == -1:
+                        raise ErrorSeleccionarDropdown()
+                except ErrorSeleccionarDropdown:
+                    alertWarn("Campos sin seleccionar", "Error, por favor seleccione todos los campos antes de continuar :3")
+                pass
+        
                 if ok:
                     try:
                         if (boleto.tipo == "Vip"):
@@ -1341,6 +1376,7 @@ class CheckIn(VentanaBaseFuncionalidad):
                 "Asistencia para pasajero con necesidades especiales", "Transporte terrestre",
                 "Ver servicios contratados"
             ],font="fixedsys")
+            
             
             dropDownOpciones.grid(row=nextRow, column=1, padx=15, pady=15)
             dropDownOpciones.bind("<<ComboboxSelected>>", lambda e: tempHandler(dropDownOpciones.get(), nextRow+1, boleto))
