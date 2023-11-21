@@ -1,8 +1,11 @@
-from sys import exit
+import os
+import sys
 import tkinter as tk
 from tkinter import ttk
 import tkinter.messagebox as messagebox
 from PIL import ImageTk, Image
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from sys import exit
 
 # ------------------------------------
 # Backend (TEMPORAL)
