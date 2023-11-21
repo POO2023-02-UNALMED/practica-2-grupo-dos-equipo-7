@@ -5,8 +5,8 @@ from PIL import ImageTk, Image
 
 # ------------------------------------
 # Backend (TEMPORAL)
-from uiMain.appMisc.misc import *
-from uiMain.appMisc.ErrorAplicacion import *
+from Other.misc import *
+from Other.ErrorAplicacion import *
 from baseDatos.Serializador import *
 
 from gestorAplicacion.Aerolinea.Asiento import Asiento
