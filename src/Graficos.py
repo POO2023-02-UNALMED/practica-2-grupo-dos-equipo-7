@@ -641,17 +641,29 @@ class VentanaBaseFuncionalidad(tk.Frame):
 
 class InitMainMenu(VentanaBaseFuncionalidad):
     def ventana1(self):
-        texto = "Bienvenido a la aplicación de la aerolínea, en esta podrás hacer uso de los diferentes servicios\n que te proporcionamos como usuario. En la esquina superior izquierda encontrarás tres opciones de\n menú. En Archivo tienes las opciones de Aplicación y Salir, en las cuales encontrarás información\n de la aplicación y te redirigirá a la ventana de Inicio respectivamente. En el menú de Procesos y\n Consultas se desplegarán las funcionalidades de la aplicación, las cuales son: Comprar, reasignar\n y cancelar vuelo, hacer Check In y Gestión de Usuario; al elegir alguna de las opciones anteriores\n te redirigirá a la interfaz de dicha funcionalidad, en la cual se presentará una breve descripción\n de lo que se hace allí y los formularios necesarios para ello.\n\n Entre las acciones que podrás realizar se encuentran comprar y definir su boleto, reasignar el\nmismo junto con su asiento y maleta, cancelarlo con un 50% de reembolso, confirmar su asistencia\n haciendo check in, tener la disponibilidad de contratar servicios especiales durante y después\n del vuelo para mejorar tu comodidad, y por último, gestionar tu dinero, consultar historial\n de vuelos y canjear millas por nuevos beneficios. Finalmente, en la parte de Ayuda,\n aparecerá información sobre los desarrolladores del programa. "
-        
-        labelTexto = tk.Label(self.zonaForm, text = texto, font=("fixedsys",16),anchor="center" ,justify="center",bg=color["pinkpurple"],fg="#310944")
-        labelTexto.grid(row=0, column=0)
+        labelTitulo1 = tk.Label(self.zonaForm, text="¿Cómo usar la aplicación?",font=("fixedsys",16),anchor="center" ,justify="center",bg=color["purple"],fg="#310944")
+        labelTitulo1.grid(row=0,column=0)
+
+        labelTitulo2 = tk.Label(self.zonaForm, text="¿Qué se puede hacer?",font=("fixedsys",16),anchor="center" ,justify="center",bg=color["purple"],fg="#310944")
+        labelTitulo2.grid(row=2,column=0)
+
+        texto1 = "Bienvenido a la aplicación de la aerolínea, en esta podrás hacer uso de los diferentes servicios\n que te proporcionamos como usuario. En la esquina superior izquierda encontrarás tres opciones de\n menú. En Archivo tienes las opciones de Aplicación y Salir, en las cuales encontrarás información\n de la aplicación y te redirigirá a la ventana de Inicio respectivamente. En el menú de Procesos y\n Consultas se desplegarán las funcionalidades de la aplicación, las cuales son: Comprar, reasignar\n y cancelar vuelo, hacer Check In y Gestión de Usuario; al elegir alguna de las opciones anteriores\n te redirigirá a la interfaz de dicha funcionalidad, en la cual se presentará una breve descripción\n de lo que se hace allí y los formularios necesarios para ello."
+        texto2="Entre las acciones que podrás realizar se encuentran comprar y definir su boleto, reasignar el\nmismo junto con su asiento y maleta, cancelarlo con un 50% de reembolso, confirmar su asistencia\n haciendo check in, tener la disponibilidad de contratar servicios especiales durante y después\n del vuelo para mejorar tu comodidad, y por último, gestionar tu dinero, consultar historial\n de vuelos y canjear millas por nuevos beneficios. Finalmente, en la parte de Ayuda,\n aparecerá información sobre los desarrolladores del programa."
+
+        labelTexto1 = tk.Label(self.zonaForm, text = texto1, font=("fixedsys",16),anchor="center" ,justify="center",bg=color["pinkpurple"],fg="#310944")
+        labelTexto1.grid(row=1, column=0)
+
+        labelTexto2 = tk.Label(self.zonaForm, text = texto2, font=("fixedsys",16),anchor="center" ,justify="center",bg=color["pinkpurple"],fg="#310944")
+        labelTexto2.grid(row=3, column=0)
 
         imgMenu = getImage(self.zonaForm,"src\data\imgMenu.png",(180,180))
-        imgMenu.grid(row=0, column=1, padx=10)
+        imgMenu.grid(row=1, column=1)
+
         self.zonaForm.grid_columnconfigure(0,weight=1)
         self.zonaForm.grid_rowconfigure(0,weight=1)
         self.zonaForm.grid_columnconfigure(1,weight=1)
-        self.zonaForm.grid_rowconfigure(1,weight=1)
+        self.zonaForm.grid_rowconfigure(2,weight=1)
+        self.zonaForm.grid_rowconfigure(3,weight=1)
             
         
         pass
